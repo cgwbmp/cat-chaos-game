@@ -1,0 +1,192 @@
+[
+  {
+    "id": "soap_bottle",
+    "name": "Soap Bottle",
+    "tier": "medium",
+    "coins": 60,
+    "massKg": 0.4,
+    "material": "plastic",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "soap_bottle",
+    "special": "liquid"
+  },
+  {
+    "id": "basin",
+    "name": "Wash Basin",
+    "tier": "medium",
+    "coins": 70,
+    "massKg": 0.4,
+    "material": "plastic",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "basin",
+    "special": "liquid"
+  },
+  {
+    "id": "bucket",
+    "name": "Wooden Bucket",
+    "tier": "heavy",
+    "coins": 200,
+    "massKg": 1.2,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "bucket",
+    "special": "liquid"
+  },
+  {
+    "id": "towel_stack",
+    "name": "Towel Stack",
+    "tier": "heavy",
+    "coins": 200,
+    "massKg": 1.5,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "towel_stack",
+    "special": "stack"
+  },
+  {
+    "id": "stool",
+    "name": "Bath Stool",
+    "tier": "heavy",
+    "coins": 250,
+    "massKg": 1.5,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "stool"
+  },
+  {
+    "id": "egg_basket",
+    "name": "Sauna Egg Basket",
+    "tier": "trick",
+    "coins": 400,
+    "massKg": 0.9,
+    "material": "wood",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "egg_basket",
+    "special": "liquid"
+  },
+  {
+    "id": "glass",
+    "name": "Glass",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.6
+    },
+    "meshNode": "glass"
+  },
+  {
+    "id": "bottle",
+    "name": "Milk Bottle",
+    "tier": "medium",
+    "coins": 60,
+    "massKg": 0.7,
+    "material": "glass",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "bottle",
+    "special": "liquid"
+  },
+  {
+    "id": "lantern",
+    "name": "Paper Lantern",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "lantern"
+  },
+  {
+    "id": "plant_big",
+    "name": "Big Plant",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 6
+    },
+    "meshNode": "plant_big"
+  },
+  {
+    "id": "towel_trophy",
+    "name": "Golden Towel-Hat Trophy",
+    "tier": "treasure",
+    "coins": 9000,
+    "massKg": 2.5,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 1
+    },
+    "meshNode": "towel_trophy"
+  },
+  {
+    "id": "cup_tower",
+    "name": "Cup Tower",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.8,
+    "material": "plastic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "cup_tower",
+    "special": "stack"
+  },
+  {
+    "id": "vase_tall",
+    "name": "Tall Vase",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.4,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 3
+    },
+    "meshNode": "vase_tall",
+    "special": "liquid"
+  },
+  {
+    "id": "crate",
+    "name": "Drink Crate",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 4
+    },
+    "meshNode": "crate"
+  }
+]

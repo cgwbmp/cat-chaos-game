@@ -1,0 +1,286 @@
+[
+  {
+    "id": "tablecloth_a",
+    "name": "Tablecloth",
+    "tier": "trick",
+    "coins": 300,
+    "massKg": 0.5,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "cloth_a"
+    },
+    "meshNode": "tablecloth",
+    "special": "tablecloth"
+  },
+  {
+    "id": "tablecloth_b",
+    "name": "Tablecloth",
+    "tier": "trick",
+    "coins": 300,
+    "massKg": 0.5,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "cloth_b"
+    },
+    "meshNode": "tablecloth",
+    "special": "tablecloth"
+  },
+  {
+    "id": "tablecloth_c",
+    "name": "Tablecloth",
+    "tier": "trick",
+    "coins": 300,
+    "massKg": 0.5,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "cloth_c"
+    },
+    "meshNode": "tablecloth",
+    "special": "tablecloth"
+  },
+  {
+    "id": "tablecloth_d",
+    "name": "Tablecloth",
+    "tier": "trick",
+    "coins": 300,
+    "massKg": 0.5,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "cloth_d"
+    },
+    "meshNode": "tablecloth",
+    "special": "tablecloth"
+  },
+  {
+    "id": "cup",
+    "name": "Coffee Cup",
+    "tier": "light",
+    "coins": 10,
+    "massKg": 0.2,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.6
+    },
+    "meshNode": "cup"
+  },
+  {
+    "id": "plate",
+    "name": "Plate",
+    "tier": "light",
+    "coins": 15,
+    "massKg": 0.3,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.9
+    },
+    "meshNode": "plate"
+  },
+  {
+    "id": "cake",
+    "name": "Cake",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.8,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 1
+    },
+    "meshNode": "cake"
+  },
+  {
+    "id": "vase",
+    "name": "Flower Vase",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.9,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 2.5
+    },
+    "meshNode": "vase",
+    "special": "liquid"
+  },
+  {
+    "id": "espresso_machine",
+    "name": "Fancy Espresso Machine",
+    "tier": "treasure",
+    "coins": 2000,
+    "massKg": 7,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.7
+    },
+    "meshNode": "espresso_machine",
+    "special": "liquid"
+  },
+  {
+    "id": "cake_case",
+    "name": "Cake Display Case",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 6,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 18
+    },
+    "meshNode": "cake_case"
+  },
+  {
+    "id": "cup_tower",
+    "name": "Cup Tower",
+    "tier": "trick",
+    "coins": 300,
+    "massKg": 0.8,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "cup_tower",
+    "special": "stack"
+  },
+  {
+    "id": "jar",
+    "name": "Coffee Bean Jar",
+    "tier": "medium",
+    "coins": 60,
+    "massKg": 1,
+    "material": "glass",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "jar"
+  },
+  {
+    "id": "mug",
+    "name": "Mug",
+    "tier": "light",
+    "coins": 15,
+    "massKg": 0.3,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.9
+    },
+    "meshNode": "mug"
+  },
+  {
+    "id": "plant_small",
+    "name": "Potted Plant",
+    "tier": "medium",
+    "coins": 50,
+    "massKg": 1.2,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "plant_small"
+  },
+  {
+    "id": "teapot",
+    "name": "Teapot",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.8,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 2.4
+    },
+    "meshNode": "teapot",
+    "special": "liquid"
+  },
+  {
+    "id": "tray",
+    "name": "Serving Tray",
+    "tier": "medium",
+    "coins": 40,
+    "massKg": 0.6,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "tray"
+  },
+  {
+    "id": "glass",
+    "name": "Glass",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.6
+    },
+    "meshNode": "glass"
+  },
+  {
+    "id": "bottle",
+    "name": "Syrup Bottle",
+    "tier": "medium",
+    "coins": 60,
+    "massKg": 0.7,
+    "material": "glass",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "bottle",
+    "special": "liquid"
+  },
+  {
+    "id": "floor_lamp",
+    "name": "Floor Lamp",
+    "tier": "heavy",
+    "coins": 200,
+    "massKg": 5,
+    "material": "wood",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 9
+    },
+    "meshNode": "floor_lamp"
+  },
+  {
+    "id": "plate_stack",
+    "name": "Plate Stack",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 1.2,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 3.5
+    },
+    "meshNode": "plate_stack",
+    "special": "stack"
+  },
+  {
+    "id": "speaker",
+    "name": "Speaker",
+    "tier": "medium",
+    "coins": 70,
+    "massKg": 1.5,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "speaker",
+    "special": "electronic_spark"
+  }
+]

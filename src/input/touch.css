@@ -1,0 +1,92 @@
+/* Touch controls. Hidden unless the device's main pointer is a finger. */
+#touch-controls {
+  display: none;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  touch-action: none;
+}
+
+@media (pointer: coarse) {
+  html[data-state='playing'] #touch-controls:not(.hidden) {
+    display: block;
+  }
+}
+
+.touch-stick-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.touch-stick-base {
+  position: fixed;
+  width: 112px;
+  height: 112px;
+  margin: -56px 0 0 -56px;
+  border: 3px solid rgb(255 255 255 / 70%);
+  border-radius: 50%;
+  background: rgb(91 74 87 / 25%);
+  pointer-events: none;
+}
+
+.touch-stick-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 52px;
+  height: 52px;
+  margin: -26px 0 0 -26px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 85%);
+}
+
+.touch-buttons {
+  position: absolute;
+  right: calc(20px + env(safe-area-inset-right));
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  display: grid;
+  grid-template-areas:
+    '. zoomies'
+    'jump swat';
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.touch-button {
+  width: 76px;
+  height: 76px;
+  padding: 0;
+  border: 3px solid rgb(255 255 255 / 80%);
+  border-radius: 50%;
+  background: rgb(255 158 138 / 80%);
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  touch-action: none;
+}
+
+.touch-button.pressed {
+  background: rgb(217 122 104 / 95%);
+  transform: scale(0.94);
+}
+
+.touch-button-zoomies {
+  grid-area: zoomies;
+  background: rgb(166 209 245 / 85%);
+}
+
+.touch-button-jump {
+  grid-area: jump;
+  background: rgb(168 230 207 / 90%);
+  color: #5b4a57;
+}
+
+.touch-button-swat {
+  grid-area: swat;
+}

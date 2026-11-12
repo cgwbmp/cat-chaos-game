@@ -1,0 +1,201 @@
+[
+  {
+    "id": "paper_door_a",
+    "name": "Paper Sliding Door",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 60,
+    "material": "paper",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "door_a"
+    },
+    "meshNode": "paper_door"
+  },
+  {
+    "id": "paper_door_b",
+    "name": "Paper Sliding Door",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 60,
+    "material": "paper",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "door_b"
+    },
+    "meshNode": "paper_door"
+  },
+  {
+    "id": "paper_door_c",
+    "name": "Paper Sliding Door",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 60,
+    "material": "paper",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "door_c"
+    },
+    "meshNode": "paper_door"
+  },
+  {
+    "id": "celadon_vase",
+    "name": "Celadon Vase",
+    "tier": "treasure",
+    "coins": 7000,
+    "massKg": 2,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.8
+    },
+    "meshNode": "celadon_vase"
+  },
+  {
+    "id": "pottery_bowl",
+    "name": "Pottery Bowl",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 0.6,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.9
+    },
+    "meshNode": "pottery_bowl"
+  },
+  {
+    "id": "tall_vase",
+    "name": "Tall Porcelain Vase",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.4,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 3
+    },
+    "meshNode": "vase_tall"
+  },
+  {
+    "id": "teapot",
+    "name": "Teapot",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.8,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 1.4
+    },
+    "meshNode": "teapot",
+    "special": "liquid"
+  },
+  {
+    "id": "cup",
+    "name": "Tea Cup",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "ceramic",
+    "break": {
+      "kind": "hits",
+      "count": 1
+    },
+    "meshNode": "cup"
+  },
+  {
+    "id": "lantern",
+    "name": "Paper Lantern",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "lantern"
+  },
+  {
+    "id": "scroll",
+    "name": "Painted Scroll",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.3,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "scroll",
+    "special": "rolling"
+  },
+  {
+    "id": "cushion",
+    "name": "Floor Cushion",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.8,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "cushion"
+  },
+  {
+    "id": "tray",
+    "name": "Lacquer Tray",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.6,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "tray"
+  },
+  {
+    "id": "jar",
+    "name": "Clay Jar",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "jar"
+  },
+  {
+    "id": "tea_mat_a",
+    "name": "Tea Mat",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.4,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "mat_a"
+    },
+    "meshNode": "mat",
+    "special": "tablecloth"
+  },
+  {
+    "id": "tea_mat_b",
+    "name": "Tea Mat",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.4,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "mat_b"
+    },
+    "meshNode": "mat",
+    "special": "tablecloth"
+  }
+]

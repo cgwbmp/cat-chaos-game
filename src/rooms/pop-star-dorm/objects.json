@@ -1,0 +1,271 @@
+[
+  {
+    "id": "makeup_kit",
+    "name": "Makeup Kit",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.5,
+    "material": "plastic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "makeup_kit"
+  },
+  {
+    "id": "ring_light",
+    "name": "Ring Light",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2.5,
+    "material": "electronic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 6
+    },
+    "meshNode": "ring_light",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "mic",
+    "name": "Microphone",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.8,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "mic"
+  },
+  {
+    "id": "laptop",
+    "name": "Laptop",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.8,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "laptop",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "frame",
+    "name": "Signed Photo",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.4,
+    "material": "glass",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "frame"
+  },
+  {
+    "id": "album_stack",
+    "name": "Album Stack",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 1.5,
+    "material": "plastic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "album_stack",
+    "special": "stack"
+  },
+  {
+    "id": "album",
+    "name": "Album",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.3,
+    "material": "plastic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "album"
+  },
+  {
+    "id": "award",
+    "name": "Award Trophy",
+    "tier": "treasure",
+    "coins": 5000,
+    "massKg": 2.5,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 1.5
+    },
+    "meshNode": "award"
+  },
+  {
+    "id": "plush",
+    "name": "Fan Plush",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.4,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "plush"
+  },
+  {
+    "id": "lightstick",
+    "name": "Lightstick",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.3,
+    "material": "plastic",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "lightstick",
+    "special": "rolling"
+  },
+  {
+    "id": "speaker",
+    "name": "Studio Speaker",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 3,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.35
+    },
+    "meshNode": "speaker",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "cushion",
+    "name": "Cushion",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.8,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "cushion"
+  },
+  {
+    "id": "snack_bag",
+    "name": "Snack Bag",
+    "tier": "light",
+    "coins": 15,
+    "massKg": 0.1,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 1
+    },
+    "meshNode": "snack_bag"
+  },
+  {
+    "id": "can",
+    "name": "Soda Can",
+    "tier": "light",
+    "coins": 15,
+    "massKg": 0.35,
+    "material": "metal",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "can",
+    "special": "rolling"
+  },
+  {
+    "id": "floor_lamp",
+    "name": "Floor Lamp",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 5,
+    "material": "wood",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 9
+    },
+    "meshNode": "floor_lamp"
+  },
+  {
+    "id": "console",
+    "name": "Game Console",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2.5,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.3
+    },
+    "meshNode": "console",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "monitor",
+    "name": "Practice Monitor",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 5,
+    "material": "electronic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 14
+    },
+    "meshNode": "monitor",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "headphones",
+    "name": "Headphones",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.3,
+    "material": "plastic",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "headphones"
+  },
+  {
+    "id": "phone",
+    "name": "Phone",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "phone"
+  },
+  {
+    "id": "vase",
+    "name": "Flower Vase",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.9,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 2.5
+    },
+    "meshNode": "vase",
+    "special": "liquid"
+  }
+]

@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Validate objects.json
+        run: pnpm validate-objects
+
+      - name: Build
+        run: pnpm build
+
+      - name: Bundle size (3 MB gzip before assets)
+        run: pnpm check-size
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium webkit
+
+      - name: Smoke test
+        run: pnpm exec playwright test --project=desktop-chrome --project=mobile-chrome --project=mobile-safari
+
+      # Runs alone with one worker: it measures frame rate. The 50 FPS baseline assumes the
+      # runner can render at that speed; set PERF_MIN_FPS in the workflow if it cannot.
+      - name: Performance test
+        run: pnpm test:perf
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

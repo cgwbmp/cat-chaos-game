@@ -1,0 +1,11 @@
+dist/
+test-results/
+playwright-report/
+pnpm-lock.yaml
+
+# Owner-authored planning docs and their verbatim copies
+SPEC.md
+TASKS.md
+AGENTS.md
+tasks/
+docs/spec.md

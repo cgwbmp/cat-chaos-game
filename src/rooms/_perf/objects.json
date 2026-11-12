@@ -1,0 +1,12 @@
+[
+  {
+    "id": "perf_cup",
+    "name": "Test Cup",
+    "tier": "light",
+    "coins": 10,
+    "massKg": 0.2,
+    "material": "ceramic",
+    "break": { "kind": "trigger", "triggerId": "perf" },
+    "meshNode": "cup"
+  }
+]

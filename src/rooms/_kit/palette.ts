@@ -1,0 +1,31 @@
+// Shared pastel palette for code-built rooms. One warm accent per room comes from its layout.
+import type { Color } from './parts';
+
+export const C = {
+  white: [0.98, 0.97, 0.94],
+  cream: [0.97, 0.92, 0.83],
+  sand: [0.9, 0.82, 0.7],
+  peach: [1, 0.82, 0.72],
+  coral: [0.98, 0.62, 0.56],
+  rose: [0.96, 0.74, 0.8],
+  red: [0.9, 0.42, 0.42],
+  lemon: [1, 0.92, 0.6],
+  gold: [1, 0.8, 0.32],
+  mint: [0.7, 0.9, 0.8],
+  leaf: [0.52, 0.76, 0.56],
+  teal: [0.45, 0.72, 0.72],
+  sky: [0.68, 0.84, 0.96],
+  blue: [0.5, 0.66, 0.9],
+  lavender: [0.8, 0.74, 0.94],
+  plum: [0.6, 0.5, 0.72],
+  wood: [0.82, 0.66, 0.5],
+  woodDark: [0.6, 0.45, 0.35],
+  woodLight: [0.93, 0.82, 0.68],
+  clay: [0.78, 0.52, 0.42],
+  gray: [0.76, 0.76, 0.8],
+  slate: [0.5, 0.52, 0.6],
+  charcoal: [0.3, 0.3, 0.36],
+  celadon: [0.68, 0.84, 0.76],
+  paper: [0.97, 0.95, 0.88],
+  water: [0.62, 0.86, 0.94],
+} as const satisfies Record<string, Color>;
