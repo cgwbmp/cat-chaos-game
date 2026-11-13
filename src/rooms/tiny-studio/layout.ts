@@ -1,9 +1,20 @@
 // Tiny Studio Apartment: a 5 x 4.5 m studio. Bed on the left, desk with two wall shelves at the
 // back, a kitchen corner on the right and a low table with floor cushions in the middle.
 // The treasure stands on the top shelf: desk -> lower shelf -> top shelf.
-import { bed, block, roomZone, rug, shell, table, wallShelf, windowFrame } from '../_kit/furniture';
+import {
+  bed,
+  cabinet,
+  door,
+  fridge,
+  roomZone,
+  rug,
+  shell,
+  table,
+  wallShelf,
+  windowFrame,
+} from '../_kit/furniture';
 import { C } from '../_kit/palette';
-import { box, place, row, type RoomLayout } from '../_kit/parts';
+import { place, row, type RoomLayout } from '../_kit/parts';
 
 const DESK = 0.74;
 const SHELF = 1.45;
@@ -17,19 +28,19 @@ export const layout: RoomLayout = {
     ...shell(5, 4.5, 2.8, { floor: C.woodLight, wall: C.cream, trim: C.white }),
     ...place(bed(1.3, 2, C.sky), [-1.75, 0, 1.2]),
     ...place(windowFrame(1.2, 1), [-1.75, 1.3, 2.25]),
-    ...place(block(0.45, 0.5, 0.4, C.woodLight), [-0.8, 0, 2.02]),
+    ...place(cabinet(0.45, 0.5, 0.4, C.woodLight, C.woodLight, 2, 'drawers'), [-0.8, 0, 2.02]),
     // The desk is deep, so the cat has room to jump from its front edge up to the shelf.
     ...place(table(1.6, 0.9, DESK, C.wood, C.woodDark), [0.6, 0, 1.78]),
     ...place(wallShelf(1.6, 0.32, C.wood), [0.6, SHELF, 2.09]),
     ...place(wallShelf(0.9, 0.32, C.wood), [-0.75, TOP_SHELF, 2.09]),
-    // Kitchen corner along the right wall.
-    ...place(block(0.6, COUNTER, 1.3, C.white, C.peach), [2.2, 0, 0.9]),
-    ...place(block(0.6, FRIDGE, 0.6, C.mint, C.white), [2.2, 0, -0.25]),
+    // Kitchen corner along the right wall, turned to face the room.
+    ...place(cabinet(1.3, COUNTER, 0.6, C.white, C.peach, 3), [2.2, 0, 0.9], Math.PI / 2),
+    ...place(fridge(0.6, FRIDGE, 0.6, C.mint, C.white), [2.2, 0, -0.25], Math.PI / 2),
     // Middle of the room.
     ...place(rug(2, 1.4, C.peach), [-0.3, 0, -0.4]),
     ...place(table(0.9, 0.55, LOW_TABLE, C.woodLight), [-0.3, 0, -0.35]),
     // Front door on the right wall.
-    box(0.06, 2, 0.9, C.wood, [2.47, 0, -1.5]),
+    ...place(door(0.9, 2, C.wood), [2.5, 0, -1.5], Math.PI / 2),
   ],
 
   objects: [

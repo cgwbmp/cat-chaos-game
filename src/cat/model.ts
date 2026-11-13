@@ -6,7 +6,8 @@
 //     for parts that keep their vertex colors;
 //   - one animation per clip name in CLIPS;
 //   - a `head` bone, and `hat_anchor` and `collar_anchor` bones: the accessory sits at the
-//     bone, points along it and is as wide as the bone's `size` property, in meters.
+//     bone, points along it and is as wide as the bone's `size` property, in meters. A hat
+//     (hats.ts) stands on its anchor and faces the way the cat does.
 import type { AnimationGroup } from '@babylonjs/core/Animations/animationGroup';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { Color3 } from '@babylonjs/core/Maths/math.color';
@@ -15,18 +16,23 @@ import { CreateCylinder } from '@babylonjs/core/Meshes/Builders/cylinderBuilder'
 import type { Mesh } from '@babylonjs/core/Meshes/mesh';
 import { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 import catUrl from '../../assets/shared/cat.glb?url';
+import { COSMETICS } from '../core/cosmetics';
 import type { Services } from '../core/services';
 import type { CatClip } from './animation';
+import { buildHat } from './hats';
 
 type Rgb = readonly [number, number, number];
 
 export interface CatModel {
-  /** Node named 'cat', placed at the cat's feet and turned to its facing. */
+  /** Node named `rootName`, placed at the cat's feet and turned to its facing. */
   readonly root: TransformNode;
   /** Plays the clip for the animator's state. `speed` (m/s) paces the walk and run cycles. */
   update(clip: CatClip, speed: number): void;
-  /** Shows the equipped cosmetics; a missing color takes that item off (fur: default color). */
-  setCosmetics(colors: { fur?: Rgb; collar?: Rgb; hat?: Rgb }): void;
+  /**
+   * Shows the equipped cosmetics: the colors of the fur and the collar, and the hat's cosmetic
+   * id. A missing one takes that item off (fur: default color).
+   */
+  setCosmetics(look: { fur?: Rgb; collar?: Rgb; hat?: string }): void;
   dispose(): void;
 }
 
@@ -47,13 +53,13 @@ const BLEND_SPEED = 0.18; // share of the way to the new clip covered per frame
 // Ground speed at which a cycle plays at its authored pace.
 const WALK_PACE = 1.1;
 const RUN_PACE = 2.6;
-// Accessory shapes for an anchor of size 1: height as a share of the diameter.
+// The collar's shape for an anchor of size 1: height as a share of the diameter.
 const COLLAR_HEIGHT = 0.15;
-const HAT_HEIGHT = 1.1;
 
-export function createCatModel(services: Services): CatModel {
+/** `rootName` is 'cat' for the cat the player controls: the camera and the juice find it by name. */
+export function createCatModel(services: Services, rootName = 'cat'): CatModel {
   const { scene } = services.scene;
-  const root = new TransformNode('cat', scene);
+  const root = new TransformNode(rootName, scene);
 
   // The game tints `fur` (the coat); `detail` (everything else) keeps its vertex colors.
   const fur = new StandardMaterial('cat-fur', scene);
@@ -66,29 +72,19 @@ export function createCatModel(services: Services): CatModel {
     fur.diffuseColor = furColor ? new Color3(...furColor) : defaultFur;
   };
 
-  function accessory(name: string, mesh: Mesh): { mesh: Mesh; material: StandardMaterial } {
-    const material = new StandardMaterial(name, scene);
-    material.specularColor = Color3.Black();
-    mesh.material = material;
-    mesh.parent = root;
-    mesh.isVisible = false; // until the model loads and it is put on its anchor
-    mesh.setEnabled(false);
-    return { mesh, material };
-  }
-  const collar = accessory(
-    'cat-collar',
-    CreateCylinder('cat-collar', { height: COLLAR_HEIGHT, diameter: 1 }, scene),
-  );
-  const hat = accessory(
-    'cat-hat',
-    CreateCylinder(
-      'cat-hat',
-      { height: HAT_HEIGHT, diameterTop: 0, diameterBottom: 1, tessellation: 8 },
-      scene,
-    ),
-  );
-  /** Puts an accessory on its anchor bone; `lift` raises it along the bone, in its own sizes. */
-  function attach(mesh: Mesh, anchor: TransformNode | undefined, lift: number): void {
+  const collarMaterial = new StandardMaterial('cat-collar', scene);
+  collarMaterial.specularColor = Color3.Black();
+  const collar = CreateCylinder('cat-collar', { height: COLLAR_HEIGHT, diameter: 1 }, scene);
+  collar.material = collarMaterial;
+  collar.parent = root;
+  collar.isVisible = false; // until the model loads and it is put on its anchor
+  collar.setEnabled(false);
+  /** One mesh per hat of the catalog, by cosmetic id; built when the model loads. */
+  const hats = new Map<string, Mesh>();
+  let wornHat: string | undefined;
+
+  /** Puts an accessory on its anchor bone, turned about the bone by `turn`. */
+  function attach(mesh: Mesh, anchor: TransformNode | undefined, turn = 0): void {
     const size: unknown = (anchor?.metadata as { gltf?: { extras?: { size?: unknown } } } | null)
       ?.gltf?.extras?.size;
     if (!anchor || typeof size !== 'number') {
@@ -96,7 +92,8 @@ export function createCatModel(services: Services): CatModel {
       return;
     }
     mesh.parent = anchor;
-    mesh.position.set(0, lift * size, 0);
+    mesh.position.setAll(0);
+    mesh.rotation.set(0, turn, 0);
     mesh.scaling.setAll(size);
     mesh.isVisible = true;
   }
@@ -138,8 +135,28 @@ export function createCatModel(services: Services): CatModel {
         if (local.z < 0) model.rotation.y += Math.PI;
       }
       applyFur();
-      attach(collar.mesh, bone('collar_anchor'), 0);
-      attach(hat.mesh, bone('hat_anchor'), HAT_HEIGHT / 2);
+      attach(collar, bone('collar_anchor'));
+
+      // Hats face the way the cat does, whichever way the anchor bone is rolled about its axis.
+      const hatAnchor = bone('hat_anchor');
+      let hatTurn = 0;
+      if (hatAnchor) {
+        root.computeWorldMatrix(true);
+        hatAnchor.computeWorldMatrix(true);
+        const forward = Vector3.TransformNormal(
+          Vector3.TransformNormal(Vector3.Forward(), root.getWorldMatrix()),
+          hatAnchor.getWorldMatrix().clone().invert(),
+        );
+        hatTurn = Math.atan2(forward.x, forward.z);
+      }
+      for (const item of COSMETICS) {
+        if (item.slot !== 'hat') continue;
+        const hat = buildHat(item.id, item.color, scene);
+        hat.material = detail;
+        hat.setEnabled(item.id === wornHat);
+        attach(hat, hatAnchor, hatTurn);
+        hats.set(item.id, hat);
+      }
 
       for (const group of scene.animationGroups) {
         const target: unknown = group.targetedAnimations[0]?.target;
@@ -166,13 +183,13 @@ export function createCatModel(services: Services): CatModel {
       if (clip === 'walk') group.speedRatio = Math.min(2.2, Math.max(0.7, speed / WALK_PACE));
       else if (clip === 'run') group.speedRatio = Math.min(2, Math.max(0.9, speed / RUN_PACE));
     },
-    setCosmetics({ fur: nextFur, collar: collarColor, hat: hatColor }) {
+    setCosmetics({ fur: nextFur, collar: collarColor, hat }) {
       furColor = nextFur;
       applyFur();
-      collar.mesh.setEnabled(collarColor !== undefined);
-      if (collarColor) collar.material.diffuseColor = new Color3(...collarColor);
-      hat.mesh.setEnabled(hatColor !== undefined);
-      if (hatColor) hat.material.diffuseColor = new Color3(...hatColor);
+      collar.setEnabled(collarColor !== undefined);
+      if (collarColor) collarMaterial.diffuseColor = new Color3(...collarColor);
+      wornHat = hat;
+      for (const [id, mesh] of hats) mesh.setEnabled(id === wornHat);
     },
     dispose() {
       disposed = true;

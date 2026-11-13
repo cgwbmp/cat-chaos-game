@@ -2,7 +2,7 @@
 // the counter at the back holds the cake display case, cup towers and the treasure, the fancy
 // espresso machine.
 import {
-  block,
+  cabinet,
   chair,
   roomZone,
   rug,
@@ -52,9 +52,9 @@ export const layout: RoomLayout = {
       ...place(table(0.9, 0.9, TABLE, C.woodLight, C.woodDark), [x, 0, z]),
       ...place(chair(C.mint), [x, 0, z - 0.75], Math.PI),
     ]),
-    ...place(block(3.4, COUNTER, 0.7, C.cream, C.woodDark), [1.2, 0, 2.55]),
+    ...place(cabinet(3.4, COUNTER, 0.7, C.cream, C.woodDark, 6, 'panels'), [1.2, 0, 2.55]),
     ...place(shelves(0.4, 2.4, [0.6, 1.1, 1.6], C.woodDark, true), [-3.3, 0, 1.6]),
-    ...place(block(0.5, SIDEBOARD, 1.8, C.woodDark, C.wood), [3.2, 0, -0.4]),
+    ...place(cabinet(1.8, SIDEBOARD, 0.5, C.woodDark, C.wood, 4), [3.2, 0, -0.4], Math.PI / 2),
     ...place(rug(1.6, 1, C.rose), [1.2, 0, -2.2]),
     ...place(wallArt(1, 0.7, C.peach), [-1.6, 1.4, 3]),
     ...WALL_LAMPS.flatMap(({ at, rotY }) => place(wallLamp(C.peach), at, rotY)),

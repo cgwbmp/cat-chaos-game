@@ -1,7 +1,17 @@
 // Spa & Bathhouse (finale): 12 x 8 m in three areas. The lobby (front left) has the counter and
 // the trophy shelf, the locker side (front right) has towels, and the bath hall behind the wall
 // has two baths and the sauna bench. The bath hall floor is wet: the cat slides on it.
-import { WALL, bath, block, partition, roomZone, rug, shell, shelves } from '../_kit/furniture';
+import {
+  WALL,
+  bath,
+  block,
+  cabinet,
+  partition,
+  roomZone,
+  rug,
+  shell,
+  shelves,
+} from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type RoomLayout } from '../_kit/parts';
 
@@ -24,9 +34,9 @@ export const layout: RoomLayout = {
     ...place(bath(2.4, 1.8, C.white), [0.6, 0, 2.9]),
     ...place(block(1.8, BENCH, 0.6, C.woodLight), [4.9, 0, 3.6]),
     // Lobby.
-    ...place(block(2.4, COUNTER, 0.6, C.woodLight, C.teal), [-3.8, 0, -1.3]),
+    ...place(cabinet(2.4, COUNTER, 0.6, C.woodLight, C.teal, 4, 'panels'), [-3.8, 0, -1.3]),
     ...place(shelves(1.6, 0.4, [0.9, 1.6], C.woodLight), [SHELF_X, 0, 0.15]),
-    ...place(block(2, DISPLAY, 0.5, C.woodLight), [2, 0, 0.1]),
+    ...place(cabinet(2, DISPLAY, 0.5, C.woodLight, C.woodLight, 4), [2, 0, 0.1]),
     ...place(block(2.6, BENCH, 0.5, C.woodLight), [2.6, 0, -3.5]),
     ...place(shelves(0.5, 3, [0.6, 1.2, 1.8], C.woodLight, true), [LOCKER_X, 0, -1.9]),
     ...place(rug(2.4, 1.4, C.coral), [-0.6, 0, -2]),

@@ -1,7 +1,7 @@
 // Gaming Café: 8 x 6 m. Two desk rows of four stations each. The monitors stand on a cable
 // bundle that runs along the row: swat at the left end of a row and the whole row is dragged.
 // The champion trophy sits on the top shelf in the back right corner.
-import { block, roomZone, rug, shell, shelves, stoolSeat, table } from '../_kit/furniture';
+import { block, cabinet, roomZone, rug, shell, shelves, stoolSeat, table } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type Placement, type RoomLayout } from '../_kit/parts';
 
@@ -32,7 +32,7 @@ export const layout: RoomLayout = {
       ...STATIONS.flatMap((x) => place(stoolSeat(C.coral), [x, 0, z - 0.75])),
     ]),
     ...place(shelves(1.2, 0.4, [0.8, 1.5], C.charcoal), [3.2, 0, 2.75]),
-    ...place(block(0.6, SNACKS, 2, C.cream, C.mint), [3.6, 0, 0.3]),
+    ...place(cabinet(2, SNACKS, 0.6, C.cream, C.mint, 4), [3.6, 0, 0.3], Math.PI / 2),
     ...place(block(1.4, BENCH, 0.45, C.charcoal, C.gray), [2.6, 0, -2.4]),
     ...place(rug(2.4, 1.2, C.lavender, C.charcoal), [1.9, 0, -1.2]),
   ],

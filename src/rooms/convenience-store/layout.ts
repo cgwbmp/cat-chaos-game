@@ -1,9 +1,9 @@
 // Corner Convenience Store: 7 x 6 m. A row of free-standing display shelves in the middle falls
 // like dominoes when the back one is swatted; stocked wall shelves on the left, a drinks cooler
 // at the back with milk cartons on top, and the register on the right with the golden lucky cat.
-import { block, roomZone, rug, shell, shelves, wallLamp } from '../_kit/furniture';
+import { cabinet, door, roomZone, rug, shell, shelves, wallLamp } from '../_kit/furniture';
 import { C } from '../_kit/palette';
-import { box, place, row, type RoomLayout } from '../_kit/parts';
+import { place, row, type RoomLayout } from '../_kit/parts';
 import { COOLER as COOLER_AT, WALL_LAMPS } from './lamps';
 
 const COUNTER = 0.9;
@@ -20,13 +20,13 @@ export const layout: RoomLayout = {
     // Wall shelves along the left wall.
     ...place(shelves(0.4, 3.6, [0.5, 1, 1.5], C.sky, true), [-3.3, 0, 0.6]),
     // Drinks cooler along the back wall.
-    ...place(block(2.4, COOLER, 0.6, C.white, C.sky), COOLER_AT),
+    ...place(cabinet(2.4, COOLER, 0.6, C.white, C.sky, 4, 'glass'), COOLER_AT),
     // Register counter and the shelf behind it.
-    ...place(block(1.8, COUNTER, 0.6, C.cream, C.coral), [2.3, 0, 1.2]),
+    ...place(cabinet(1.8, COUNTER, 0.6, C.cream, C.coral, 3, 'panels'), [2.3, 0, 1.2]),
     ...place(shelves(1.6, 0.35, [0.7, 1.3], C.sky), [2.4, 0, 2.8]),
     ...place(rug(1.2, 0.8, C.coral), [2.3, 0, -2.2]),
     // Sliding entrance on the right wall.
-    box(0.06, 2.1, 1.4, C.sky, [3.47, 0, -2]),
+    ...place(door(1.4, 2.1, C.sky, 2), [3.5, 0, -2], Math.PI / 2),
     ...WALL_LAMPS.flatMap(({ at, rotY }) => place(wallLamp(), at, rotY)),
   ],
 

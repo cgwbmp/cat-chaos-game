@@ -126,7 +126,7 @@ export function createCat(services: Services): System {
   let jumping = false; // rising from a jump whose height can still be cut
   let swatRequested = false;
   let swatReadyAt = 0;
-  let pounceRequested = false;
+  let pouncePressedAt = -Infinity;
   let pouncing = false;
   let zoomiesUntil = 0;
   let zoomiesReadyAt = 0;
@@ -143,7 +143,7 @@ export function createCat(services: Services): System {
     jumping = false;
     pouncing = false;
     swatRequested = false;
-    pounceRequested = false;
+    pouncePressedAt = -Infinity;
     jumpPressedAt = -Infinity;
   }
 
@@ -311,17 +311,20 @@ export function createCat(services: Services): System {
       tilt > 0 ? wish.normalize().scaleInPlace(moveSpeed(tilt, time < zoomiesUntil)) : wish;
 
     // A swat in the air is a pounce (touch has no pounce button).
+    let airSwat = false;
     if (swatRequested) {
       swatRequested = false;
       if (grounded) swat();
-      else pounceRequested = true;
+      else airSwat = true;
     }
 
     const canJump = time - lastGroundedAt <= COYOTE_SEC;
     let velocity: Vector3 | undefined;
-    if (pounceRequested) {
-      pounceRequested = false;
-      if (canJump && !pouncing) {
+    // A pounce runs to its landing: pressing again in the air does not cut it short. Like a jump,
+    // a press just before the landing starts the next one.
+    if (!pouncing && (airSwat || time - pouncePressedAt <= JUMP_BUFFER_SEC)) {
+      pouncePressedAt = -Infinity;
+      if (canJump) {
         // From the ground: leap forward and up, the slam happens on landing.
         velocity = facing.scale(POUNCE_LEAP_FORWARD);
         velocity.y = POUNCE_LEAP_UP;
@@ -382,7 +385,7 @@ export function createCat(services: Services): System {
       if (!active || !pressed) return;
       if (action === 'jump') jumpPressedAt = time;
       if (action === 'swat') swatRequested = true;
-      if (action === 'pounce') pounceRequested = true;
+      if (action === 'pounce') pouncePressedAt = time;
       if (action === 'zoomies' && time >= zoomiesReadyAt) {
         zoomiesUntil = time + ZOOMIES_SEC;
         zoomiesReadyAt = zoomiesUntil + ZOOMIES_COOLDOWN_SEC;
@@ -410,7 +413,7 @@ export function createCat(services: Services): System {
       model.setCosmetics({
         fur: findCosmetic(equipped.fur)?.color,
         collar: findCosmetic(equipped.collar)?.color,
-        hat: findCosmetic(equipped.hat)?.color,
+        hat: equipped.hat,
       });
       yaw = 0;
       zoomiesUntil = 0;

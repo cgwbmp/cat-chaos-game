@@ -1,7 +1,7 @@
 // Traditional Wooden House: 9 x 6.5 m, split by a wall into a front room and a back room. The
 // two doorways are closed by paper sliding doors: swat or pounce at a door to tear through it.
 // Fragile pottery stands on low tables; the celadon vase is displayed in the back room.
-import { WALL, block, partition, roomZone, rug, shell, table } from '../_kit/furniture';
+import { WALL, block, cabinet, partition, roomZone, rug, shell, table } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type Placement, type RoomLayout } from '../_kit/parts';
 
@@ -32,7 +32,7 @@ export const layout: RoomLayout = {
     ...partition(4.5, 2.6, C.paper, [-2.25, 0, SPLIT_Z - WALL / 2], { offset: 0, width: 0.96 }),
     ...partition(4.5, 2.6, C.paper, [2.25, 0, SPLIT_Z - WALL / 2], { offset: 0, width: 0.96 }),
     // Back room.
-    ...place(block(1.4, DISPLAY, 0.5, C.woodDark), [0, 0, 2.95]),
+    ...place(cabinet(1.4, DISPLAY, 0.5, C.woodDark), [0, 0, 2.95]),
     ...place(block(0.4, STAND, 0.4, C.woodDark), [-1.3, 0, 2.95]),
     ...place(block(0.4, STAND, 0.4, C.woodDark), [1.3, 0, 2.95]),
     ...place(block(0.4, STAND, 0.4, C.woodDark), [-4.1, 0, 2.9]),
@@ -46,15 +46,14 @@ export const layout: RoomLayout = {
     ...place(table(1.4, 0.8, LOW_TABLE, C.woodDark), [1.9, 0, -1.5]),
     ...place(block(0.4, STAND, 0.4, C.woodDark), [-4.2, 0, -0.3]),
     ...place(block(0.4, STAND, 0.4, C.woodDark), [4.2, 0, -0.3]),
-    ...place(block(0.9, CHEST, 0.5, C.woodDark, C.wood), [-3.9, 0, -2.5]),
-    ...place(block(0.9, CHEST, 0.5, C.woodDark, C.wood), [3.9, 0, -2.5]),
+    ...place(cabinet(0.9, CHEST, 0.5, C.woodDark, C.wood, 2, 'drawers'), [-3.9, 0, -2.5]),
+    ...place(cabinet(0.9, CHEST, 0.5, C.woodDark, C.wood, 2, 'drawers'), [3.9, 0, -2.5]),
   ],
 
   objects: [
-    // Paper doors: two in the doorways, one standing as a screen in the front room.
+    // Paper doors in the two doorways.
     { def: 'paper_door_a', at: [DOORS[0], 0, SPLIT_Z - WALL / 2] },
     { def: 'paper_door_b', at: [DOORS[1], 0, SPLIT_Z - WALL / 2] },
-    { def: 'paper_door_c', at: [0.1, 0, -1.9] },
     // Back room: the display with the treasure between two porcelain vases.
     { def: 'celadon_vase', at: [0, DISPLAY, 2.95] },
     { def: 'tall_vase', at: [-4.1, STAND, 2.9] },
@@ -79,6 +78,8 @@ export const layout: RoomLayout = {
     { def: 'tall_vase', at: [4.1, CHEST, -2.5] },
     { def: 'jar', at: [3.65, CHEST, -2.5] },
     ...row('scroll', 2, [-3.2, 0, -0.6], [0, 0, 0.5]),
+    // A floor vase opposite the scrolls: without it the room is short of its Mission margin.
+    { def: 'tall_vase', at: [3.2, 0, -0.35] },
     { def: 'cushion', at: [-2.7, 0, -1.3] },
     { def: 'cushion', at: [-0.7, 0, -1.3] },
     { def: 'cushion', at: [0.95, 0, -1.5] },
@@ -92,7 +93,6 @@ export const layout: RoomLayout = {
     roomZone(9, 6.5, 2.8),
     { marker: 'trigger:door_a', at: [DOORS[0], 0.4, SPLIT_Z - WALL / 2] },
     { marker: 'trigger:door_b', at: [DOORS[1], 0.4, SPLIT_Z - WALL / 2] },
-    { marker: 'trigger:door_c', at: [0.1, 0.4, -1.9] },
     { marker: 'trigger:mat_a', at: [-2.7, LOW_TABLE, 1.55] },
     { marker: 'trigger:mat_b', at: [2.7, LOW_TABLE, 1.55] },
   ],

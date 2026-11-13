@@ -1,7 +1,16 @@
 // Grandma's House: 7 x 6 m. Clay storage jars stand on a low terrace at the back left; they
 // are too heavy to swat, so pounce on them from the tall chest next to the terrace. The rice
 // cooker on the kitchen counter steams when swatted, and the low table has a runner to pull.
-import { block, roomZone, rug, shell, shelves, table, windowFrame } from '../_kit/furniture';
+import {
+  block,
+  cabinet,
+  roomZone,
+  rug,
+  shell,
+  shelves,
+  table,
+  windowFrame,
+} from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type RoomLayout } from '../_kit/parts';
 
@@ -16,12 +25,12 @@ export const layout: RoomLayout = {
   statics: [
     ...shell(7, 6, 2.8, { floor: C.woodLight, wall: C.paper, trim: C.woodDark }),
     ...place(block(2.6, TERRACE, 1.3, C.sand), [-2.1, 0, 2.3]),
-    ...place(block(1, CHEST, 0.5, C.woodDark, C.wood), [-0.1, 0, 2.7]),
-    ...place(block(2.6, COUNTER, 0.6, C.cream, C.wood), [2.1, 0, 2.65]),
+    ...place(cabinet(1, CHEST, 0.5, C.woodDark, C.wood, 3, 'drawers'), [-0.1, 0, 2.7]),
+    ...place(cabinet(2.6, COUNTER, 0.6, C.cream, C.wood, 4), [2.1, 0, 2.65]),
     ...place(windowFrame(1.2, 0.9), [2.1, 1.4, 3]),
     ...place(rug(2.6, 1.8, C.clay, C.cream), [0.4, 0, -0.2]),
     ...place(table(1.5, 0.9, LOW_TABLE, C.wood, C.woodDark), [0.4, 0, -0.2]),
-    ...place(block(0.5, SIDEBOARD, 1.8, C.wood, C.woodDark), [-3.2, 0, -0.6]),
+    ...place(cabinet(1.8, SIDEBOARD, 0.5, C.wood, C.woodDark, 4), [-3.2, 0, -0.6], -Math.PI / 2),
     ...place(shelves(0.4, 1.8, [0.7, 1.3], C.woodDark, true), [3.3, 0, 0.2]),
   ],
 

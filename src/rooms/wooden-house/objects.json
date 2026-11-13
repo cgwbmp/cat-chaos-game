@@ -26,19 +26,6 @@
     "meshNode": "paper_door"
   },
   {
-    "id": "paper_door_c",
-    "name": "Paper Sliding Door",
-    "tier": "trick",
-    "coins": 500,
-    "massKg": 60,
-    "material": "paper",
-    "break": {
-      "kind": "trigger",
-      "triggerId": "door_c"
-    },
-    "meshNode": "paper_door"
-  },
-  {
     "id": "celadon_vase",
     "name": "Celadon Vase",
     "tier": "treasure",

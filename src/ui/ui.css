@@ -33,9 +33,14 @@
   display: none;
 }
 
+/* Opaque: the cat of the title screen and the shop stays in the scene behind the other menus. */
 .ui-menu {
-  background: rgb(245 230 219 / 94%);
+  background: var(--cream);
   pointer-events: auto;
+}
+
+.ui-menu:has(.title-screen, .shop-screen) {
+  background: none;
 }
 
 .ui-overlay {
@@ -307,6 +312,15 @@
 }
 
 /* --- Shop --- */
+/* The cat shows what it wears from the bottom right corner (src/cat/title-cat.ts). On landscape
+   screens the list keeps clear of it: the cat is about 0.42 * sqrt(width * height) wide, which
+   this follows closely from 4:3 to 21:9. */
+@media (min-aspect-ratio: 4/3) {
+  .ui-menu:has(.shop-screen) {
+    padding-right: calc(16vw + 28vh);
+  }
+}
+
 .shop {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(13em, 1fr));
