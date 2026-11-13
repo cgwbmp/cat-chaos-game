@@ -77,6 +77,21 @@ export const createInputService: ServiceFactory<InputService> = (services) => {
   });
   window.addEventListener('blur', releaseAll);
 
+  // A touch on the game (the canvas or the touch controls) is the game's alone: the browser gets
+  // no double-tap or pinch zoom out of it, however fast the taps come. Pointer events still fire.
+  // Menus are left out, or their buttons would get no click.
+  const { canvas } = services.scene;
+  window.addEventListener(
+    'touchstart',
+    (event) => {
+      const { target } = event;
+      if (target === canvas || (target instanceof Element && target.closest('#touch-controls'))) {
+        event.preventDefault();
+      }
+    },
+    { passive: false },
+  );
+
   return {
     getMove() {
       if (!enabled) return { x: 0, y: 0 };

@@ -1,16 +1,18 @@
 // Cat controller: a kinematic character on a capsule. Walk, run, jump (with coyote time, jump
 // buffer and variable height), swat, pounce, push and zoomies.
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
+import type { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 import {
   CharacterSupportedState,
   PhysicsCharacterController,
   type CharacterSurfaceInfo,
 } from '@babylonjs/core/Physics/v2/characterController';
+import { PhysicsShapeCapsule } from '@babylonjs/core/Physics/v2/physicsShape';
 import { findCosmetic } from '../core/cosmetics';
 import { readExtras } from '../core/extras';
 import type { Services, System } from '../core/services';
 import type { CatAction } from '../core/types';
-import { moveSpeed, pounceImpulse, swatImpulse, turnTowards } from './abilities';
+import { confine, headLean, moveSpeed, pounceImpulse, swatImpulse, turnTowards } from './abilities';
 import { createCatAnimator } from './animation';
 import { createCatModel } from './model';
 import {
@@ -51,6 +53,18 @@ const FOOT_OFFSET = CAPSULE_HEIGHT / 2;
 /** The controller keeps the capsule about this far above what it stands on (measured). */
 const FLOAT_GAP = 0.03;
 
+interface Zone {
+  min: Vector3;
+  max: Vector3;
+}
+
+/** World-space box of a zone marker: a unit cube scaled to the zone. */
+function zoneBox(node: TransformNode): Zone {
+  const half = node.absoluteScaling.scale(0.5);
+  const center = node.getAbsolutePosition();
+  return { min: center.subtract(half), max: center.add(half) };
+}
+
 export function createCat(services: Services): System {
   const { bus, input, physics } = services;
   const { scene, engine } = services.scene;
@@ -59,9 +73,21 @@ export function createCat(services: Services): System {
   model.root.setEnabled(false);
   const animator = createCatAnimator();
 
+  /** The capsule, with its top `lean` meters ahead of its bottom in the direction `yaw`. */
+  function capsule(lean: number, yaw: number): PhysicsShapeCapsule {
+    const half = CAPSULE_HEIGHT / 2 - CAPSULE_RADIUS;
+    return new PhysicsShapeCapsule(
+      new Vector3(Math.sin(yaw) * lean, half, Math.cos(yaw) * lean),
+      new Vector3(0, -half, 0),
+      CAPSULE_RADIUS,
+      scene,
+    );
+  }
+
+  let shape = capsule(0, 0);
   const controller = new PhysicsCharacterController(
     new Vector3(0, 1, 0),
-    { capsuleHeight: CAPSULE_HEIGHT, capsuleRadius: CAPSULE_RADIUS },
+    { shape, capsuleHeight: CAPSULE_HEIGHT },
     scene,
   );
   controller.characterMass = MASS_KG;
@@ -77,10 +103,18 @@ export function createCat(services: Services): System {
   let time = 0;
   let yaw = 0;
   const facing = new Vector3(0, 0, 1);
+  /** The capsule's lean over the head, and the yaw the capsule was made for. */
+  let lean = 0;
+  let leanYaw = 0;
   const spawn = new Vector3(0, 0, 0);
   let masses = new Map<string, number>();
   /** Wet floor zones (`trigger:zone_wet...` markers): boxes where the cat slides. */
-  let wetZones: { min: Vector3; max: Vector3 }[] = [];
+  let wetZones: Zone[] = [];
+  /**
+   * Invisible walls and ceiling (`trigger:zone_room` marker), as the box the capsule's center
+   * may be in. Keeps the cat from walking off the open side of the room or jumping over a wall.
+   */
+  let roomZone: Zone | undefined;
 
   let grounded = false;
   let lastGroundedAt = -Infinity;
@@ -111,6 +145,20 @@ export function createCat(services: Services): System {
     swatRequested = false;
     pounceRequested = false;
     jumpPressedAt = -Infinity;
+  }
+
+  /**
+   * Leans the capsule `next` meters over the head. The controller cannot turn a shape, so a new
+   * capsule is made whenever the lean or the facing changes.
+   */
+  function leanTo(next: number): void {
+    if (next === lean && (next === 0 || yaw === leanYaw)) return;
+    lean = next;
+    leanYaw = yaw;
+    const previous = shape;
+    shape = capsule(lean, yaw);
+    controller.shape = shape;
+    previous.dispose();
   }
 
   function liftOff(): void {
@@ -301,10 +349,16 @@ export function createCat(services: Services): System {
       ? groundVelocity(dt, support, current, desired)
       : airVelocity(dt, current, desired, tilt > 0);
 
+    // A jump that starts in this step is in the air already.
+    leanTo(headLean(lean, grounded && time >= liftOffUntil, dt));
     controller.setVelocity(velocity);
     controller.integrate(dt, support, GRAVITY_VECTOR);
 
-    if (controller.getPosition().y < RESPAWN_Y) placeAtSpawn();
+    const position = controller.getPosition();
+    if (roomZone && confine(position, controller.getVelocity(), roomZone)) {
+      controller.setPosition(position);
+    }
+    if (position.y < RESPAWN_Y) placeAtSpawn();
   }
 
   /** Once per rendered frame: move the model to the capsule and animate it. */
@@ -339,16 +393,17 @@ export function createCat(services: Services): System {
       masses = new Map(objects.map((def) => [def.id, def.massKg]));
       spawn.setAll(0);
       wetZones = [];
+      roomZone = undefined;
       for (const node of scene.transformNodes) {
         const { marker } = readExtras(node);
         if (!marker) continue;
         node.computeWorldMatrix(true);
         if (marker === 'cat_spawn') spawn.copyFrom(node.getAbsolutePosition());
-        if (marker.startsWith('trigger:zone_wet')) {
-          // The marker is a unit cube scaled to the wet area.
-          const half = node.absoluteScaling.scale(0.5);
-          const center = node.getAbsolutePosition();
-          wetZones.push({ min: center.subtract(half), max: center.add(half) });
+        if (marker.startsWith('trigger:zone_wet')) wetZones.push(zoneBox(node));
+        if (marker === 'trigger:zone_room') {
+          roomZone = zoneBox(node);
+          roomZone.min.addInPlaceFromFloats(CAPSULE_RADIUS, 0, CAPSULE_RADIUS);
+          roomZone.max.addInPlaceFromFloats(-CAPSULE_RADIUS, -FOOT_OFFSET, -CAPSULE_RADIUS);
         }
       }
       const { equipped } = services.save.get().cosmetics;
@@ -379,6 +434,7 @@ export function createCat(services: Services): System {
       scene.onAfterPhysicsObservable.remove(afterPhysics);
       scene.onBeforeRenderObservable.remove(beforeRender);
       controller.dispose();
+      shape.dispose();
       model.dispose();
     },
   };

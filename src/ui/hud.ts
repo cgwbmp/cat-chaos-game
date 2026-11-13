@@ -139,6 +139,9 @@ export function createHud(services: Services, onPause: () => void): Hud {
       fill.style.width = '0%';
       combo.textContent = '';
       combo.classList.remove('active');
+      // A leftover `show` class replays the animation when the hidden HUD is shown again.
+      alert.textContent = '';
+      alert.classList.remove('show');
       labels.replaceChildren();
       progress.hidden = mode !== 'mission';
       timer.classList.remove('urgent');

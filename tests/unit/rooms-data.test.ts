@@ -1,7 +1,7 @@
 // Room checklist, from data alone: every room's layout and objects.json against its brief in
 // SPEC.md (breakable count, total coin value, treasure, mission, unlock).
 import { describe, expect, it } from 'vitest';
-import type { ObjectDef, ObjectTier } from '../../src/core/types';
+import type { ObjectDef, ObjectTier, RoomDef } from '../../src/core/types';
 import { validateObjectDefs } from '../../src/core/validate';
 import { summarizeRoom } from '../../src/rooms/_kit/checks';
 import type { RoomLayout } from '../../src/rooms/_kit/parts';
@@ -102,7 +102,11 @@ const BRIEFS: Brief[] = [
 
 const ALL_TIERS: ObjectTier[] = ['light', 'medium', 'heavy', 'trick', 'treasure'];
 
-describe.each(BRIEFS)('room $id', ({ layout, objects, breakables, total, targetCoins }) => {
+const ROOM_DEFS = Object.values(
+  import.meta.glob<RoomDef>('../../src/rooms/*/index.ts', { eager: true, import: 'default' }),
+);
+
+describe.each(BRIEFS)('room $id', ({ id, layout, objects, breakables, total, targetCoins }) => {
   const validation = validateObjectDefs(objects);
   const defs: ObjectDef[] = validation.ok ? validation.objects : [];
   const summary = summarizeRoom(layout, defs);
@@ -119,6 +123,34 @@ describe.each(BRIEFS)('room $id', ({ layout, objects, breakables, total, targetC
 
   it('has a trigger marker for every trigger break rule', () => {
     expect(summary.missingTriggers).toEqual([]);
+  });
+
+  it('spawns the cat inside the room zone that keeps it in', () => {
+    const zone = layout.markers.find(({ marker }) => marker === 'trigger:zone_room');
+    const spawn = layout.markers.find(({ marker }) => marker === 'cat_spawn');
+    expect(zone?.scale).toBeDefined();
+    expect(spawn).toBeDefined();
+    if (!zone?.scale || !spawn) return;
+    for (const axis of [0, 1, 2] as const) {
+      expect(Math.abs(spawn.at[axis] - zone.at[axis])).toBeLessThanOrEqual(zone.scale[axis] / 2);
+    }
+  });
+
+  it('lights only lamps it places, and keeps its fixed lights inside the room', () => {
+    const lighting = ROOM_DEFS.find((def) => def.id === id)?.lighting;
+    const zone = layout.markers.find(({ marker }) => marker === 'trigger:zone_room');
+    expect(lighting).toBeDefined();
+    expect(zone?.scale).toBeDefined();
+    if (!lighting || !zone?.scale) return;
+
+    const placed = new Set(layout.objects.map(({ def }) => def));
+    expect(Object.keys(lighting.lamps ?? {}).filter((lamp) => !placed.has(lamp))).toEqual([]);
+    for (const { at } of lighting.fixtures ?? []) {
+      for (const [axis, value] of [at.x, at.y, at.z].entries()) {
+        const center = zone.at[axis] ?? 0;
+        expect(Math.abs(value - center)).toBeLessThanOrEqual((zone.scale[axis] ?? 0) / 2);
+      }
+    }
   });
 
   it(`has ${breakables[0]} to ${breakables[1]} breakables`, () => {

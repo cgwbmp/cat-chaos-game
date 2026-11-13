@@ -1,7 +1,7 @@
 // Traditional Wooden House: 9 x 6.5 m, split by a wall into a front room and a back room. The
 // two doorways are closed by paper sliding doors: swat or pounce at a door to tear through it.
 // Fragile pottery stands on low tables; the celadon vase is displayed in the back room.
-import { WALL, block, partition, rug, shell, table } from '../_kit/furniture';
+import { WALL, block, partition, roomZone, rug, shell, table } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type Placement, type RoomLayout } from '../_kit/parts';
 
@@ -89,6 +89,7 @@ export const layout: RoomLayout = {
     { marker: 'cat_spawn', at: [0, 0, -2.8] },
     { marker: 'owner_door', at: [4.2, 0, -3] },
     { marker: 'camera_bounds', at: [0, 3.1, -3.2], scale: [9.4, 5.8, 13] },
+    roomZone(9, 6.5, 2.8),
     { marker: 'trigger:door_a', at: [DOORS[0], 0.4, SPLIT_Z - WALL / 2] },
     { marker: 'trigger:door_b', at: [DOORS[1], 0.4, SPLIT_Z - WALL / 2] },
     { marker: 'trigger:door_c', at: [0.1, 0.4, -1.9] },

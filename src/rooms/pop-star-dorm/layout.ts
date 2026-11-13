@@ -1,7 +1,7 @@
 // Pop Star Dorm: 8 x 6.5 m. Two beds on the left, a vanity desk at the back, the album shelf
 // with the award trophy on the right wall, and a low table in the middle that the manager
 // walks around (see module.ts).
-import { bed, block, rug, shell, shelves, table, wallArt } from '../_kit/furniture';
+import { bed, block, roomZone, rug, shell, shelves, table, wallArt } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type RoomLayout, type Triple } from '../_kit/parts';
 
@@ -84,5 +84,6 @@ export const layout: RoomLayout = {
     { marker: 'cat_spawn', at: [0.4, 0, -2.4] },
     { marker: 'owner_door', at: [3.7, 0, -2.8] },
     { marker: 'camera_bounds', at: [0, 3.1, -3], scale: [8.4, 5.8, 12.5] },
+    roomZone(8, 6.5, 2.8),
   ],
 };

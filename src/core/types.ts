@@ -69,6 +69,21 @@ export interface NodeExtras {
 /** Builds room geometry in code instead of loading a .glb (graybox and tests). Returns the room root. */
 export type RoomBuilder = (scene: Scene) => TransformNode;
 
+/** Time of day a room is lit for. `day` is the neutral look. */
+export type LightingMood = 'day' | 'sunrise' | 'sunset' | 'night';
+
+/** Lamps and lanterns give `warm` light, screens and fridges `cool` light. */
+export type LightTone = 'warm' | 'cool';
+
+/** How rendering lights a room. Lamps are off in the `day` mood. */
+export interface RoomLighting {
+  mood: LightingMood;
+  /** ObjectDef ids that shine, with the tone of their light. One goes dark when it breaks. */
+  lamps?: Record<string, LightTone>;
+  /** Fixed lights that cannot break (wall lamps, a glowing fridge): where the light comes from. */
+  fixtures?: { at: Vec3; tone: LightTone }[];
+}
+
 export interface RoomDef {
   id: string; // 'tiny-studio'; ids starting with '_' are dev rooms hidden from level select
   name: string; // 'Tiny Studio Apartment'
@@ -79,6 +94,7 @@ export interface RoomDef {
   unlock: { requiresStars: number };
   music: string;
   ambience?: string;
+  lighting?: RoomLighting; // time of day and lamps; neutral daylight when left out
   module?: () => Promise<RoomModule>; // optional custom logic, lazy loaded
   builder?: () => Promise<RoomBuilder>; // code-built geometry used instead of `glb`, lazy loaded
 }

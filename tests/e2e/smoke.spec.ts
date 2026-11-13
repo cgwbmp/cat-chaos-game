@@ -92,6 +92,26 @@ test('the debug overlay toggles with the backtick key and a three-finger tap', a
   await expect(overlay).toBeVisible();
 });
 
+test('touches on the game are kept from the browser, touches on menus are not', async ({
+  page,
+}) => {
+  await tapToPlay(page);
+  // True when the page cancelled a touch that starts on the element, so the browser cannot turn
+  // it into a zoom. A plain Event, for the reason given in the test above.
+  const cancelled = (selector: string) =>
+    page.evaluate((query) => {
+      const event = new Event('touchstart', { bubbles: true, cancelable: true });
+      document.querySelector(query)?.dispatchEvent(event);
+      return event.defaultPrevented;
+    }, selector);
+  expect(await cancelled('canvas#game')).toBe(true);
+  expect(await cancelled('.touch-button-swat')).toBe(true);
+  // The gap between the buttons, where a fast thumb also lands.
+  expect(await cancelled('.touch-buttons')).toBe(true);
+  expect(await cancelled('.touch-stick-zone')).toBe(true);
+  expect(await cancelled('#ui button')).toBe(false);
+});
+
 test('only phones held in portrait see the rotate prompt', async ({ page, isMobile }) => {
   await page.goto('/');
   const prompt = page.getByText('Rotate your phone to play');

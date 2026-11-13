@@ -2,6 +2,15 @@
 
 export const CAPSULE_RADIUS = 0.14;
 export const CAPSULE_HEIGHT = 0.4;
+/**
+ * On the ground the capsule leans forward, so that its top is over the head: this far ahead of
+ * the feet. The nose is 0.26 m ahead, and without the lean it goes into walls and table legs.
+ * The capsule then reaches 3 cm past the nose, because it sinks that far into a wall the cat
+ * lands or turns against.
+ */
+export const HEAD_LEAN = 0.15;
+/** How fast the lean comes back after a landing, m/s. In the air the capsule is upright. */
+export const HEAD_LEAN_SPEED = 1.5;
 export const MASS_KG = 4;
 /** Push force in newtons: slides light and medium objects, not the heavy ones. */
 export const PUSH_STRENGTH = 25;
@@ -22,8 +31,8 @@ export const TURN_RATE = 14; // rad/s
 // The cat falls faster than the room's objects, which makes jumps snappy.
 export const GRAVITY = -24;
 export const TERMINAL_SPEED = 14;
-/** Full jump (button held) clears the 1.7 m graybox shelf; a tap reaches about 1 m. */
-export const JUMP_HEIGHT = 1.95;
+/** Full jump (button held) reaches about 1.1 m; a tap reaches about 0.75 m. */
+export const JUMP_HEIGHT = 1.17;
 export const JUMP_SPEED = Math.sqrt(2 * -GRAVITY * JUMP_HEIGHT);
 /** Releasing the button caps the upward speed at this, after MIN_JUMP_SEC. */
 export const JUMP_CUT_SPEED = 3;
@@ -45,8 +54,8 @@ export const QUERY_RADIUS = 2;
 export const SWAT_HEIGHT = 0.4; // how far above or below the cat's middle a swat reaches
 export const SWAT_CLOSE = 0.2; // anything this close is hit whatever the angle
 export const SWAT_CONE_COS = Math.cos((75 * Math.PI) / 180);
-export const SWAT_SPEED = 3.2; // speed given to an object light enough
-export const SWAT_MAX_IMPULSE = 6; // N·s; heavier objects move slower
+export const SWAT_SPEED = 2; // speed given to an object light enough
+export const SWAT_MAX_IMPULSE = 4; // N·s; heavier objects move slower
 
 export const POUNCE_LEAP_UP = 5.5;
 export const POUNCE_LEAP_FORWARD = 3;

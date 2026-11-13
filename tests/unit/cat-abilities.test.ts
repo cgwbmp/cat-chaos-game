@@ -1,6 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { moveSpeed, pounceImpulse, swatImpulse, turnTowards } from '../../src/cat/abilities';
 import {
+  confine,
+  headLean,
+  moveSpeed,
+  pounceImpulse,
+  swatImpulse,
+  turnTowards,
+} from '../../src/cat/abilities';
+import {
+  HEAD_LEAN,
+  HEAD_LEAN_SPEED,
   POUNCE_BASE_IMPULSE,
   POUNCE_IMPULSE_PER_SPEED,
   POUNCE_SPEED,
@@ -56,6 +65,25 @@ describe('turnTowards', () => {
     const to = (-170 * Math.PI) / 180;
     expect(turnTowards(from, to, 0.1)).toBeCloseTo(from + 0.1);
     expect(turnTowards(to, from, 0.1)).toBeCloseTo(to - 0.1);
+  });
+});
+
+describe('headLean', () => {
+  const dt = 1 / 60;
+
+  it('is upright in the air, at once', () => {
+    expect(headLean(HEAD_LEAN, false, dt)).toBe(0);
+    expect(headLean(0, false, dt)).toBe(0);
+  });
+
+  it('leans further with each step on the ground', () => {
+    expect(headLean(0, true, dt)).toBeCloseTo(HEAD_LEAN_SPEED * dt);
+    expect(headLean(0.05, true, dt)).toBeCloseTo(0.05 + HEAD_LEAN_SPEED * dt);
+  });
+
+  it('stops at the full lean', () => {
+    expect(headLean(HEAD_LEAN - 0.001, true, dt)).toBe(HEAD_LEAN);
+    expect(headLean(HEAD_LEAN, true, dt)).toBe(HEAD_LEAN);
   });
 });
 
@@ -181,5 +209,49 @@ describe('pounceImpulse', () => {
   it('leaves objects on another level alone', () => {
     expect(pounceImpulse(feet, small(0.3, 0.75, 0), 0.5, 8)).toBeUndefined();
     expect(pounceImpulse(feet, small(0.3, -0.75, 0), 0.5, 8)).toBeUndefined();
+  });
+});
+
+describe('confine', () => {
+  const room = { min: { x: -2, y: 0, z: -2 }, max: { x: 2, y: 2.6, z: 2 } };
+
+  it('leaves a cat inside the room alone', () => {
+    const position = { x: 1, y: 0.2, z: -1.5 };
+    const velocity = { x: 3, y: 1, z: -3 };
+    expect(confine(position, velocity, room)).toBe(false);
+    expect(position).toEqual({ x: 1, y: 0.2, z: -1.5 });
+    expect(velocity).toEqual({ x: 3, y: 1, z: -3 });
+  });
+
+  it('stops at a wall and keeps sliding along it', () => {
+    const position = { x: 1, y: 0.2, z: -2.05 };
+    const velocity = { x: 3, y: 0, z: -3 };
+    expect(confine(position, velocity, room)).toBe(true);
+    expect(position).toEqual({ x: 1, y: 0.2, z: -2 });
+    expect(velocity).toEqual({ x: 3, y: 0, z: 0 });
+  });
+
+  it('keeps the speed of a cat already moving back in', () => {
+    const position = { x: 2.1, y: 0.2, z: 0 };
+    const velocity = { x: -1, y: 0, z: 0 };
+    confine(position, velocity, room);
+    expect(position.x).toBe(2);
+    expect(velocity.x).toBe(-1);
+  });
+
+  it('stops a jump at the ceiling', () => {
+    const position = { x: 0, y: 2.7, z: 0 };
+    const velocity = { x: 1, y: 5, z: 0 };
+    expect(confine(position, velocity, room)).toBe(true);
+    expect(position.y).toBe(2.6);
+    expect(velocity).toEqual({ x: 1, y: 0, z: 0 });
+  });
+
+  it('has no bottom: a cat below the room keeps falling', () => {
+    const position = { x: 0, y: -3, z: 0 };
+    const velocity = { x: 0, y: -9, z: 0 };
+    expect(confine(position, velocity, room)).toBe(false);
+    expect(position.y).toBe(-3);
+    expect(velocity.y).toBe(-9);
   });
 });

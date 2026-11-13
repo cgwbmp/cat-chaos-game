@@ -1,7 +1,7 @@
 // Spa & Bathhouse (finale): 12 x 8 m in three areas. The lobby (front left) has the counter and
 // the trophy shelf, the locker side (front right) has towels, and the bath hall behind the wall
 // has two baths and the sauna bench. The bath hall floor is wet: the cat slides on it.
-import { WALL, bath, block, partition, rug, shell, shelves } from '../_kit/furniture';
+import { WALL, bath, block, partition, roomZone, rug, shell, shelves } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type RoomLayout } from '../_kit/parts';
 
@@ -65,6 +65,7 @@ export const layout: RoomLayout = {
     { marker: 'cat_spawn', at: [-0.6, 0, -2.2] },
     { marker: 'owner_door', at: [-5.6, 0, -2] },
     { marker: 'camera_bounds', at: [0, 3.1, -3.5], scale: [12.4, 5.8, 15] },
+    roomZone(12, 8, 2.8),
     // Wet floor: everything behind the dividing wall.
     {
       marker: 'trigger:zone_wet_hall',

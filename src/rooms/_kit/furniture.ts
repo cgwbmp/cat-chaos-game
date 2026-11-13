@@ -1,7 +1,8 @@
 // Static furniture and room shells for code-built rooms, as parts. Rooms are open toward -z
 // (the camera side): a floor, a back wall at +z and side walls at -x and +x.
+import type { Vec3 } from '../../core/types';
 import { C } from './palette';
-import { box, cyl, place, type Color, type Part, type Triple } from './parts';
+import { box, cyl, place, type Color, type Part, type RoomLayout, type Triple } from './parts';
 
 export const WALL = 0.2; // wall and floor thickness
 
@@ -24,6 +25,18 @@ export function shell(
     box(0.03, 0.12, depth, colors.trim, [-halfW + 0.015, 0, 0]),
     box(0.03, 0.12, depth, colors.trim, [halfW - 0.015, 0, 0]),
   ];
+}
+
+/**
+ * Marker for a `shell` of the same size: the cat cannot leave this box, so it is the room's
+ * invisible front wall and ceiling. Objects still fall out of the open side.
+ */
+export function roomZone(
+  width: number,
+  depth: number,
+  height: number,
+): RoomLayout['markers'][number] {
+  return { marker: 'trigger:zone_room', at: [0, height / 2, 0], scale: [width, height, depth] };
 }
 
 /** An inner wall along x (a partition), with an optional doorway gap. */
@@ -156,6 +169,30 @@ export function wallArt(width: number, height: number, color: Color): Part[] {
     box(width, height, 0.03, C.wood, [0, 0, -0.015]),
     box(width - 0.08, height - 0.08, 0.035, color, [0, 0.04, -0.02]),
   ];
+}
+
+const SHADE_GLOW = 1.7;
+
+/**
+ * A lamp fixed to the back wall; `at` is the bottom center of its plate, against the wall. On a
+ * side wall turn it with `place`: `-Math.PI / 2` on the left wall, `Math.PI / 2` on the right.
+ */
+export function wallLamp(shade: Color = C.lemon): Part[] {
+  // Brighter than any light makes it, so the shade looks lit from inside in a dim room.
+  const lit: Color = [shade[0] * SHADE_GLOW, shade[1] * SHADE_GLOW, shade[2] * SHADE_GLOW];
+  return [
+    box(0.16, 0.24, 0.03, C.woodDark, [0, 0, -0.015]),
+    box(0.04, 0.04, 0.2, C.woodDark, [0, 0.16, -0.115]),
+    cyl(0.3, 0.2, lit, [0, 0.08, -0.24], { top: 0.16, sides: 8 }),
+  ];
+}
+
+const WALL_LAMP_LIGHT: Triple = [0, 0.04, -0.45]; // in front of the shade, so the shade is lit too
+
+/** Where a `wallLamp` placed at `at` shines from, for `lighting.fixtures` in the room's index.ts. */
+export function wallLampLight(at: Triple, rotY = 0): Vec3 {
+  const [, y, z] = WALL_LAMP_LIGHT;
+  return { x: at[0] + z * Math.sin(rotY), y: at[1] + y, z: at[2] + z * Math.cos(rotY) };
 }
 
 export function chair(color: Color): Part[] {

@@ -10,6 +10,7 @@ const room: RoomDef = {
   mission: { timeLimitSec: 120, targetCoins: 9000 },
   unlock: { requiresStars: 12 },
   music: 'wooden-house',
+  lighting: { mood: 'night', lamps: { lantern: 'warm' } },
   builder: () => import('./room').then((module) => module.buildRoom),
   module: () => import('../_kit/module').then((module) => module.createRoomModule()),
 };

@@ -1,6 +1,8 @@
 // Ability math, free of Babylon so it can be unit tested.
 import type { Vec3 } from '../core/types';
 import {
+  HEAD_LEAN,
+  HEAD_LEAN_SPEED,
   POUNCE_BASE_IMPULSE,
   POUNCE_HEIGHT,
   POUNCE_IMPULSE_PER_SPEED,
@@ -46,6 +48,47 @@ export function turnTowards(yaw: number, target: number, maxStep: number): numbe
   if (delta > Math.PI) delta -= Math.PI * 2;
   if (delta < -Math.PI) delta += Math.PI * 2;
   return Math.abs(delta) <= maxStep ? target : yaw + Math.sign(delta) * maxStep;
+}
+
+/**
+ * The capsule's lean over the head after `dt` seconds. In the air the capsule is upright, or the
+ * head would catch the underside of a table the cat jumps onto from close by. On the ground the
+ * lean comes back gradually, which moves a cat that landed with its head in a wall out of it.
+ */
+export function headLean(lean: number, grounded: boolean, dt: number): number {
+  return grounded ? Math.min(HEAD_LEAN, lean + HEAD_LEAN_SPEED * dt) : 0;
+}
+
+/** An axis-aligned box in world space. */
+export interface Box {
+  min: Vec3;
+  max: Vec3;
+}
+
+/**
+ * Invisible walls and ceiling: moves `position` back inside `box` and stops `velocity` from
+ * pushing further out. The box has no bottom; the room's floor is real. Both vectors are changed
+ * in place. Returns true when the position was outside.
+ */
+export function confine(position: Vec3, velocity: Vec3, box: Box): boolean {
+  let outside = false;
+  for (const axis of ['x', 'z'] as const) {
+    if (position[axis] < box.min[axis]) {
+      position[axis] = box.min[axis];
+      velocity[axis] = Math.max(velocity[axis], 0);
+      outside = true;
+    } else if (position[axis] > box.max[axis]) {
+      position[axis] = box.max[axis];
+      velocity[axis] = Math.min(velocity[axis], 0);
+      outside = true;
+    }
+  }
+  if (position.y > box.max.y) {
+    position.y = box.max.y;
+    velocity.y = Math.min(velocity.y, 0);
+    outside = true;
+  }
+  return outside;
 }
 
 /** An object as the cat's abilities see it: its center and half of its height. */

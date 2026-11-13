@@ -1,9 +1,20 @@
 // Cozy Café: 7 x 6 m. Four tables, each with a tablecloth to pull (swat next to the table);
 // the counter at the back holds the cake display case, cup towers and the treasure, the fancy
 // espresso machine.
-import { block, chair, rug, shell, shelves, table, wallArt } from '../_kit/furniture';
+import {
+  block,
+  chair,
+  roomZone,
+  rug,
+  shell,
+  shelves,
+  table,
+  wallArt,
+  wallLamp,
+} from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type Placement, type RoomLayout, type Triple } from '../_kit/parts';
+import { WALL_LAMPS } from './lamps';
 
 const TABLE = 0.72;
 const CLOTH = TABLE + 0.024; // on top of the tablecloth
@@ -46,6 +57,7 @@ export const layout: RoomLayout = {
     ...place(block(0.5, SIDEBOARD, 1.8, C.woodDark, C.wood), [3.2, 0, -0.4]),
     ...place(rug(1.6, 1, C.rose), [1.2, 0, -2.2]),
     ...place(wallArt(1, 0.7, C.peach), [-1.6, 1.4, 3]),
+    ...WALL_LAMPS.flatMap(({ at, rotY }) => place(wallLamp(C.peach), at, rotY)),
   ],
 
   objects: [
@@ -74,6 +86,7 @@ export const layout: RoomLayout = {
     { marker: 'cat_spawn', at: [0.8, 0, -2.2] },
     { marker: 'owner_door', at: [3.3, 0, -2.4] },
     { marker: 'camera_bounds', at: [0, 3.1, -3], scale: [7.4, 5.8, 12] },
+    roomZone(7, 6, 2.8),
     // Tablecloths fly toward the front of their table.
     ...TABLES.map(({ id, at: [x, z] }) => ({
       marker: `trigger:cloth_${id}` as const,

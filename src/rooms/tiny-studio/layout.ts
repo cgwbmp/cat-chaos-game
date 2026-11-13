@@ -1,7 +1,7 @@
 // Tiny Studio Apartment: a 5 x 4.5 m studio. Bed on the left, desk with two wall shelves at the
 // back, a kitchen corner on the right and a low table with floor cushions in the middle.
 // The treasure stands on the top shelf: desk -> lower shelf -> top shelf.
-import { bed, block, rug, shell, table, wallShelf, windowFrame } from '../_kit/furniture';
+import { bed, block, roomZone, rug, shell, table, wallShelf, windowFrame } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { box, place, row, type RoomLayout } from '../_kit/parts';
 
@@ -76,6 +76,7 @@ export const layout: RoomLayout = {
     { marker: 'cat_spawn', at: [0, 0, -1.5] },
     { marker: 'owner_door', at: [2.3, 0, -1.5] },
     { marker: 'camera_bounds', at: [0, 3.1, -3], scale: [5.4, 5.8, 10.5] },
+    roomZone(5, 4.5, 2.8),
     { marker: 'trigger:pull_mat', at: [0.6, DESK, 1.3] },
   ],
 };

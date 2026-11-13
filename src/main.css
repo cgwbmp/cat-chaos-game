@@ -10,6 +10,8 @@ body {
   -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
+  /* No pinch or double-tap zoom anywhere; iOS Safari ignores `user-scalable=no`. Lists still scroll. */
+  touch-action: pan-x pan-y;
 }
 
 #game {

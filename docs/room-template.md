@@ -20,6 +20,9 @@ A room with its own logic adds `module.ts` (see `src/rooms/pop-star-dorm/`). Eve
 ## Steps
 
 1. **`index.ts`.** Set `id` (folder name), `name`, `order`, `mission`, `unlock.requiresStars` (2 × (order − 1)) and `music` (any id; each id gives its own generated tune). All text is English.
+   - `lighting` sets the time of day: `mood` is `'day'` (the default when left out), `'sunrise'`, `'sunset'` or `'night'`.
+   - `lighting.lamps` lists the object ids that shine in every mood but `day`, each with its tone: `{ floor_lamp: 'warm', monitor: 'cool' }`. A lamp glows and goes dark when it breaks. At most 4 lamps (2 on low quality) also light the room around them, picked far apart; the rest only glow.
+   - `lighting.fixtures` are lights that cannot break. For wall lamps keep the positions in a small `lamps.ts` that both files import: `layout.ts` places `wallLamp()` there and `index.ts` passes `wallLampLight(at, rotY)` (see `src/rooms/cozy-cafe/`). Do not import `layout.ts` from `index.ts`; it would load the whole room with the menu.
 2. **`objects.json`.** One entry per kind of object.
    - `meshNode` names a prop in `src/rooms/_kit/props.ts`. Reuse props; add a new one there only for the room's signature pieces.
    - `coins` must fit the tier: light 5–20, medium 30–80, heavy 100–300, trick 200–500, treasure 1,000+.
@@ -28,7 +31,7 @@ A room with its own logic adds `module.ts` (see `src/rooms/pop-star-dorm/`). Eve
 3. **`layout.ts`.**
    - `statics`: start with `shell(width, depth, height, colors)`, then furniture from `_kit/furniture.ts` moved into place with `place(parts, [x, y, z], rotY)`.
    - `objects`: `{ def, at: [x, y, z], rotY? }`. `at` is the point the object's base stands on, so `y` is the height of the surface. Use `row(def, count, from, step)` for lines of the same object.
-   - `markers`: `cat_spawn`, `owner_door`, `camera_bounds`, and one `trigger:<id>` per trigger id.
+   - `markers`: `cat_spawn`, `owner_door`, `camera_bounds`, `roomZone(width, depth, height)` with the shell's size, and one `trigger:<id>` per trigger id.
 4. **Signature mechanic.** Use the existing `special` behaviors and triggers first (table below). Need more? Write `module.ts` on top of `createRoomModule`, or file a change request; do not edit system folders.
 5. **Tune** with the room data test and by playing: 1 star in 1–3 tries for a first-time player, 3 stars only with a planned route to the treasure.
 6. **Check** with the list at the end, then open one PR.
@@ -40,7 +43,7 @@ A room with its own logic adds `module.ts` (see `src/rooms/pop-star-dorm/`). Eve
 - **Object ids at runtime** are `<def id>_<n>` (`mug_1`, `mug_2`), assigned in layout order.
 - **Standing on things.** An object's `at.y` must be the top of what it stands on (add 0.02 for something lying on a mat or cloth). The builder lifts every object 1 cm so it settles instead of starting in contact.
 - **`camera_bounds`** is a unit cube scaled to the volume the camera may be in. Extend it about 6 m out of the open side: `at: [0, 3.1, -3], scale: [width + 0.4, 5.8, depth + 6]`.
-- **Heights the cat can reach.** A tap jump reaches about 1 m, a held jump about 1.9 m. From one surface to the next keep the step under 0.9 m for an easy climb. Leave 0.5 m of free surface in front of a shelf the cat should jump up to, and make shelves at least 0.32 m deep.
+- **Heights the cat can reach.** A tap jump reaches about 0.75 m, a held jump about 1.1 m. From one surface to the next keep the step under 0.9 m for an easy climb. Leave 0.5 m of free surface in front of a shelf the cat should jump up to, and make shelves at least 0.32 m deep.
 - **Every object must be breakable where it can end up.** Any object also breaks after enough swats (4 to 10 by tier), so nothing can get stuck, but do not rely on it for the main route.
 
 ## Break rules and what triggers them
@@ -60,7 +63,7 @@ A room with its own logic adds `module.ts` (see `src/rooms/pop-star-dorm/`). Eve
 | `liquid`           | Splash of droplets and the `splash` sound.                                     |
 | `electronic_spark` | Sparks and the `spark` sound.                                                  |
 
-Zones: a marker named `trigger:zone_wet<anything>` is a unit cube scaled to a wet floor area; the cat slides inside it.
+Zones: a marker named `trigger:zone_wet<anything>` is a unit cube scaled to a wet floor area; the cat slides inside it. The marker `trigger:zone_room` (`roomZone` in the kit) is a unit cube scaled to the room's inside: the cat cannot leave it, so it acts as an invisible wall on the open side and a ceiling. Objects pass through it and still break when they fall out of the room.
 
 Walkers: a room module can emit `walker/patrol` with a loop of waypoints; game rules run the NPC (see `src/rooms/pop-star-dorm/module.ts`).
 
@@ -81,7 +84,7 @@ Walkers: a room module can emit `walker/patrol` with a loop of waypoints; game r
 
 A `RoomDef` without `builder` loads `glb` through the asset service (Meshopt and KTX2).
 
-- Each breakable mesh carries the glTF extra `{ "obj": "<ObjectDef.id>" }`; markers are empties with `{ "marker": "cat_spawn" | "camera_bounds" | "owner_door" | "trigger:<id>" }`. In Blender these are custom properties on the object; export with **Include › Custom Properties** on.
+- Each breakable mesh carries the glTF extra `{ "obj": "<ObjectDef.id>" }`; markers are empties with `{ "marker": "cat_spawn" | "camera_bounds" | "owner_door" | "trigger:<id>" }` (`trigger:zone_room` for the box the cat stays in). In Blender these are custom properties on the object; export with **Include › Custom Properties** on.
 - Export glTF Binary (`.glb`), +Y up, apply modifiers, no cameras or lights. Mesh names must be unique per room: the mesh name is the runtime object id.
 - A fracture set is an empty named as the definition's `fractureSet`, with the pieces as child meshes placed relative to the object's origin.
 - Run `pnpm optimize-glb <export.glb> src/rooms/<room-id>/room.glb`. Textures need KTX-Software (`ktx`) installed.

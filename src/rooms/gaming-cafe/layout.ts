@@ -1,7 +1,7 @@
 // Gaming Café: 8 x 6 m. Two desk rows of four stations each. The monitors stand on a cable
 // bundle that runs along the row: swat at the left end of a row and the whole row is dragged.
 // The champion trophy sits on the top shelf in the back right corner.
-import { block, rug, shell, shelves, stoolSeat, table } from '../_kit/furniture';
+import { block, roomZone, rug, shell, shelves, stoolSeat, table } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type Placement, type RoomLayout } from '../_kit/parts';
 
@@ -61,6 +61,7 @@ export const layout: RoomLayout = {
     { marker: 'cat_spawn', at: [1.8, 0, -1.2] },
     { marker: 'owner_door', at: [-3.7, 0, -2.4] },
     { marker: 'camera_bounds', at: [0, 3.1, -3], scale: [8.4, 5.8, 12] },
+    roomZone(8, 6, 2.8),
     // Swat from the stool side at the middle of a row: the monitors are dragged off the front.
     ...ROWS.map(({ id, z }) => ({
       marker: `trigger:cables_${id}` as const,

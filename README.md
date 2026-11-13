@@ -2,7 +2,7 @@
 
 A browser game: you are a cat, and the owner is out. Knock things over and break as much as you can before the owner comes home.
 
-Current version: **0.1.0-alpha** (see [CHANGELOG.md](CHANGELOG.md)). Notes for testers are in [docs/alpha-testing.md](docs/alpha-testing.md).
+Current version: **0.1.1-alpha** (see [CHANGELOG.md](CHANGELOG.md)). Notes for testers are in [docs/alpha-testing.md](docs/alpha-testing.md).
 
 ## What is in the game
 

@@ -139,6 +139,8 @@ export const buildGraybox: RoomBuilder = (scene) => {
   marker('cat_spawn', [-1, 0, -1.5]);
   marker('owner_door', [2.9, 0, -2]);
   marker('camera_bounds', [0, 3, -2], [7, 6, 10]);
+  // The cat cannot leave this box: invisible walls on the two open sides and a ceiling.
+  marker('trigger:zone_room', [0, 1.5, 0], [6, 3, 6]);
   marker('trigger:pull_runner', [0.8, TABLE_TOP, -0.2]);
 
   return root;

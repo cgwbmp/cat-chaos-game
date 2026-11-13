@@ -155,7 +155,13 @@ export interface RoomDef {
   unlock: { requiresStars: number };
   music: string;
   ambience?: string;
+  lighting?: RoomLighting;    // time of day and lamps; neutral daylight when left out
   module?: () => Promise<RoomModule>; // optional custom logic, lazy loaded
+}
+export interface RoomLighting {
+  mood: 'day' | 'sunrise' | 'sunset' | 'night';
+  lamps?: Record<string, 'warm' | 'cool'>;               // ObjectDef ids that shine until they break
+  fixtures?: { at: Vec3; tone: 'warm' | 'cool' }[];      // fixed lights that cannot break
 }
 export interface RoomModule {
   setup(ctx: RoomContext): void;   // register triggers, scripted gags
@@ -256,7 +262,7 @@ Six agents run at the same time, each on its own branch and its own folders, tes
 **F — Rendering & Camera**
 
 - Asset service: lazy-load room bundles with progress, glb loader with Meshopt and KTX2, asset cache and disposal on room exit.
-- Look: shared palette material, hemisphere + one directional light, baked lightmaps support, blob shadows under the cat and dynamic objects, soft outline or rim light option, light bloom on high quality only.
+- Look: shared palette material, hemisphere + one directional light set by the room's time of day (`RoomDef.lighting`), up to 4 lamp point lights (2 on low quality), baked lightmaps support, blob shadows under the cat and dynamic objects, soft outline or rim light option, light bloom on high quality only.
 - Camera: third-person follow with gentle lag, auto-avoid walls, zoom out when the cat is high, camera bounds from room markers. No manual camera on touch; optional mouse orbit on desktop.
 - Quality tiers (low / medium / high) picked automatically from a 2 s benchmark, changeable in settings: resolution scale, shadows, post effects, debris cap.
 - Juice helpers for others to call through events: screen shake, hit pause (40 ms), squash and stretch.

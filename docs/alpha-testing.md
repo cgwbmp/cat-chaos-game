@@ -36,7 +36,7 @@ You are a cat. Break things to earn coins. In **Mission** mode you need a coin t
 
 Tell us:
 
-- the version shown at the bottom of the title screen (for example `v0.1.0-alpha`);
+- the version shown at the bottom of the title screen (for example `v0.1.1-alpha`);
 - your device and browser (for example "iPhone 13, Safari" or "Windows laptop, Chrome");
 - the room and mode you were in;
 - what you did, what you expected and what happened. A screenshot or a short recording helps a lot.

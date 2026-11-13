@@ -1,22 +1,18 @@
-// Rendering system: lights, shadows (real on medium and high, blobs on low), bloom on high, the
-// follow camera, and the juice helpers other systems call through events (`juice/shake`,
-// `juice/hitPause`, `juice/squash`).
-import { DirectionalLight } from '@babylonjs/core/Lights/directionalLight';
-import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight';
+// Rendering system: lights (lighting.ts), shadows (real on medium and high, blobs on low), bloom
+// on high, the follow camera, and the juice helpers other systems call through events
+// (`juice/shake`, `juice/hitPause`, `juice/squash`).
 import { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator';
 import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent';
-import { Color3, Color4 } from '@babylonjs/core/Maths/math.color';
-import { Vector3 } from '@babylonjs/core/Maths/math.vector';
+import { Color3 } from '@babylonjs/core/Maths/math.color';
 import type { TransformNode } from '@babylonjs/core/Meshes/transformNode';
 import type { DefaultRenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/defaultRenderingPipeline';
 import { readExtras } from '../core/extras';
 import type { SystemFactory } from '../core/services';
 import { createBlobShadows, type BlobShadows } from './blob-shadows';
 import { createFollowCamera } from './camera';
+import { createRoomLights } from './lighting';
 import { hasAutoDetected } from './quality';
 
-const SKY_COLOR = new Color4(0.97, 0.91, 0.87, 1);
-const SUN_DIRECTION = new Vector3(-0.45, -1, 0.35).normalize();
 const SQUASH_SEC = 0.25;
 
 /** Meshes that never cast or receive shadows. */
@@ -25,22 +21,11 @@ function isEffectMesh(name: string): boolean {
 }
 
 export const startRendering: SystemFactory = (services) => {
-  const { bus, quality, save } = services;
+  const { bus, quality, rooms, save } = services;
   const { scene, engine } = services.scene;
-  scene.clearColor = SKY_COLOR;
   scene.ambientColor = new Color3(1, 1, 1);
 
-  const sky = new HemisphericLight('sky-light', new Vector3(0.2, 1, -0.3), scene);
-  sky.intensity = 0.68;
-  sky.diffuse = new Color3(1, 0.98, 0.95);
-  sky.groundColor = new Color3(0.62, 0.56, 0.6);
-  sky.specular = Color3.Black();
-
-  const sun = new DirectionalLight('sun-light', SUN_DIRECTION, scene);
-  sun.position = SUN_DIRECTION.scale(-14);
-  sun.intensity = 0.45;
-  sun.diffuse = new Color3(1, 0.95, 0.88);
-  sun.specular = Color3.Black();
+  const lights = createRoomLights(scene, () => quality.tier);
 
   const camera = createFollowCamera(services);
 
@@ -57,7 +42,7 @@ export const startRendering: SystemFactory = (services) => {
     blobs = undefined;
 
     if (quality.settings.shadows) {
-      shadows = new ShadowGenerator(quality.tier === 'high' ? 2048 : 1024, sun);
+      shadows = new ShadowGenerator(quality.tier === 'high' ? 2048 : 1024, lights.sun);
       shadows.usePercentageCloserFiltering = true;
       shadows.bias = 0.002;
       shadows.normalBias = 0.015;
@@ -126,8 +111,9 @@ export const startRendering: SystemFactory = (services) => {
   const beforeRender = scene.onBeforeRenderObservable.add(update);
 
   const unsubscribe = [
-    bus.on('level/loaded', () => {
+    bus.on('level/loaded', ({ roomId }) => {
       camera.reset();
+      lights.enter(rooms.get(roomId)?.lighting);
       refreshShadows();
       // First level on this device: benchmark with a real room on screen and keep the result.
       if (!hasAutoDetected() && !benchmarking) {
@@ -141,9 +127,12 @@ export const startRendering: SystemFactory = (services) => {
     }),
     bus.on('level/quit', () => {
       camera.reset();
+      lights.enter();
       refreshShadows();
     }),
+    bus.on('object/broken', ({ objectId }) => lights.broken(objectId)),
     bus.on('quality/changed', () => {
+      lights.relight();
       refreshShadows();
       void refreshPostEffects();
     }),
@@ -175,8 +164,7 @@ export const startRendering: SystemFactory = (services) => {
       blobs?.dispose();
       pipeline?.dispose();
       camera.dispose();
-      sky.dispose();
-      sun.dispose();
+      lights.dispose();
     },
   };
 };

@@ -1,7 +1,7 @@
 // Grandma's House: 7 x 6 m. Clay storage jars stand on a low terrace at the back left; they
 // are too heavy to swat, so pounce on them from the tall chest next to the terrace. The rice
 // cooker on the kitchen counter steams when swatted, and the low table has a runner to pull.
-import { block, rug, shell, shelves, table, windowFrame } from '../_kit/furniture';
+import { block, roomZone, rug, shell, shelves, table, windowFrame } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type RoomLayout } from '../_kit/parts';
 
@@ -73,6 +73,7 @@ export const layout: RoomLayout = {
     { marker: 'cat_spawn', at: [0.4, 0, -2] },
     { marker: 'owner_door', at: [3.3, 0, -2.6] },
     { marker: 'camera_bounds', at: [0, 3.1, -3], scale: [7.4, 5.8, 12] },
+    roomZone(7, 6, 2.8),
     { marker: 'trigger:steam', at: [1.2, COUNTER, 2.3] },
     { marker: 'trigger:runner', at: [0.4, LOW_TABLE, -0.8] },
   ],
