@@ -2,11 +2,11 @@
 
 A browser game: you are a cat, and the owner is out. Knock things over and break as much as you can before the owner comes home.
 
-Current version: **0.1.3-alpha** (see [CHANGELOG.md](CHANGELOG.md)). Notes for testers are in [docs/alpha-testing.md](docs/alpha-testing.md).
+Current version: **0.2.0-alpha** (see [CHANGELOG.md](CHANGELOG.md)). Notes for testers are in [docs/alpha-testing.md](docs/alpha-testing.md).
 
 ## What is in the game
 
-- 8 rooms, from a tiny studio apartment to a spa and bathhouse. Rooms unlock with stars.
+- 16 rooms, from a tiny studio apartment to a luxury penthouse. Rooms unlock with stars.
 - Two modes per room: **Mission** (earn a coin target before the time runs out) and **Free Soul** (no timer, break everything).
 - A cat that walks, runs, jumps, swats, pounces and gets the zoomies.
 - A shop with fur colors, collars and hats, bought with coins or earned with 3 stars in a room.

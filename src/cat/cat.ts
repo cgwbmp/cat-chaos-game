@@ -12,11 +12,20 @@ import { findCosmetic } from '../core/cosmetics';
 import { readExtras } from '../core/extras';
 import type { Services, System } from '../core/services';
 import type { CatAction } from '../core/types';
-import { confine, headLean, moveSpeed, pounceImpulse, swatImpulse, turnTowards } from './abilities';
+import {
+  confine,
+  headLean,
+  moveSpeed,
+  pounceImpulse,
+  standsIn,
+  swatImpulse,
+  turnTowards,
+} from './abilities';
 import { createCatAnimator } from './animation';
 import { createCatModel } from './model';
 import {
   AIR_ACCELERATION,
+  BOUNCE_JUMP_SPEED,
   BUMP_HOP,
   BUMP_SPEED,
   CAPSULE_HEIGHT,
@@ -112,6 +121,8 @@ export function createCat(services: Services): System {
   let masses = new Map<string, number>();
   /** Wet floor zones (`trigger:zone_wet...` markers): boxes where the cat slides. */
   let wetZones: Zone[] = [];
+  /** Springy surfaces (`trigger:zone_bounce...` markers): a jump from one goes much higher. */
+  let bounceZones: Zone[] = [];
   /**
    * Invisible walls and ceiling (`trigger:zone_room` marker), as the box the capsule's center
    * may be in. Keeps the cat from walking off the open side of the room or jumping over a wall.
@@ -287,15 +298,8 @@ export function createCat(services: Services): System {
     const support = controller.checkSupport(dt, DOWN);
     const current = controller.getVelocity().clone();
     const here = controller.getPosition();
-    const wet = wetZones.some(
-      ({ min, max }) =>
-        here.x > min.x &&
-        here.x < max.x &&
-        here.z > min.z &&
-        here.z < max.z &&
-        here.y - FOOT_OFFSET > min.y - 0.1 &&
-        here.y - FOOT_OFFSET < max.y,
-    );
+    const feet = { x: here.x, y: here.y - FOOT_OFFSET, z: here.z };
+    const wet = wetZones.some((zone) => standsIn(zone, feet));
     controller.acceleration = wet ? WET_RESPONSE : GROUND_RESPONSE;
     const supported = support.supportedState === CharacterSupportedState.SUPPORTED;
     const wasGrounded = grounded;
@@ -357,7 +361,8 @@ export function createCat(services: Services): System {
     }
     if (!velocity && canJump && time - jumpPressedAt <= JUMP_BUFFER_SEC) {
       velocity = desired.clone();
-      velocity.y = JUMP_SPEED;
+      const springy = bounceZones.some((zone) => standsIn(zone, feet));
+      velocity.y = springy ? BOUNCE_JUMP_SPEED : JUMP_SPEED;
       jumping = true;
       jumpStartedAt = time;
       jumpPressedAt = -Infinity;
@@ -412,6 +417,7 @@ export function createCat(services: Services): System {
       masses = new Map(objects.map((def) => [def.id, def.massKg]));
       spawn.setAll(0);
       wetZones = [];
+      bounceZones = [];
       roomZone = undefined;
       for (const node of scene.transformNodes) {
         const { marker } = readExtras(node);
@@ -419,6 +425,7 @@ export function createCat(services: Services): System {
         node.computeWorldMatrix(true);
         if (marker === 'cat_spawn') spawn.copyFrom(node.getAbsolutePosition());
         if (marker.startsWith('trigger:zone_wet')) wetZones.push(zoneBox(node));
+        if (marker.startsWith('trigger:zone_bounce')) bounceZones.push(zoneBox(node));
         if (marker === 'trigger:zone_room') {
           roomZone = zoneBox(node);
           roomZone.min.addInPlaceFromFloats(CAPSULE_RADIUS, 0, CAPSULE_RADIUS);

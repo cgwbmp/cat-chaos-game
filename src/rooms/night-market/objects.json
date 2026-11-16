@@ -1,0 +1,258 @@
+[
+  {
+    "id": "gold_pig",
+    "name": "Golden Pig Money Box",
+    "tier": "treasure",
+    "coins": 15000,
+    "massKg": 2.5,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 1
+    },
+    "meshNode": "gold_pig"
+  },
+  {
+    "id": "tablecloth_a",
+    "name": "Tablecloth",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.5,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "cloth_a"
+    },
+    "meshNode": "tablecloth",
+    "special": "tablecloth"
+  },
+  {
+    "id": "tablecloth_c",
+    "name": "Tablecloth",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.5,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "cloth_c"
+    },
+    "meshNode": "tablecloth",
+    "special": "tablecloth"
+  },
+  {
+    "id": "bowl_stack",
+    "name": "Bowl Stack",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.8,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "bowl_stack",
+    "special": "stack"
+  },
+  {
+    "id": "cup_tower",
+    "name": "Paper Cup Tower",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.8,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "cup_tower",
+    "special": "stack"
+  },
+  {
+    "id": "grill",
+    "name": "Skewer Grill",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 3,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "grill",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "fishcake_pot",
+    "name": "Fish Cake Pot",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2.5,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.7
+    },
+    "meshNode": "pot",
+    "special": "liquid"
+  },
+  {
+    "id": "hanging_lantern",
+    "name": "Hanging Lantern",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 0.8,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.8
+    },
+    "meshNode": "hanging_lantern"
+  },
+  {
+    "id": "stool",
+    "name": "Plastic Stool",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "plastic",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "stool"
+  },
+  {
+    "id": "crate",
+    "name": "Bottle Crate",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 4
+    },
+    "meshNode": "crate"
+  },
+  {
+    "id": "sauce_jar",
+    "name": "Sauce Jar",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "jar"
+  },
+  {
+    "id": "lantern",
+    "name": "Table Lantern",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "lantern"
+  },
+  {
+    "id": "bucket",
+    "name": "Water Bucket",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.2,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "bucket",
+    "special": "liquid"
+  },
+  {
+    "id": "bottle",
+    "name": "Green Bottle",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.7,
+    "material": "glass",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "bottle",
+    "special": "liquid"
+  },
+  {
+    "id": "bowl",
+    "name": "Noodle Bowl",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.3,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.7
+    },
+    "meshNode": "bowl"
+  },
+  {
+    "id": "kettle",
+    "name": "Brass Kettle",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 1,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.7
+    },
+    "meshNode": "kettle",
+    "special": "liquid"
+  },
+  {
+    "id": "skewer_stand",
+    "name": "Fish Cake Skewers",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.5,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "skewer_stand"
+  },
+  {
+    "id": "glass",
+    "name": "Glass",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.6
+    },
+    "meshNode": "glass"
+  },
+  {
+    "id": "cup",
+    "name": "Paper Cup",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 1
+    },
+    "meshNode": "cup"
+  }
+]

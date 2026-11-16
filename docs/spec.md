@@ -319,6 +319,21 @@ Seven room agents run at the same time, each confined to `src/rooms/<room-id>/` 
 | 7 | `wooden-house` Traditional Wooden House | 120 s / 9,000 | \~19,000 | 40–55 | Celadon vase | Paper sliding doors you can tear through; fragile pottery on low tables |
 | 8 | `bathhouse` Spa & Bathhouse (finale) | 150 s / 12,000 | \~26,000 | 60–80 | Golden towel-hat trophy | Slippery wet floors change cat movement; large multi-room layout |
 
+**More rooms** (added after the first eight; same shared brief, one branch `p3/rooms-9-16`)
+
+| # | Room id / name | Mission | Room total | Breakables | Treasure | Signature mechanic |
+| --- | --- | --- | --- | --- | --- | --- |
+| 9 | `karaoke-room` Karaoke Room | 140 s / 12,500 | \~28,000 | 60–75 | Crystal disco ball | Springy sofas: a jump from a seat goes about twice as high; the disco ball and lanterns hang from a beam and fall when the cat jumps into them |
+| 10 | `flower-shop` Flower Shop | 140 s / 13,000 | \~30,000 | 60–75 | Rare orchid in a golden pot | Stepped stand of flower buckets; hanging planters over the counter; wet floor by the sink |
+| 11 | `comic-cafe` Comic Book Café | 150 s / 13,500 | \~31,000 | 65–80 | Golden robot figure | Bookcases topple like dominoes; the treasure shelf is 2 m up and needs a jump from a springy beanbag |
+| 12 | `night-market` Night Market Food Tent | 150 s / 14,000 | \~33,000 | 65–80 | Golden pig money box | Hanging lanterns over the counter; grills spark; spilled broth makes the floor wet; tablecloths |
+| 13 | `classroom` School Classroom | 160 s / 14,500 | \~34,000 | 65–80 | Golden apple award | A cleaning robot patrols the aisles; planet mobiles hang over the teacher's desk; globes roll |
+| 14 | `rooftop-garden` Rooftop Garden | 160 s / 15,000 | \~35,500 | 65–80 | Prize bonsai | Kimchi jars need a pounce from the deck; a line of hanging lanterns and planters; wet lawn |
+| 15 | `pottery-gallery` Pottery Gallery | 170 s / 15,500 | \~37,000 | 60–75 | White moon jar | Plinths rise like stairs to the treasure; two cleaning robots circle on opposite sides; hanging mobiles |
+| 16 | `penthouse` Luxury Penthouse (new finale) | 180 s / 16,500 | \~40,000 | 70–85 | Crystal chandelier | Everything at once: springy sofa, hanging chandelier, tablecloth, wet floor around the pool, a robot vacuum |
+
+Rooms 9–16 use two behaviors added with them: springy surfaces (`trigger:zone_bounce...` markers, read by `src/cat/`) and hanging objects (`trigger:zone_hang...` markers, read by `src/physics/`). Both are described in `docs/room-template.md`.
+
 The Pop Star Dorm patrol needs a new "walker" behavior. Treat it as the one planned engine change: a systems agent adds it to `src/game/` before or during Phase 3, and the dorm agent stubs it until then.
 
 **Unlocks:** room N needs 2 × (N − 1) total stars. Cosmetic unlocks per room: one hat or collar for 3 stars.

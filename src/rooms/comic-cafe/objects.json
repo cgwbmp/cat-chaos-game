@@ -1,0 +1,285 @@
+[
+  {
+    "id": "robot_figure",
+    "name": "Golden Robot Figure",
+    "tier": "treasure",
+    "coins": 14000,
+    "massKg": 1.5,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 1.2
+    },
+    "meshNode": "robot_figure"
+  },
+  {
+    "id": "comic_stack",
+    "name": "Comic Stack",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 1.6,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "book_stack",
+    "special": "stack"
+  },
+  {
+    "id": "game_stack",
+    "name": "Board Game Stack",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 1.5,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "album_stack",
+    "special": "stack"
+  },
+  {
+    "id": "cup_tower",
+    "name": "Cup Tower",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.8,
+    "material": "plastic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "cup_tower",
+    "special": "stack"
+  },
+  {
+    "id": "bookcase",
+    "name": "Comic Bookcase",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 8,
+    "material": "wood",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.3
+    },
+    "meshNode": "bookcase",
+    "special": "stack"
+  },
+  {
+    "id": "figure",
+    "name": "Collector Figure",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 0.6,
+    "material": "plastic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.8
+    },
+    "meshNode": "figurine"
+  },
+  {
+    "id": "console",
+    "name": "Game Console",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2.5,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.3
+    },
+    "meshNode": "console",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "ramen_pot",
+    "name": "Ramen Pot",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2.5,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.7
+    },
+    "meshNode": "pot",
+    "special": "liquid"
+  },
+  {
+    "id": "floor_lamp",
+    "name": "Floor Lamp",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 5,
+    "material": "wood",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 9
+    },
+    "meshNode": "floor_lamp"
+  },
+  {
+    "id": "plant_big",
+    "name": "Big Plant",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 6
+    },
+    "meshNode": "plant_big"
+  },
+  {
+    "id": "speaker",
+    "name": "Radio",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 3,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.35
+    },
+    "meshNode": "speaker",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "laptop",
+    "name": "Laptop",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.8,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "laptop",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "crate",
+    "name": "Comic Crate",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 4
+    },
+    "meshNode": "crate"
+  },
+  {
+    "id": "reading_lamp",
+    "name": "Reading Lamp",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 1.2,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "desk_lamp"
+  },
+  {
+    "id": "kettle",
+    "name": "Kettle",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 1,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.7
+    },
+    "meshNode": "kettle",
+    "special": "liquid"
+  },
+  {
+    "id": "plush",
+    "name": "Mascot Plush",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.4,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "plush"
+  },
+  {
+    "id": "magazine_stack",
+    "name": "Magazine Stack",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 1.5,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "magazine_stack",
+    "special": "stack"
+  },
+  {
+    "id": "mug",
+    "name": "Mug",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.3,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.9
+    },
+    "meshNode": "mug"
+  },
+  {
+    "id": "noodle_cup",
+    "name": "Instant Noodle Cup",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.15,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "noodle_cup"
+  },
+  {
+    "id": "book",
+    "name": "Comic Book",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.4,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "book"
+  },
+  {
+    "id": "cushion",
+    "name": "Cushion",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.8,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "cushion"
+  }
+]

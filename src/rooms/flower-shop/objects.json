@@ -1,0 +1,232 @@
+[
+  {
+    "id": "orchid_gold",
+    "name": "Rare Orchid in a Golden Pot",
+    "tier": "treasure",
+    "coins": 13000,
+    "massKg": 2,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 1
+    },
+    "meshNode": "orchid_gold"
+  },
+  {
+    "id": "wrap_cloth",
+    "name": "Wrapping Cloth",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.5,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "wrap"
+    },
+    "meshNode": "tablecloth",
+    "special": "tablecloth"
+  },
+  {
+    "id": "gift_stack",
+    "name": "Gift Box Stack",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 1.5,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "album_stack",
+    "special": "stack"
+  },
+  {
+    "id": "pot_tower",
+    "name": "Flowerpot Tower",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.8,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "cup_tower",
+    "special": "stack"
+  },
+  {
+    "id": "flower_bucket",
+    "name": "Flower Bucket",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "metal",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "flower_bucket",
+    "special": "liquid"
+  },
+  {
+    "id": "vase_tall",
+    "name": "Tall Vase",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.4,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 3
+    },
+    "meshNode": "vase_tall",
+    "special": "liquid"
+  },
+  {
+    "id": "terrarium",
+    "name": "Terrarium",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.4,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 3
+    },
+    "meshNode": "terrarium"
+  },
+  {
+    "id": "hanging_planter",
+    "name": "Hanging Planter",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.8
+    },
+    "meshNode": "hanging_planter"
+  },
+  {
+    "id": "planter_pot",
+    "name": "Ceramic Planter",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "jar"
+  },
+  {
+    "id": "bucket",
+    "name": "Water Bucket",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.2,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "bucket",
+    "special": "liquid"
+  },
+  {
+    "id": "plant_big",
+    "name": "Big Plant",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 6
+    },
+    "meshNode": "plant_big"
+  },
+  {
+    "id": "crate",
+    "name": "Seedling Crate",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 4
+    },
+    "meshNode": "crate"
+  },
+  {
+    "id": "bouquet",
+    "name": "Bouquet",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.3,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "bouquet"
+  },
+  {
+    "id": "vase",
+    "name": "Flower Vase",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.9,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 2.5
+    },
+    "meshNode": "vase",
+    "special": "liquid"
+  },
+  {
+    "id": "watering_can",
+    "name": "Watering Can",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.9,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "watering_can",
+    "special": "liquid"
+  },
+  {
+    "id": "basket",
+    "name": "Flower Basket",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.8,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "basket"
+  },
+  {
+    "id": "ribbon_roll",
+    "name": "Ribbon Roll",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.15,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "ribbon_roll",
+    "special": "rolling"
+  }
+]

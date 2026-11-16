@@ -4,12 +4,15 @@ import {
   headLean,
   moveSpeed,
   pounceImpulse,
+  standsIn,
   swatImpulse,
   turnTowards,
 } from '../../src/cat/abilities';
 import {
+  BOUNCE_JUMP_SPEED,
   HEAD_LEAN,
   HEAD_LEAN_SPEED,
+  JUMP_SPEED,
   POUNCE_BASE_IMPULSE,
   POUNCE_IMPULSE_PER_SPEED,
   POUNCE_SPEED,
@@ -253,5 +256,28 @@ describe('confine', () => {
     expect(confine(position, velocity, room)).toBe(false);
     expect(position.y).toBe(-3);
     expect(velocity.y).toBe(-9);
+  });
+});
+
+describe('standsIn', () => {
+  // A sofa seat 0.4 m up: the zone lies on it.
+  const seat = { min: { x: -1, y: 0.4, z: -0.4 }, max: { x: 1, y: 0.9, z: 0.4 } };
+
+  it('is true for feet on the surface the zone lies on', () => {
+    expect(standsIn(seat, { x: 0.5, y: 0.43, z: 0 })).toBe(true);
+    expect(standsIn(seat, { x: 0.5, y: 0.35, z: 0 })).toBe(true);
+  });
+
+  it('is false beside the zone, on the floor under it and above it', () => {
+    expect(standsIn(seat, { x: 1.1, y: 0.43, z: 0 })).toBe(false);
+    expect(standsIn(seat, { x: 0.5, y: 0.43, z: 0.5 })).toBe(false);
+    expect(standsIn(seat, { x: 0.5, y: 0.03, z: 0 })).toBe(false);
+    expect(standsIn(seat, { x: 0.5, y: 1, z: 0 })).toBe(false);
+  });
+});
+
+describe('bounce jump', () => {
+  it('starts faster than a jump from the floor', () => {
+    expect(BOUNCE_JUMP_SPEED).toBeGreaterThan(JUMP_SPEED * 1.25);
   });
 });
