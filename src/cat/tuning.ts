@@ -34,6 +34,9 @@ export const TERMINAL_SPEED = 14;
 /** Full jump (button held) reaches about 1.1 m; a tap reaches about 0.75 m. */
 export const JUMP_HEIGHT = 1.17;
 export const JUMP_SPEED = Math.sqrt(2 * -GRAVITY * JUMP_HEIGHT);
+/** A jump from a springy surface (a `trigger:zone_bounce...` marker); held, it reaches about 1.9 m. */
+export const BOUNCE_JUMP_HEIGHT = 2;
+export const BOUNCE_JUMP_SPEED = Math.sqrt(2 * -GRAVITY * BOUNCE_JUMP_HEIGHT);
 /** Releasing the button caps the upward speed at this, after MIN_JUMP_SEC. */
 export const JUMP_CUT_SPEED = 3;
 export const MIN_JUMP_SEC = 0.09;

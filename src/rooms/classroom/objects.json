@@ -1,0 +1,297 @@
+[
+  {
+    "id": "gold_apple",
+    "name": "Golden Apple Award",
+    "tier": "treasure",
+    "coins": 16000,
+    "massKg": 2,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 1
+    },
+    "meshNode": "gold_apple"
+  },
+  {
+    "id": "textbook_stack",
+    "name": "Textbook Stack",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 1.6,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "book_stack",
+    "special": "stack"
+  },
+  {
+    "id": "desk_mat",
+    "name": "Desk Mat",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.4,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "desk_mat"
+    },
+    "meshNode": "mat",
+    "special": "tablecloth"
+  },
+  {
+    "id": "folder_stack",
+    "name": "Art Folder Stack",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 1.5,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "album_stack",
+    "special": "stack"
+  },
+  {
+    "id": "globe",
+    "name": "Globe",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.2,
+    "material": "plastic",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "globe",
+    "special": "rolling"
+  },
+  {
+    "id": "beaker_rack",
+    "name": "Beaker Rack",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 0.9,
+    "material": "glass",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "beaker_rack",
+    "special": "liquid"
+  },
+  {
+    "id": "microscope",
+    "name": "Microscope",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "microscope"
+  },
+  {
+    "id": "planet_mobile",
+    "name": "Planet Mobile",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 0.6,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.8
+    },
+    "meshNode": "planet_mobile"
+  },
+  {
+    "id": "laptop",
+    "name": "Laptop",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.8,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "laptop",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "monitor",
+    "name": "Class Computer",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 5,
+    "material": "electronic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 14
+    },
+    "meshNode": "monitor",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "plant_big",
+    "name": "Big Plant",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 6
+    },
+    "meshNode": "plant_big"
+  },
+  {
+    "id": "speaker",
+    "name": "Class Speaker",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 3,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.35
+    },
+    "meshNode": "speaker",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "crate",
+    "name": "Ball Crate",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 4
+    },
+    "meshNode": "crate"
+  },
+  {
+    "id": "paint_jar",
+    "name": "Paint Jar",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "jar",
+    "special": "liquid"
+  },
+  {
+    "id": "trophy",
+    "name": "Sports Trophy",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "trophy"
+  },
+  {
+    "id": "backpack",
+    "name": "Backpack",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 1,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "backpack"
+  },
+  {
+    "id": "desk_lamp",
+    "name": "Desk Lamp",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 1.2,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "desk_lamp"
+  },
+  {
+    "id": "clock",
+    "name": "Desk Clock",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.4,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "clock"
+  },
+  {
+    "id": "plant_small",
+    "name": "Potted Plant",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 1.2,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "plant_small"
+  },
+  {
+    "id": "pencil_cup",
+    "name": "Pencil Cup",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.15,
+    "material": "plastic",
+    "break": {
+      "kind": "hits",
+      "count": 1
+    },
+    "meshNode": "pencil_cup"
+  },
+  {
+    "id": "book",
+    "name": "Book",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.4,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "book"
+  },
+  {
+    "id": "mug",
+    "name": "Mug",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.3,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.9
+    },
+    "meshNode": "mug"
+  }
+]

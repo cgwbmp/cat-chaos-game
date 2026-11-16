@@ -1,0 +1,300 @@
+[
+  {
+    "id": "disco_ball",
+    "name": "Crystal Disco Ball",
+    "tier": "treasure",
+    "coins": 12000,
+    "massKg": 2.5,
+    "material": "glass",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 1
+    },
+    "meshNode": "disco_ball"
+  },
+  {
+    "id": "table_runner",
+    "name": "Table Runner",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.5,
+    "material": "fabric",
+    "break": {
+      "kind": "trigger",
+      "triggerId": "runner"
+    },
+    "meshNode": "tablecloth",
+    "special": "tablecloth"
+  },
+  {
+    "id": "songbook_stack",
+    "name": "Songbook Stack",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 1.6,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "book_stack",
+    "special": "stack"
+  },
+  {
+    "id": "cup_tower",
+    "name": "Cup Tower",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.8,
+    "material": "plastic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "cup_tower",
+    "special": "stack"
+  },
+  {
+    "id": "speaker",
+    "name": "Party Speaker",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 3,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.35
+    },
+    "meshNode": "speaker",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "karaoke_machine",
+    "name": "Karaoke Machine",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 3,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.35
+    },
+    "meshNode": "karaoke_machine",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "neon_sign",
+    "name": "Neon Sign",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.2,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "neon_sign",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "monitor",
+    "name": "Lyrics Screen",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 5,
+    "material": "electronic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 14
+    },
+    "meshNode": "monitor",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "floor_lamp",
+    "name": "Floor Lamp",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 5,
+    "material": "wood",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 9
+    },
+    "meshNode": "floor_lamp"
+  },
+  {
+    "id": "ring_light",
+    "name": "Stage Light",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2.5,
+    "material": "electronic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 6
+    },
+    "meshNode": "ring_light",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "hanging_lantern",
+    "name": "Party Lantern",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 0.8,
+    "material": "paper",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.8
+    },
+    "meshNode": "hanging_lantern"
+  },
+  {
+    "id": "laptop",
+    "name": "Song Tablet",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.8,
+    "material": "electronic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.6
+    },
+    "meshNode": "laptop",
+    "special": "electronic_spark"
+  },
+  {
+    "id": "plant_big",
+    "name": "Big Plant",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 6
+    },
+    "meshNode": "plant_big"
+  },
+  {
+    "id": "crate",
+    "name": "Drink Crate",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 4
+    },
+    "meshNode": "crate"
+  },
+  {
+    "id": "tambourine",
+    "name": "Tambourine",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.3,
+    "material": "wood",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "tambourine"
+  },
+  {
+    "id": "hand_mic",
+    "name": "Microphone",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.3,
+    "material": "metal",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "hand_mic",
+    "special": "rolling"
+  },
+  {
+    "id": "bottle",
+    "name": "Soda Bottle",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.7,
+    "material": "glass",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "bottle",
+    "special": "liquid"
+  },
+  {
+    "id": "mic_stand",
+    "name": "Mic Stand",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.8,
+    "material": "metal",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "mic"
+  },
+  {
+    "id": "can",
+    "name": "Soda Can",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.35,
+    "material": "metal",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "can",
+    "special": "rolling"
+  },
+  {
+    "id": "glass",
+    "name": "Glass",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.6
+    },
+    "meshNode": "glass"
+  },
+  {
+    "id": "remote",
+    "name": "Remote",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "electronic",
+    "break": {
+      "kind": "hits",
+      "count": 1
+    },
+    "meshNode": "phone"
+  },
+  {
+    "id": "cushion",
+    "name": "Sofa Cushion",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.8,
+    "material": "fabric",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "cushion"
+  }
+]

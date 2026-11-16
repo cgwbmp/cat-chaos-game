@@ -7,16 +7,32 @@ import { summarizeRoom } from '../../src/rooms/_kit/checks';
 import type { Part, RoomLayout } from '../../src/rooms/_kit/parts';
 import { layout as bathhouse } from '../../src/rooms/bathhouse/layout';
 import bathhouseObjects from '../../src/rooms/bathhouse/objects.json';
+import { layout as classroom, PATROL as classroomPatrol } from '../../src/rooms/classroom/layout';
+import classroomObjects from '../../src/rooms/classroom/objects.json';
+import { layout as comics } from '../../src/rooms/comic-cafe/layout';
+import comicsObjects from '../../src/rooms/comic-cafe/objects.json';
 import { layout as store } from '../../src/rooms/convenience-store/layout';
 import storeObjects from '../../src/rooms/convenience-store/objects.json';
 import { layout as cafe } from '../../src/rooms/cozy-cafe/layout';
 import cafeObjects from '../../src/rooms/cozy-cafe/objects.json';
+import { layout as flowers } from '../../src/rooms/flower-shop/layout';
+import flowersObjects from '../../src/rooms/flower-shop/objects.json';
 import { layout as gaming } from '../../src/rooms/gaming-cafe/layout';
 import gamingObjects from '../../src/rooms/gaming-cafe/objects.json';
 import { layout as grandma } from '../../src/rooms/grandmas-house/layout';
 import grandmaObjects from '../../src/rooms/grandmas-house/objects.json';
+import { layout as karaoke } from '../../src/rooms/karaoke-room/layout';
+import karaokeObjects from '../../src/rooms/karaoke-room/objects.json';
+import { layout as market } from '../../src/rooms/night-market/layout';
+import marketObjects from '../../src/rooms/night-market/objects.json';
+import { layout as penthouse, PATROL as penthousePatrol } from '../../src/rooms/penthouse/layout';
+import penthouseObjects from '../../src/rooms/penthouse/objects.json';
 import { layout as dorm, PATROL } from '../../src/rooms/pop-star-dorm/layout';
 import dormObjects from '../../src/rooms/pop-star-dorm/objects.json';
+import { layout as gallery, PATROL as galleryPatrol } from '../../src/rooms/pottery-gallery/layout';
+import galleryObjects from '../../src/rooms/pottery-gallery/objects.json';
+import { layout as rooftop } from '../../src/rooms/rooftop-garden/layout';
+import rooftopObjects from '../../src/rooms/rooftop-garden/objects.json';
 import { layout as studio } from '../../src/rooms/tiny-studio/layout';
 import studioObjects from '../../src/rooms/tiny-studio/objects.json';
 import { layout as wooden } from '../../src/rooms/wooden-house/layout';
@@ -97,6 +113,70 @@ const BRIEFS: Brief[] = [
     breakables: [60, 80],
     total: 26000,
     targetCoins: 12000,
+  },
+  {
+    id: 'karaoke-room',
+    layout: karaoke,
+    objects: karaokeObjects,
+    breakables: [60, 75],
+    total: 28000,
+    targetCoins: 12500,
+  },
+  {
+    id: 'flower-shop',
+    layout: flowers,
+    objects: flowersObjects,
+    breakables: [60, 75],
+    total: 30000,
+    targetCoins: 13000,
+  },
+  {
+    id: 'comic-cafe',
+    layout: comics,
+    objects: comicsObjects,
+    breakables: [65, 80],
+    total: 31000,
+    targetCoins: 13500,
+  },
+  {
+    id: 'night-market',
+    layout: market,
+    objects: marketObjects,
+    breakables: [65, 80],
+    total: 33000,
+    targetCoins: 14000,
+  },
+  {
+    id: 'classroom',
+    layout: classroom,
+    objects: classroomObjects,
+    breakables: [65, 80],
+    total: 34000,
+    targetCoins: 14500,
+  },
+  {
+    id: 'rooftop-garden',
+    layout: rooftop,
+    objects: rooftopObjects,
+    breakables: [65, 80],
+    total: 35500,
+    targetCoins: 15000,
+  },
+  {
+    id: 'pottery-gallery',
+    layout: gallery,
+    objects: galleryObjects,
+    breakables: [60, 75],
+    total: 37000,
+    targetCoins: 15500,
+  },
+  {
+    id: 'penthouse',
+    layout: penthouse,
+    objects: penthouseObjects,
+    breakables: [70, 85],
+    total: 40000,
+    targetCoins: 16500,
   },
 ];
 
@@ -233,9 +313,38 @@ describe.each(BRIEFS)('room $id', ({ id, layout, objects, breakables, total, tar
   });
 });
 
-describe('pop star dorm patrol', () => {
+describe.each([
+  ['pop star dorm', PATROL],
+  ['classroom', classroomPatrol],
+  ['pottery gallery', galleryPatrol],
+  ['penthouse', penthousePatrol],
+])('%s patrol', (_room, patrol) => {
   it('is a loop of at least three corners on the floor', () => {
-    expect(PATROL.length).toBeGreaterThanOrEqual(3);
-    expect(PATROL.every(([, y]) => y === 0)).toBe(true);
+    expect(patrol.length).toBeGreaterThanOrEqual(3);
+    expect(patrol.every(([, y]) => y === 0)).toBe(true);
+  });
+});
+
+describe.each(BRIEFS)('room $id zones', ({ layout }) => {
+  const zones = (prefix: string) =>
+    layout.markers.filter(({ marker }) => marker.startsWith(`trigger:zone_${prefix}`));
+  const inside = (zone: RoomLayout['markers'][number], [x, y, z]: readonly number[]): boolean =>
+    [x, y, z].every(
+      (value, axis) =>
+        Math.abs((value ?? 0) - (zone.at[axis] ?? 0)) < (zone.scale?.[axis] ?? 0) / 2,
+    );
+
+  it('hangs something in every hang zone, well clear of the floor', () => {
+    for (const zone of zones('hang')) {
+      const hung = layout.objects.filter(({ at }) => inside(zone, [at[0], at[1] + 0.1, at[2]]));
+      expect(hung.length, zone.marker).toBeGreaterThan(0);
+      for (const { def, at } of hung) expect(at[1], def).toBeGreaterThanOrEqual(1);
+    }
+  });
+
+  it('gives every zone a size', () => {
+    for (const zone of [...zones('hang'), ...zones('bounce'), ...zones('wet')]) {
+      expect(Math.min(...(zone.scale ?? [0])), zone.marker).toBeGreaterThan(0);
+    }
   });
 });

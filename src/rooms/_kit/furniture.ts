@@ -55,6 +55,36 @@ export function roomZone(
   return { marker: 'trigger:zone_room', at: [0, height / 2, 0], scale: [width, height, depth] };
 }
 
+/**
+ * Marker for a springy surface such as a sofa seat or a beanbag: a jump from it goes much
+ * higher. `at` is the center of the surface.
+ */
+export function bounceZone(
+  id: string,
+  at: Triple,
+  width: number,
+  depth: number,
+): RoomLayout['markers'][number] {
+  return {
+    marker: `trigger:zone_bounce_${id}`,
+    at: [at[0], at[1] + 0.25, at[2]],
+    scale: [width, 0.5, depth],
+  };
+}
+
+/**
+ * Marker for a hang zone: breakables that start inside it hang in the air until a swat, the
+ * cat or another object moves them, then they fall. `at` is the center of the zone.
+ */
+export function hangZone(id: string, at: Triple, scale: Triple): RoomLayout['markers'][number] {
+  return { marker: `trigger:zone_hang_${id}`, at, scale };
+}
+
+/** A ceiling beam along x that hanging props hang from; `at` is the center of its underside. */
+export function beam(length: number, color: Color): Part[] {
+  return [box(length, 0.12, 0.14, color)];
+}
+
 /** An inner wall along x (a partition), with an optional doorway gap. */
 export function partition(
   length: number,
@@ -273,6 +303,15 @@ export function sofa(width: number, color: Color): Part[] {
     box(width, 0.5, 0.2, color, [0, 0.4, 0.3]),
     box(0.18, 0.2, 0.8, color, [-width / 2 + 0.09, 0.4, 0]),
     box(0.18, 0.2, 0.8, color, [width / 2 - 0.09, 0.4, 0]),
+  ];
+}
+
+/** A beanbag chair; its top, at 0.4 m, is a surface to stand on (pair it with a `bounceZone`). */
+export function beanbag(color: Color): Part[] {
+  return [
+    cyl(0.9, 0.28, color, [0, 0, 0], { top: 0.8, sides: 8 }),
+    cyl(0.8, 0.12, color, [0, 0.28, 0], { top: 0.6, sides: 8 }),
+    cyl(0.3, 0.006, shadow(color), [0, 0.4, 0], { sides: 8 }),
   ];
 }
 

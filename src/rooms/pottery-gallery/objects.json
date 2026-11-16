@@ -1,0 +1,201 @@
+[
+  {
+    "id": "moon_jar",
+    "name": "White Moon Jar",
+    "tier": "treasure",
+    "coins": 18000,
+    "massKg": 3,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 1
+    },
+    "meshNode": "moon_jar"
+  },
+  {
+    "id": "display_case",
+    "name": "Glass Display Case",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 6,
+    "material": "glass",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 14
+    },
+    "meshNode": "display_case"
+  },
+  {
+    "id": "bowl_tower",
+    "name": "Tea Bowl Tower",
+    "tier": "trick",
+    "coins": 500,
+    "massKg": 0.8,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.5
+    },
+    "meshNode": "cup_tower",
+    "special": "stack"
+  },
+  {
+    "id": "celadon_vase",
+    "name": "Celadon Vase",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "celadon_vase"
+  },
+  {
+    "id": "vase_tall",
+    "name": "Tall Porcelain Vase",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.4,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 3
+    },
+    "meshNode": "vase_tall"
+  },
+  {
+    "id": "pottery_bowl",
+    "name": "Pottery Bowl",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 0.6,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 0.9
+    },
+    "meshNode": "pottery_bowl"
+  },
+  {
+    "id": "clay_jar",
+    "name": "Clay Jar",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.5,
+    "material": "ceramic",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.4
+    },
+    "meshNode": "jar"
+  },
+  {
+    "id": "sculpture",
+    "name": "Ceramic Sculpture",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1.4,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 3
+    },
+    "meshNode": "sculpture"
+  },
+  {
+    "id": "art_mobile",
+    "name": "Hanging Mobile",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 1,
+    "material": "metal",
+    "break": {
+      "kind": "fall",
+      "minHeightM": 0.8
+    },
+    "meshNode": "art_mobile"
+  },
+  {
+    "id": "stanchion",
+    "name": "Rope Post",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 2.5,
+    "material": "metal",
+    "break": {
+      "kind": "hits",
+      "count": 3
+    },
+    "meshNode": "stanchion",
+    "special": "stack"
+  },
+  {
+    "id": "plant_big",
+    "name": "Big Plant",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 6,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 6
+    },
+    "meshNode": "plant_big"
+  },
+  {
+    "id": "storage_jar",
+    "name": "Giant Storage Jar",
+    "tier": "heavy",
+    "coins": 300,
+    "massKg": 15,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 17
+    },
+    "meshNode": "jar_big"
+  },
+  {
+    "id": "teapot",
+    "name": "Teapot",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.8,
+    "material": "ceramic",
+    "break": {
+      "kind": "impact",
+      "minImpulse": 1.6
+    },
+    "meshNode": "teapot",
+    "special": "liquid"
+  },
+  {
+    "id": "scroll",
+    "name": "Painted Scroll",
+    "tier": "medium",
+    "coins": 80,
+    "massKg": 0.3,
+    "material": "paper",
+    "break": {
+      "kind": "hits",
+      "count": 2
+    },
+    "meshNode": "scroll",
+    "special": "rolling"
+  },
+  {
+    "id": "tea_bowl",
+    "name": "Tea Bowl",
+    "tier": "light",
+    "coins": 20,
+    "massKg": 0.2,
+    "material": "ceramic",
+    "break": {
+      "kind": "hits",
+      "count": 1
+    },
+    "meshNode": "cup"
+  }
+]

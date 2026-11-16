@@ -1,5 +1,43 @@
 # Changelog
 
+## 0.2.0-alpha (2026-11-16)
+
+Eight new rooms bring the game to 16, ending in a new finale, the Luxury Penthouse. Sofas and beanbags are springy, and some objects hang from the ceiling until the cat knocks them down. The new rooms have no 3-star hat or collar yet.
+
+### In this release
+
+- Eight rooms after the Spa & Bathhouse: Karaoke Room, Flower Shop, Comic Book Café, Night Market Food Tent, School Classroom, Rooftop Garden, Pottery Gallery and Luxury Penthouse. They unlock at 16, 18, 20, 22, 24, 26, 28 and 30 stars. Their missions run from 140 seconds for 12,500 coins in the Karaoke Room to 180 seconds for 16,500 coins in the Luxury Penthouse.
+- Springy surfaces: a jump from a sofa seat or a beanbag goes about twice as high, about 1.9 m with the button held. They are in the Karaoke Room, the Comic Book Café and the Luxury Penthouse. The treasure shelf in the Comic Book Café is 2 m up and needs such a jump.
+- Hanging objects: lanterns, planters, mobiles, the disco ball and the chandelier hang in the air until a swat, a jump into them or another object moves them. Then they fall. Every new room except the Comic Book Café has some.
+- Cleaning robots drive a patrol in the School Classroom (one), the Pottery Gallery (two) and the Luxury Penthouse (one). They bump the cat like the vacuum in the Pop Star Dorm.
+- Wet floors: by the sink in the Flower Shop, around spilled broth in the Night Market Food Tent, on the lawn of the Rooftop Garden and around the pool in the Luxury Penthouse.
+- Time of day in the new rooms. Sunrise: Flower Shop. Day: School Classroom, Pottery Gallery. Sunset: Comic Book Café, Rooftop Garden. Night: Karaoke Room, Night Market Food Tent, Luxury Penthouse.
+- The robot vacuum no longer shakes or throws the objects around it when the game runs below 60 frames per second.
+- Rooms screen: a list longer than the screen scrolls and every card keeps its full height. Before, the cards were squeezed and the best coins line hung out below them.
+
+### Known issues
+
+- Rooms 9 to 16 have no 3-star hat or collar: the shop lists nothing for them. Their stars are saved and count towards unlocking rooms.
+- The coin targets and time limits of the new rooms have not been tested with players.
+- The new rooms have not been checked on a real phone.
+- A full jump (button held) from right in front of a shelf still often fails: the cat rises above the gap, hits the front of the board above and drops. A short tap jump gets it onto the shelf.
+- Objects standing on a shelf can push a walking cat off the edge.
+- Mouse look has only been checked in an automated browser, which does not allow hiding the cursor, so the hidden-cursor mode was simulated. It has not been tried by hand in Chrome, Firefox or Safari.
+- After Esc, a browser may refuse to hide the cursor again for about a second, so resuming at once can leave the cursor showing until the next click on the game.
+- The vacuum and the cleaning robots have only been checked in a desktop browser, not on a real phone.
+- The vacuum drives at the manager's old speed, 1.2 m/s, which is fast for a robot vacuum. Its speed and the Pop Star Dorm coin target and time limit have not been tested with players.
+- Frame rate has only been measured in automated browsers on a desktop. It has not been measured on a real phone. The frame rate test runs in a room without lamps, so the lamp lights have not been measured; the cat on the title screen and the more detailed furniture and objects have not been measured either.
+- The cat on the title screen and in the shop has only been checked in a desktop browser at phone sizes, not on a real phone.
+- On phones the shop list has two columns beside the cat, so the hats are below the fur colors and need a scroll.
+- The collar is mostly below the edge of the screen on the title screen and in the shop.
+- Tall hats (Party Hat, Knit Bonnet) make the cat on the title screen taller than the sixth of the screen it is sized for. The Scholar Hat's brim passes through the ears, and the Towel Hat's rolls cover them.
+- The balance of coin targets and time limits has not been tested with players, and has not been retuned for the lower jump and softer swat of 0.1.1-alpha or for the changed objects in the Traditional Wooden House.
+- The cat has no mouth or whiskers, and the collars are plain shapes.
+- The debug overlay (backtick key, or a three-finger tap) is still in the build. Its buttons add coins and unlock rooms.
+- Phones must be held in landscape.
+- Builds for game portals (Poki, CrazyGames) are not part of this release and have not been tested.
+- The automated browser tests time out on phone emulation when four run at once on a development machine. They pass two at a time, which is how CI runs them.
+
 ## 0.1.3-alpha (2026-11-16)
 
 A robot vacuum replaces the manager in the Pop Star Dorm, on a computer the mouse turns the camera without holding a button, and the cat fits on shelves. The vacuum no longer spots the cat from a distance: only touching it counts, so getting past it is easier than in 0.1.2-alpha.

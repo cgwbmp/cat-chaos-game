@@ -70,7 +70,8 @@ export function createWalkerView(scene: Scene, id: string, pose: WalkerPose): Wa
   material.specularColor = Color3.Black();
   mesh.material = material;
   mesh.position.set(pose.position.x, pose.position.y, pose.position.z);
-  mesh.rotationQuaternion = Quaternion.Identity();
+  const rotation = Quaternion.Identity();
+  mesh.rotationQuaternion = rotation;
 
   const aggregate = new PhysicsAggregate(
     mesh,
@@ -84,16 +85,24 @@ export function createWalkerView(scene: Scene, id: string, pose: WalkerPose): Wa
     scene,
   );
   aggregate.body.setMotionType(PhysicsMotionType.ANIMATED);
+  // The body follows the mesh: it is moved to where the mesh is before every physics step. A
+  // target transform instead overshoots and swings back on every frame longer than 1/60 s,
+  // which throws the objects around the walker.
   aggregate.body.disablePreStep = false;
 
-  const target = new Vector3();
-  const rotation = Quaternion.Identity();
+  const last = mesh.position.clone();
+  const velocity = new Vector3();
 
   return {
     moveTo({ position, heading }) {
-      target.set(position.x, position.y, position.z);
+      mesh.position.set(position.x, position.y, position.z);
       Quaternion.FromEulerAnglesToRef(0, Math.atan2(heading.x, heading.z), 0, rotation);
-      aggregate.body.setTargetTransform(target, rotation);
+      // The speed it drives at, so that it shoves what is in its way instead of passing through.
+      const dt = Math.min(scene.getEngine().getDeltaTime() / 1000, 0.1);
+      mesh.position.subtractToRef(last, velocity);
+      if (dt > 0) velocity.scaleInPlace(1 / dt);
+      aggregate.body.setLinearVelocity(velocity);
+      last.copyFrom(mesh.position);
     },
     dispose() {
       aggregate.dispose();

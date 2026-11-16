@@ -59,6 +59,24 @@ function goods(y: number, colors: readonly Color[]): Part[] {
   );
 }
 
+/**
+ * A hanging prop is placed with its base this far under a beam. Its cord ends 3 cm short of the
+ * beam, so the prop does not start in contact with it.
+ */
+export const HANG_DROP = 0.9;
+
+/** The cord of a hanging prop whose body is `body` tall. */
+function cord(body: number, color: Color): Part {
+  return cyl(0.014, HANG_DROP - 0.03 - body, color, [0, body, 0], { sides: 6 });
+}
+
+/** Book spines on one level of the `bookcase`, showing on both sides like `goods`. */
+function spines(y: number, colors: readonly Color[]): Part[] {
+  return colors.map((color, index) =>
+    box(0.09, 0.26 + (index % 3) * 0.03, 0.31, color, [-0.34 + index * 0.097, y, 0]),
+  );
+}
+
 export const PROPS: Record<string, Part[]> = {
   // --- Tableware -------------------------------------------------------------------------------
   cup: [
@@ -654,7 +672,353 @@ export const PROPS: Record<string, Part[]> = {
     cyl(0.268, 0.016, C.wood, [0, 0.067, 0]),
   ],
 
+  // --- Hanging pieces: a cord runs up from the body, HANG_DROP in all ----------------------------
+  disco_ball: [
+    ball(0.4, C.gray),
+    cord(0.4, C.charcoal),
+    cyl(0.404, 0.03, C.white, [0, 0.185, 0], { sides: 8 }),
+    cyl(0.33, 0.03, C.sky, [0, 0.07, 0], { sides: 8 }),
+    cyl(0.33, 0.03, C.rose, [0, 0.3, 0], { sides: 8 }),
+    cyl(0.09, 0.03, C.charcoal, [0, 0.385, 0]),
+  ],
+  hanging_lantern: [
+    cyl(0.24, 0.26, C.coral, [0, 0.03, 0], { sides: 8 }),
+    cyl(0.14, 0.03, C.charcoal, [0, 0, 0], { sides: 8 }),
+    cyl(0.14, 0.03, C.charcoal, [0, 0.29, 0], { sides: 8 }),
+    cyl(0.246, 0.02, C.gold, [0, 0.15, 0], { sides: 8 }),
+    cord(0.32, C.charcoal),
+  ],
+  hanging_planter: [
+    cyl(0.18, 0.16, C.clay, [0, 0, 0], { top: 0.26 }),
+    ball(0.26, C.leaf, [0, 0.1, 0]),
+    ball(0.12, C.mint, [0.11, 0.06, 0.03]),
+    ball(0.1, C.leaf, [-0.12, 0.04, -0.02]),
+    cyl(0.266, 0.02, C.white, [0, 0.145, 0]),
+    cord(0.3, C.woodDark),
+  ],
+  planet_mobile: [
+    ball(0.2, C.lemon),
+    cyl(0.6, 0.012, C.woodLight, [0, 0.3, 0], { sides: 10 }),
+    ball(0.1, C.blue, [0.26, 0.16, 0]),
+    ball(0.08, C.coral, [-0.18, 0.2, 0.18]),
+    ball(0.12, C.plum, [-0.1, 0.14, -0.24]),
+    ball(0.07, C.mint, [0.12, 0.21, 0.22]),
+    cyl(0.2, 0.008, C.sand, [-0.1, 0.196, -0.24], { sides: 8 }),
+    cord(0.2, C.charcoal),
+  ],
+  art_mobile: [
+    ball(0.16, C.coral, [-0.3, 0.04, 0]),
+    box(0.72, 0.02, 0.02, C.charcoal, [0, 0.3, 0]),
+    box(0.008, 0.1, 0.008, C.charcoal, [-0.3, 0.2, 0]),
+    cyl(0.18, 0.16, C.blue, [0.3, 0, 0], { top: 0, sides: 4 }),
+    box(0.008, 0.14, 0.008, C.charcoal, [0.3, 0.16, 0]),
+    box(0.14, 0.14, 0.02, C.lemon, [0, 0.1, 0]),
+    box(0.008, 0.06, 0.008, C.charcoal, [0, 0.24, 0]),
+    cord(0.32, C.charcoal),
+  ],
+  chandelier: [
+    cyl(0.56, 0.05, C.gold, [0, 0.14, 0], { sides: 10 }),
+    cyl(0.02, 0.14, C.water, [0, 0, 0], { top: 0.16, sides: 6 }),
+    cyl(0.2, 0.12, C.gold, [0, 0.19, 0], { top: 0.04 }),
+    cord(0.31, C.gold),
+    // Candles on the ring and crystal drops under it.
+    cyl(0.05, 0.1, C.lemon, [0.24, 0.19, 0], { sides: 6 }),
+    cyl(0.05, 0.1, C.lemon, [-0.24, 0.19, 0], { sides: 6 }),
+    cyl(0.05, 0.1, C.lemon, [0, 0.19, 0.24], { sides: 6 }),
+    cyl(0.05, 0.1, C.lemon, [0, 0.19, -0.24], { sides: 6 }),
+    cyl(0.01, 0.08, C.water, [0.17, 0.06, 0.17], { top: 0.06, sides: 6 }),
+    cyl(0.01, 0.08, C.water, [-0.17, 0.06, 0.17], { top: 0.06, sides: 6 }),
+    cyl(0.01, 0.08, C.water, [0.17, 0.06, -0.17], { top: 0.06, sides: 6 }),
+    cyl(0.01, 0.08, C.water, [-0.17, 0.06, -0.17], { top: 0.06, sides: 6 }),
+  ],
+
+  // --- Karaoke -----------------------------------------------------------------------------------
+  /** Lies on the table and rolls: a handle with the head at one end. */
+  hand_mic: [
+    disc(0.045, 0.18, C.charcoal, [0, 0.0375, 0], 'x'),
+    ball(0.075, C.gray, [0.11, 0, 0]),
+    disc(0.05, 0.02, C.gold, [0.07, 0.0375, 0], 'x'),
+  ],
+  tambourine: [
+    cyl(0.24, 0.05, C.woodLight, [0, 0, 0], { sides: 12 }),
+    cyl(0.2, 0.004, C.white, [0, 0.05, 0], { sides: 12 }),
+    box(0.04, 0.02, 0.012, C.gold, [0, 0.015, -0.12]),
+    box(0.04, 0.02, 0.012, C.gold, [0, 0.015, 0.12]),
+    box(0.012, 0.02, 0.04, C.gold, [-0.12, 0.015, 0]),
+    box(0.012, 0.02, 0.04, C.gold, [0.12, 0.015, 0]),
+  ],
+  karaoke_machine: [
+    box(0.36, 0.5, 0.3, C.plum),
+    box(0.26, 0.16, 0.01, C.sky, [0, 0.3, -0.152]),
+    box(0.16, 0.03, 0.014, C.rose, [-0.03, 0.4, -0.152]),
+    disc(0.16, 0.012, C.lavender, [0, 0.14, -0.152], 'z', 12),
+    disc(0.07, 0.016, C.plum, [0, 0.14, -0.153], 'z', 8),
+    box(0.03, 0.03, 0.02, C.gold, [-0.12, 0.5, 0]),
+    box(0.03, 0.03, 0.02, C.gold, [0.12, 0.5, 0]),
+  ],
+  /** A music note in lit tubes on a dark board; it faces -z. */
+  neon_sign: [
+    box(0.44, 0.36, 0.03, C.charcoal, [0, 0.02, 0]),
+    box(0.3, 0.02, 0.14, C.charcoal),
+    box(0.03, 0.2, 0.012, C.rose, [0.05, 0.12, -0.02]),
+    box(0.1, 0.07, 0.012, C.rose, [0, 0.08, -0.02]),
+    box(0.12, 0.03, 0.012, C.rose, [0.095, 0.3, -0.02]),
+    box(0.38, 0.015, 0.012, C.sky, [0, 0.045, -0.02]),
+    box(0.38, 0.015, 0.012, C.sky, [0, 0.34, -0.02]),
+  ],
+
+  // --- Flowers and garden ------------------------------------------------------------------------
+  flower_bucket: [
+    cyl(0.2, 0.3, C.sky, [0, 0, 0], { top: 0.27 }),
+    cyl(0.276, 0.02, C.white, [0, 0.285, 0]),
+    cyl(0.2, 0.08, C.leaf, [0, 0.3, 0], { top: 0.26 }),
+    ball(0.12, C.rose, [-0.06, 0.36, 0.02]),
+    ball(0.12, C.lemon, [0.06, 0.38, -0.03]),
+    ball(0.11, C.coral, [0, 0.42, 0.05]),
+    ball(0.1, C.white, [0.02, 0.35, -0.09]),
+  ],
+  bouquet: [
+    cyl(0.2, 0.22, C.peach, [0, 0, 0], { top: 0.24, sides: 8 }),
+    cyl(0.212, 0.03, C.rose, [0, 0.05, 0], { top: 0.218, sides: 8 }),
+    ball(0.11, C.rose, [-0.05, 0.2, 0]),
+    ball(0.11, C.white, [0.05, 0.2, 0.02]),
+    ball(0.1, C.lavender, [0, 0.22, -0.05]),
+    ball(0.08, C.leaf, [0.02, 0.18, 0.07]),
+  ],
+  watering_can: [
+    cyl(0.2, 0.2, C.teal),
+    box(0.2, 0.03, 0.03, C.teal, [0.17, 0.11, 0], [0, 0, 0.6]),
+    cyl(0.07, 0.02, C.gray, [0.25, 0.19, 0]),
+    box(0.03, 0.16, 0.03, C.teal, [-0.13, 0.04, 0]),
+    box(0.1, 0.03, 0.03, C.teal, [-0.08, 0.2, 0]),
+    cyl(0.206, 0.02, C.white, [0, 0.09, 0]),
+  ],
+  orchid_gold: [
+    cyl(0.16, 0.14, C.gold, [0, 0, 0], { top: 0.22 }),
+    cyl(0.226, 0.02, C.lemon, [0, 0.125, 0]),
+    box(0.014, 0.32, 0.014, C.leaf, [0, 0.14, 0]),
+    box(0.2, 0.012, 0.07, C.leaf, [0.09, 0.16, 0], [0, 0, 0.35]),
+    box(0.2, 0.012, 0.07, C.leaf, [-0.09, 0.16, 0], [0, 0, -0.35]),
+    ball(0.1, C.lavender, [0.04, 0.4, 0]),
+    ball(0.09, C.rose, [-0.05, 0.33, 0.01]),
+    ball(0.08, C.lavender, [0.05, 0.28, -0.01]),
+    ball(0.03, C.lemon, [0.04, 0.435, -0.04]),
+  ],
+  /** Lies on its side and rolls. */
+  ribbon_roll: [
+    disc(0.12, 0.08, C.rose, [0, 0.06, 0], 'x'),
+    disc(0.05, 0.084, C.white, [0, 0.06, 0], 'x'),
+  ],
+  terrarium: [
+    cyl(0.18, 0.22, C.water, [0, 0, 0], { top: 0.3, sides: 8 }),
+    cyl(0.3, 0.1, C.water, [0, 0.22, 0], { top: 0.14, sides: 8 }),
+    cyl(0.15, 0.03, C.wood, [0, 0.32, 0]),
+    // Soil and moss showing through the glass.
+    cyl(0.194, 0.03, C.clay, [0, 0.02, 0], { top: 0.212, sides: 8 }),
+    cyl(0.212, 0.05, C.leaf, [0, 0.05, 0], { top: 0.24, sides: 8 }),
+  ],
+  bonsai: [
+    box(0.32, 0.08, 0.22, C.celadon),
+    box(0.28, 0.01, 0.18, C.woodDark, [0, 0.08, 0]),
+    box(0.05, 0.2, 0.05, C.woodDark, [-0.03, 0.08, 0], [0, 0, 0.3]),
+    box(0.04, 0.16, 0.04, C.woodDark, [0.05, 0.2, 0], [0, 0, -0.7]),
+    ball(0.2, C.leaf, [-0.08, 0.26, 0]),
+    ball(0.16, C.leaf, [0.12, 0.24, 0.01]),
+    ball(0.12, C.mint, [0.01, 0.36, -0.01]),
+    box(0.04, 0.02, 0.2, C.gold, [-0.12, 0, 0]),
+    box(0.04, 0.02, 0.2, C.gold, [0.12, 0, 0]),
+  ],
+  planter_box: [
+    box(0.7, 0.22, 0.26, C.wood),
+    box(0.66, 0.01, 0.22, C.woodDark, [0, 0.22, 0]),
+    box(0.704, 0.03, 0.264, C.woodDark, [0, 0.16, 0]),
+    ball(0.16, C.leaf, [-0.22, 0.2, 0]),
+    ball(0.18, C.leaf, [0, 0.2, 0.01]),
+    ball(0.16, C.leaf, [0.22, 0.2, -0.01]),
+    ball(0.06, C.red, [-0.2, 0.33, -0.04]),
+    ball(0.06, C.red, [0.04, 0.35, 0.04]),
+    ball(0.06, C.red, [0.24, 0.32, 0.03]),
+  ],
+
+  // --- Street food -------------------------------------------------------------------------------
+  bowl_stack: [
+    cyl(0.1, 0.08, C.celadon, [0, 0, 0], { top: 0.2 }),
+    cyl(0.1, 0.08, C.white, [0, 0.04, 0], { top: 0.2 }),
+    cyl(0.1, 0.08, C.celadon, [0, 0.08, 0], { top: 0.2 }),
+    cyl(0.1, 0.08, C.white, [0, 0.12, 0], { top: 0.2 }),
+    cyl(0.17, 0.004, C.sand, [0, 0.198, 0]),
+  ],
+  skewer_stand: [
+    box(0.32, 0.05, 0.12, C.wood),
+    ...[-0.12, -0.06, 0, 0.06, 0.12].flatMap((x, index) => [
+      box(0.012, 0.24, 0.012, C.woodLight, [x, 0.05, 0]),
+      box(0.04, 0.12, 0.02, index % 2 === 0 ? C.sand : C.coral, [x, 0.12, 0]),
+    ]),
+  ],
+  grill: [
+    box(0.5, 0.14, 0.3, C.charcoal, [0, 0.04, 0]),
+    box(0.04, 0.04, 0.26, C.slate, [-0.2, 0, 0]),
+    box(0.04, 0.04, 0.26, C.slate, [0.2, 0, 0]),
+    box(0.44, 0.012, 0.24, C.coral, [0, 0.18, 0]),
+    ...[-0.16, -0.08, 0, 0.08, 0.16].map((x) => box(0.012, 0.016, 0.26, C.gray, [x, 0.19, 0])),
+    box(0.3, 0.02, 0.03, C.sand, [0, 0.206, -0.04]),
+    box(0.3, 0.02, 0.03, C.sand, [0, 0.206, 0.05]),
+  ],
+  gold_pig: [
+    ball(0.28, C.gold, [0, 0.04, 0]),
+    box(0.05, 0.06, 0.05, C.gold, [-0.07, 0, -0.07]),
+    box(0.05, 0.06, 0.05, C.gold, [0.07, 0, -0.07]),
+    box(0.05, 0.06, 0.05, C.gold, [-0.07, 0, 0.07]),
+    box(0.05, 0.06, 0.05, C.gold, [0.07, 0, 0.07]),
+    disc(0.1, 0.05, C.lemon, [0, 0.17, -0.14], 'z', 8),
+    cyl(0.06, 0.06, C.gold, [-0.07, 0.27, -0.05], { top: 0, sides: 4 }),
+    cyl(0.06, 0.06, C.gold, [0.07, 0.27, -0.05], { top: 0, sides: 4 }),
+    box(0.014, 0.014, 0.012, C.charcoal, [-0.05, 0.22, -0.125]),
+    box(0.014, 0.014, 0.012, C.charcoal, [0.05, 0.22, -0.125]),
+    box(0.08, 0.008, 0.016, C.charcoal, [0, 0.316, 0]),
+  ],
+
+  // --- School ------------------------------------------------------------------------------------
+  globe: [
+    ball(0.3, C.sky, [0, 0.03, 0]),
+    cyl(0.16, 0.03, C.woodDark),
+    box(0.12, 0.1, 0.012, C.leaf, [-0.03, 0.15, -0.142]),
+    box(0.1, 0.08, 0.012, C.leaf, [0.05, 0.14, 0.142]),
+    box(0.012, 0.1, 0.1, C.leaf, [0.142, 0.13, 0.02]),
+    box(0.012, 0.08, 0.12, C.leaf, [-0.142, 0.16, -0.02]),
+    cyl(0.03, 0.02, C.gold, [0, 0.325, 0]),
+  ],
+  pencil_cup: [
+    cyl(0.08, 0.1, C.coral),
+    box(0.012, 0.09, 0.012, C.lemon, [-0.015, 0.08, 0]),
+    box(0.012, 0.07, 0.012, C.sky, [0.015, 0.08, 0.01]),
+    box(0.012, 0.08, 0.012, C.leaf, [0, 0.08, -0.018]),
+    cyl(0.084, 0.02, C.white, [0, 0.03, 0]),
+  ],
+  beaker_rack: [
+    box(0.34, 0.03, 0.12, C.woodLight),
+    cyl(0.09, 0.1, C.water, [-0.11, 0.03, 0], { top: 0.04, sides: 8 }),
+    cyl(0.04, 0.05, C.water, [-0.11, 0.13, 0], { sides: 8 }),
+    cyl(0.07, 0.16, C.mint, [0, 0.03, 0], { sides: 8 }),
+    cyl(0.09, 0.1, C.rose, [0.11, 0.03, 0], { top: 0.04, sides: 8 }),
+    cyl(0.04, 0.05, C.rose, [0.11, 0.13, 0], { sides: 8 }),
+  ],
+  microscope: [
+    box(0.16, 0.03, 0.22, C.charcoal),
+    box(0.04, 0.26, 0.04, C.gray, [0, 0.03, 0.07]),
+    box(0.12, 0.012, 0.12, C.gray, [0, 0.12, -0.01]),
+    cyl(0.05, 0.16, C.white, [0, 0.2, 0], { rot: [0.5, 0, 0], sides: 8 }),
+    cyl(0.03, 0.05, C.charcoal, [0, 0.14, -0.03], { sides: 8 }),
+    box(0.03, 0.03, 0.05, C.gold, [0.035, 0.2, 0.07]),
+  ],
+  backpack: [
+    box(0.3, 0.36, 0.16, C.blue),
+    box(0.22, 0.14, 0.03, C.sky, [0, 0.05, -0.09]),
+    box(0.304, 0.06, 0.164, C.lemon, [0, 0.27, 0]),
+    box(0.05, 0.3, 0.02, C.slate, [-0.09, 0.03, 0.085]),
+    box(0.05, 0.3, 0.02, C.slate, [0.09, 0.03, 0.085]),
+    box(0.08, 0.03, 0.03, C.slate, [0, 0.36, 0]),
+  ],
+  gold_apple: [
+    box(0.16, 0.05, 0.16, C.woodDark),
+    ball(0.18, C.gold, [0, 0.05, 0]),
+    box(0.016, 0.05, 0.016, C.woodDark, [0, 0.22, 0]),
+    box(0.07, 0.012, 0.04, C.leaf, [0.04, 0.25, 0], [0, 0, 0.4]),
+    box(0.1, 0.024, 0.006, C.gold, [0, 0.013, -0.081]),
+  ],
+
+  // --- Gallery -----------------------------------------------------------------------------------
+  moon_jar: [
+    cyl(0.16, 0.2, C.white, [0, 0, 0], { top: 0.42 }),
+    cyl(0.42, 0.2, C.white, [0, 0.2, 0], { top: 0.2 }),
+    cyl(0.2, 0.03, C.cream, [0, 0.4, 0]),
+    cyl(0.426, 0.012, C.cream, [0, 0.194, 0]),
+    cyl(0.17, 0.012, C.cream, [0, 0.002, 0]),
+  ],
+  display_case: [
+    box(0.5, 0.06, 0.5, C.white),
+    box(0.44, 0.5, 0.44, C.water, [0, 0.06, 0]),
+    box(0.5, 0.03, 0.5, C.white, [0, 0.56, 0]),
+    box(0.024, 0.5, 0.024, C.white, [-0.224, 0.06, -0.224]),
+    box(0.024, 0.5, 0.024, C.white, [0.224, 0.06, -0.224]),
+    box(0.024, 0.5, 0.024, C.white, [-0.224, 0.06, 0.224]),
+    box(0.024, 0.5, 0.024, C.white, [0.224, 0.06, 0.224]),
+    // A small vase on a stand, showing through the glass on all four sides.
+    box(0.446, 0.04, 0.2, C.woodDark, [0, 0.066, 0]),
+    box(0.2, 0.04, 0.446, C.woodDark, [0, 0.066, 0]),
+    box(0.446, 0.2, 0.12, C.celadon, [0, 0.106, 0]),
+    box(0.12, 0.2, 0.446, C.celadon, [0, 0.106, 0]),
+    box(0.446, 0.06, 0.06, C.celadon, [0, 0.306, 0]),
+    box(0.06, 0.06, 0.446, C.celadon, [0, 0.306, 0]),
+  ],
+  stanchion: [
+    cyl(0.04, 0.8, C.gold, [0, 0.03, 0]),
+    cyl(0.26, 0.03, C.gold, [0, 0, 0], { top: 0.2 }),
+    ball(0.08, C.gold, [0, 0.82, 0]),
+    box(0.2, 0.03, 0.03, C.red, [0.11, 0.7, 0], [0, 0, -0.5]),
+    box(0.2, 0.03, 0.03, C.red, [-0.11, 0.7, 0], [0, 0, 0.5]),
+  ],
+  sculpture: [
+    cyl(0.14, 0.2, C.coral, [0, 0.06, 0], { top: 0.22, sides: 5 }),
+    box(0.2, 0.06, 0.2, C.charcoal),
+    ball(0.16, C.lemon, [0, 0.25, 0]),
+    box(0.22, 0.04, 0.06, C.blue, [0, 0.39, 0], [0, 0.5, 0.4]),
+  ],
+
+  // --- Penthouse ---------------------------------------------------------------------------------
+  aquarium: [
+    box(0.8, 0.4, 0.36, C.water, [0, 0.05, 0]),
+    box(0.84, 0.05, 0.4, C.charcoal),
+    box(0.84, 0.03, 0.4, C.charcoal, [0, 0.45, 0]),
+    // Sand, a plant and two fish, showing through the front and the back.
+    box(0.76, 0.05, 0.366, C.sand, [0, 0.052, 0]),
+    box(0.04, 0.2, 0.366, C.leaf, [-0.26, 0.1, 0]),
+    box(0.1, 0.05, 0.366, C.coral, [0.02, 0.24, 0]),
+    box(0.08, 0.04, 0.366, C.lemon, [0.24, 0.17, 0]),
+  ],
+  /** On a tripod; the tube points up and toward +z. */
+  telescope: [
+    cyl(0.1, 0.5, C.white, [0, 0.62, 0], { rot: [-0.7, 0, 0], sides: 8 }),
+    cyl(0.44, 0.74, C.charcoal, [0, 0, 0], { top: 0.05, sides: 3 }),
+    cyl(0.12, 0.05, C.gold, [0, 0.845, 0.16], { rot: [-0.7, 0, 0], sides: 8 }),
+    cyl(0.07, 0.06, C.charcoal, [0, 0.74, 0]),
+  ],
+  candelabra: [
+    cyl(0.16, 0.03, C.gold, [0, 0, 0], { top: 0.1 }),
+    cyl(0.03, 0.22, C.gold, [0, 0.03, 0]),
+    box(0.3, 0.02, 0.03, C.gold, [0, 0.2, 0]),
+    ...[-0.14, 0, 0.14].flatMap((x) => [
+      cyl(0.035, x === 0 ? 0.14 : 0.1, C.white, [x, x === 0 ? 0.25 : 0.22, 0], { sides: 6 }),
+      cyl(0.03, 0.05, C.lemon, [x, x === 0 ? 0.39 : 0.32, 0], { top: 0, sides: 6 }),
+    ]),
+  ],
+
   // --- Big pieces --------------------------------------------------------------------------------
+  /** A free-standing bookcase, the same size as the `shelf_unit`: a row falls like dominoes. */
+  bookcase: [
+    box(0.9, 1.3, 0.3, C.wood),
+    box(0.94, 0.04, 0.34, C.woodDark, [0, 1.3, 0]),
+    box(0.8, 0.02, 0.31, C.woodDark, [0, 0.04, 0]),
+    box(0.8, 0.02, 0.31, C.woodDark, [0, 0.45, 0]),
+    box(0.8, 0.02, 0.31, C.woodDark, [0, 0.9, 0]),
+    ...spines(0.06, [C.blue, C.red, C.lemon, C.teal, C.plum, C.coral, C.blue, C.leaf]),
+    ...spines(0.47, [C.lemon, C.plum, C.coral, C.sky, C.red, C.teal, C.lemon, C.rose]),
+    ...spines(0.92, [C.teal, C.coral, C.blue, C.lemon, C.leaf, C.plum, C.red, C.sky]),
+  ],
+  robot_figure: [
+    box(0.16, 0.14, 0.1, C.gold, [0, 0.11, 0]),
+    box(0.18, 0.03, 0.14, C.woodDark),
+    box(0.05, 0.08, 0.06, C.gold, [-0.04, 0.03, 0]),
+    box(0.05, 0.08, 0.06, C.gold, [0.04, 0.03, 0]),
+    box(0.12, 0.1, 0.1, C.gold, [0, 0.26, 0]),
+    box(0.04, 0.12, 0.05, C.gold, [-0.1, 0.12, 0]),
+    box(0.04, 0.12, 0.05, C.gold, [0.1, 0.12, 0]),
+    box(0.012, 0.05, 0.012, C.gold, [0, 0.36, 0]),
+    ball(0.03, C.red, [0, 0.4, 0]),
+    box(0.025, 0.025, 0.008, C.sky, [-0.028, 0.305, -0.052]),
+    box(0.025, 0.025, 0.008, C.sky, [0.028, 0.305, -0.052]),
+    box(0.08, 0.05, 0.008, C.lemon, [0, 0.16, -0.052]),
+  ],
   /** A free-standing shop shelf, tall and narrow so a row of them falls like dominoes. */
   shelf_unit: [
     box(0.9, 1.3, 0.3, C.white),

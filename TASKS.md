@@ -48,6 +48,21 @@ Status values: `todo` · `in-progress` · `in-review` · `done` · `blocked`
 | [03-room-bathhouse](tasks/03-room-bathhouse.md) | Spa & Bathhouse (finale) | 150 s / 12,000 | 14 | 02-r0 | in-review |
 | [03-walker-behavior](tasks/03-walker-behavior.md) | Walker behavior in `src/game/` (planned engine change) | — | — | 02-i; blocks 03-pop-star-dorm (soft) | in-review |
 
+## Phase 3b — Rooms 9–16 (one branch, `p3/rooms-9-16`)
+
+| Room | Mission | Unlock (stars) | Status |
+| --- | --- | --- | --- |
+| Karaoke Room | 140 s / 12,500 | 16 | in-review |
+| Flower Shop | 140 s / 13,000 | 18 | in-review |
+| Comic Book Café | 150 s / 13,500 | 20 | in-review |
+| Night Market Food Tent | 150 s / 14,000 | 22 | in-review |
+| School Classroom | 160 s / 14,500 | 24 | in-review |
+| Rooftop Garden | 160 s / 15,000 | 26 | in-review |
+| Pottery Gallery | 170 s / 15,500 | 28 | in-review |
+| Luxury Penthouse (new finale) | 180 s / 16,500 | 30 | in-review |
+
+Added with them: springy surfaces in `src/cat/`, hanging objects in `src/physics/`, and a fix to the walker in `src/game/` (it shook and threw objects below 60 FPS). Open: 3-star cosmetics for these rooms, see `docs/change-requests/2026-11-16-rooms-9-16-cosmetics.md`.
+
 ## Owner actions
 
 - Review and tag `src/core/` as `contracts-v1` (Phase 0 gate).

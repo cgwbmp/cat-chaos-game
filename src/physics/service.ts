@@ -1,6 +1,9 @@
 // Physics service: Havok bodies for a room, the four break rules, special behaviors, wobble at
 // edges, chain causality and debris.
 //
+// Hanging objects: a breakable that starts inside a `trigger:zone_hang...` marker (a unit cube
+// scaled to the zone) is held in the air until something moves it, then it falls.
+//
 // Audio cues emitted on `audio/play`: `hit_<material>` (swat), `impact_<material>` (lands without
 // breaking), `break_<material>`, `splash` (liquid) and `spark` (electronic).
 import { VertexBuffer } from '@babylonjs/core/Buffers/buffer';
@@ -59,6 +62,8 @@ const SUPPORT_PROBE = 0.06; // m below the object's underside
 const CHAIN_WINDOW_SEC = 1;
 const CHAIN_MIN_SPEED = 0.3; // m/s
 
+const HANG_ZONE = 'trigger:zone_hang';
+
 const THUD_GAP_SEC = 0.2;
 const OUT_OF_ROOM_Y = -5; // m
 
@@ -78,6 +83,8 @@ interface Breakable {
   /** Re-armed each time the object rests, so it teeters at most once per push. */
   wobbleUsed: boolean;
   wobble?: { until: number; startedAt: number; axis: Vector3; release: Vector3 };
+  /** Held in the air by a hang zone until a swat, the cat or another object moves it. */
+  hanging: boolean;
 }
 
 function toVec3({ x, y, z }: Vector3): Vec3 {
@@ -92,6 +99,7 @@ export const createPhysicsService: ServiceFactory<PhysicsService> = (services) =
   const breakQueue: { target: Breakable; causedBy?: string }[] = [];
   const fractureSets = new Map<string, AbstractMesh[]>();
   const triggerMarkers = new Map<string, Vector3>();
+  const hangZones: { min: Vector3; max: Vector3 }[] = [];
 
   let engine: PhysicsEngine | undefined;
   let debris: DebrisSystem | undefined;
@@ -120,6 +128,12 @@ export const createPhysicsService: ServiceFactory<PhysicsService> = (services) =
     body.setAngularVelocity(target.wobble.axis.scale(2));
     target.velocityBefore.copyFrom(target.wobble.release);
     target.wobble = undefined;
+  }
+
+  function releaseHanging(target: Breakable): void {
+    if (!target.hanging) return;
+    target.hanging = false;
+    target.aggregate.body.setGravityFactor(1);
   }
 
   /** Runs before every physics step. */
@@ -379,6 +393,7 @@ export const createPhysicsService: ServiceFactory<PhysicsService> = (services) =
       const resting = velocity.length() < REST_SPEED && spin.length() < REST_SPIN;
       trackHeight(target.state, center.y, resting);
 
+      if (!resting) releaseHanging(target);
       if (resting) target.wobbleUsed = false;
       else if (!target.wobbleUsed) tryStartWobble(target);
     }
@@ -403,19 +418,25 @@ export const createPhysicsService: ServiceFactory<PhysicsService> = (services) =
     // Rolling objects keep spinning; everything else settles quickly.
     body.setAngularDamping(def.special === 'rolling' ? 0.02 : 0.4);
     body.setCollisionCallbackEnabled(true);
+    const { x, y, z } = body.getObjectCenterWorld();
+    const hanging = hangZones.some(
+      ({ min, max }) => x > min.x && x < max.x && y > min.y && y < max.y && z > min.z && z < max.z,
+    );
+    if (hanging) body.setGravityFactor(0);
 
     const target: Breakable = {
       id: mesh.name,
       def,
       mesh,
       aggregate,
-      state: createBreakState(body.getObjectCenterWorld().y),
+      state: createBreakState(y),
       broken: false,
       breakQueued: false,
       lastSwatAt: -Infinity,
       lastThudAt: -Infinity,
       velocityBefore: new Vector3(),
       wobbleUsed: false,
+      hanging,
     };
     body.getCollisionObservable().add((event) => onCollision(target, event));
     breakables.set(target.id, target);
@@ -433,6 +454,7 @@ export const createPhysicsService: ServiceFactory<PhysicsService> = (services) =
     breakQueue.length = 0;
     fractureSets.clear();
     triggerMarkers.clear();
+    hangZones.length = 0;
     debris?.clear();
   }
 
@@ -444,6 +466,12 @@ export const createPhysicsService: ServiceFactory<PhysicsService> = (services) =
     for (const { marker, node } of room.markers) {
       if (marker.startsWith('trigger:')) {
         triggerMarkers.set(marker.slice('trigger:'.length), node.getAbsolutePosition().clone());
+      }
+      if (marker.startsWith(HANG_ZONE)) {
+        node.computeWorldMatrix(true);
+        const half = node.absoluteScaling.scale(0.5);
+        const at = node.getAbsolutePosition();
+        hangZones.push({ min: at.subtract(half), max: at.add(half) });
       }
     }
 
@@ -499,6 +527,7 @@ export const createPhysicsService: ServiceFactory<PhysicsService> = (services) =
       const target = breakables.get(objectId);
       if (!target || target.broken) return;
       releaseWobble(target);
+      releaseHanging(target);
 
       const { body } = target.aggregate;
       const force = new Vector3(impulse.x, impulse.y, impulse.z);

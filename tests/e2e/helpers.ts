@@ -10,6 +10,14 @@ export const MISSIONS = [
   { room: 'Pop Star Dorm', timeLimitSec: 110 },
   { room: 'Traditional Wooden House', timeLimitSec: 120 },
   { room: 'Spa & Bathhouse', timeLimitSec: 150 },
+  { room: 'Karaoke Room', timeLimitSec: 140 },
+  { room: 'Flower Shop', timeLimitSec: 140 },
+  { room: 'Comic Book Café', timeLimitSec: 150 },
+  { room: 'Night Market Food Tent', timeLimitSec: 150 },
+  { room: 'School Classroom', timeLimitSec: 160 },
+  { room: 'Rooftop Garden', timeLimitSec: 160 },
+  { room: 'Pottery Gallery', timeLimitSec: 170 },
+  { room: 'Luxury Penthouse', timeLimitSec: 180 },
 ];
 
 export const ROOMS = MISSIONS.map(({ room }) => room);
@@ -23,6 +31,14 @@ const ROOM_IDS = [
   'pop-star-dorm',
   'wooden-house',
   'bathhouse',
+  'karaoke-room',
+  'flower-shop',
+  'comic-cafe',
+  'night-market',
+  'classroom',
+  'rooftop-garden',
+  'pottery-gallery',
+  'penthouse',
 ];
 
 /** Collects console errors and uncaught page errors for the whole test. */

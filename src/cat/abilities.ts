@@ -66,6 +66,21 @@ export interface Box {
 }
 
 /**
+ * True when feet at `feet` stand in a zone such as a wet floor: inside `box` from above, from
+ * just under its bottom (the floor the zone lies on) up to its top.
+ */
+export function standsIn(box: Box, feet: Vec3): boolean {
+  return (
+    feet.x > box.min.x &&
+    feet.x < box.max.x &&
+    feet.z > box.min.z &&
+    feet.z < box.max.z &&
+    feet.y > box.min.y - 0.1 &&
+    feet.y < box.max.y
+  );
+}
+
+/**
  * Invisible walls and ceiling: moves `position` back inside `box` and stops `velocity` from
  * pushing further out. The box has no bottom; the room's floor is real. Both vectors are changed
  * in place. Returns true when the position was outside.

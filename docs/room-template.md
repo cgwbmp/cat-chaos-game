@@ -65,7 +65,11 @@ A room with its own logic adds `module.ts` (see `src/rooms/pop-star-dorm/`). Eve
 
 Zones: a marker named `trigger:zone_wet<anything>` is a unit cube scaled to a wet floor area; the cat slides inside it. The marker `trigger:zone_room` (`roomZone` in the kit) is a unit cube scaled to the room's inside: the cat cannot leave it, so it acts as an invisible wall on the open side and a ceiling. Objects pass through it and still break when they fall out of the room.
 
-Walkers: a room module can emit `walker/patrol` with a loop of waypoints; game rules run the NPC (see `src/rooms/pop-star-dorm/module.ts`).
+Springy surfaces: a marker named `trigger:zone_bounce<anything>` (`bounceZone` in the kit) is a unit cube scaled to lie on a surface such as a sofa seat or a `beanbag`. A jump that starts inside it goes about twice as high (about 1.9 m with the button held), enough to reach a shelf 2 m up.
+
+Hanging objects: a marker named `trigger:zone_hang<anything>` (`hangZone` in the kit) is a unit cube scaled to a volume. A breakable whose center starts inside it hangs in the air until something moves it: a swat, the cat jumping into it, or another object. Then it falls, so give it a `fall` rule. Use the hanging props (a cord runs up from the body), put a `beam` over them and place them at the beam's underside minus `HANG_DROP` (see `src/rooms/karaoke-room/`). Keep everything else out of the zone. The camera looks down, so anything above about 1.8 m is out of view while the cat is on the floor: hang ordinary things with their base near 1.45 m and keep beams within about 1.2 m of the back wall, or the camera pulls in when a beam is between it and the cat.
+
+Walkers: a room module can emit `walker/patrol` with a loop of waypoints; game rules run the NPC (see `src/rooms/pop-star-dorm/module.ts`). A room can have several, each with its own id (see `src/rooms/pottery-gallery/module.ts`). Keep the path clear of furniture and objects.
 
 ## Checklist
 
