@@ -1,11 +1,15 @@
 // Walker behavior, logic side: an NPC that patrols a loop of waypoints (the Pop Star Dorm
-// manager) and catches the cat when it comes close in front of it. Free of rendering.
+// robot vacuum) and catches the cat when the two bump into each other. Free of rendering.
 import type { Vec3 } from '../core/types';
 
-export const CATCH_RADIUS = 1.1; // m, in front of the walker
-export const CATCH_CONE_COS = Math.cos((60 * Math.PI) / 180);
-export const TOUCH_RADIUS = 0.45; // m, any direction
-export const CATCH_HEIGHT = 1.2; // the cat is safe on high shelves
+/** The body is a low disc. */
+export const BODY_RADIUS = 0.18;
+export const BODY_HEIGHT = 0.14;
+const CAT_RADIUS = 0.14; // the cat's capsule, see src/cat/tuning.ts
+/** Distance from the walker's center to the cat's feet at which they touch, with some slack. */
+export const TOUCH_RADIUS = BODY_RADIUS + CAT_RADIUS + 0.04;
+/** The cat is bumped on every touch, but loses time at most once per CATCH_COOLDOWN_SEC. */
+export const BUMP_COOLDOWN_SEC = 0.3;
 export const CATCH_COOLDOWN_SEC = 3;
 export const CATCH_PENALTY_SEC = 5;
 
@@ -68,13 +72,15 @@ export function createPatrol(waypoints: readonly Vec3[], speed: number, pauseSec
   };
 }
 
-/** True when the walker catches a cat at `cat`: close in front of it, or touching it. */
+/** How high above the body the cat's feet must be to jump over it without a bump. */
+export const CLEARANCE = 0.05;
+
+/**
+ * True when the cat, with its feet at `cat`, touches the walker: bumps into its side from any
+ * direction, or stands on it (the character steps onto low bodies). Jumping over it is safe.
+ */
 export function catches(walker: WalkerPose, cat: Vec3): boolean {
-  if (Math.abs(cat.y - walker.position.y) > CATCH_HEIGHT) return false;
-  const dx = cat.x - walker.position.x;
-  const dz = cat.z - walker.position.z;
-  const distance = Math.hypot(dx, dz);
-  if (distance <= TOUCH_RADIUS) return true;
-  if (distance > CATCH_RADIUS) return false;
-  return (dx * walker.heading.x + dz * walker.heading.z) / distance >= CATCH_CONE_COS;
+  const height = cat.y - walker.position.y;
+  if (height < -BODY_HEIGHT || height > BODY_HEIGHT + CLEARANCE) return false;
+  return Math.hypot(cat.x - walker.position.x, cat.z - walker.position.z) <= TOUCH_RADIUS;
 }

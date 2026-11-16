@@ -66,5 +66,9 @@ export const POUNCE_SPEED = 4;
 export const POUNCE_BASE_IMPULSE = 8; // N·s, plus POUNCE_IMPULSE_PER_SPEED x landing speed
 export const POUNCE_IMPULSE_PER_SPEED = 1.2;
 
+/** Bumped by a walker (the dorm robot vacuum): thrown away from it with a small hop. */
+export const BUMP_SPEED = 3;
+export const BUMP_HOP = 3;
+
 export const LAND_MIN_SPEED = 2; // slower landings make no sound or squash
 export const RESPAWN_Y = -5; // fell out of the room

@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.1.3-alpha (2026-11-16)
+
+A robot vacuum replaces the manager in the Pop Star Dorm, on a computer the mouse turns the camera without holding a button, and the cat fits on shelves. The vacuum no longer spots the cat from a distance: only touching it counts, so getting past it is easier than in 0.1.2-alpha.
+
+### In this release
+
+- Shelves have a solid base under the lowest shelf, so the cat can no longer walk in under a shelf unit and get stuck below the boards.
+- More room between shelf boards: at least 0.6 m in every room, so the cat fits between them and can jump in. Corner Convenience Store and Cozy Café: the cat did not fit between their boards before. Pop Star Dorm, Grandma's House, Spa & Bathhouse lockers and the store's back shelf: more headroom. Objects on the raised boards moved up with them. The left wall lamp in the Corner Convenience Store hangs higher, clear of the top shelf.
+- Mouse look on a computer: while a level plays the cursor is hidden and moving the mouse turns the camera; no button needs to be held. If the cursor is still showing when a level starts, click the game once. Esc shows the cursor again and pauses the game, as does switching to another window. Where the browser does not allow hiding the cursor, dragging with a button held turns the camera as before.
+- Pop Star Dorm: a robot vacuum drives around the low table where the manager used to walk.
+- The vacuum bumps the cat away with a small hop when they touch, whether the vacuum drives into the cat or the cat walks into the vacuum. Standing on top of it also gets the cat bumped off. Jumping over it is safe.
+- In a Mission the first bump costs 5 seconds; more bumps in the next 3 seconds push the cat away but cost no time. The message on screen is now "Bumped!" (was "Caught!").
+
+### Known issues
+
+- A full jump (button held) from right in front of a shelf still often fails: the cat rises above the gap, hits the front of the board above and drops. A short tap jump gets it onto the shelf.
+- Objects standing on a shelf can push a walking cat off the edge.
+- Mouse look has only been checked in an automated browser, which does not allow hiding the cursor, so the hidden-cursor mode was simulated. It has not been tried by hand in Chrome, Firefox or Safari.
+- After Esc, a browser may refuse to hide the cursor again for about a second, so resuming at once can leave the cursor showing until the next click on the game.
+- The vacuum has only been checked in a desktop browser, not on a real phone.
+- The vacuum drives at the manager's old speed, 1.2 m/s, which is fast for a robot vacuum. Its speed and the Pop Star Dorm coin target and time limit have not been tested with players.
+- Frame rate has only been measured in automated browsers on a desktop. It has not been measured on a real phone. The frame rate test runs in a room without lamps, so the lamp lights have not been measured; the cat on the title screen and the more detailed furniture and objects have not been measured either.
+- The cat on the title screen and in the shop has only been checked in a desktop browser at phone sizes, not on a real phone.
+- On phones the shop list has two columns beside the cat, so the hats are below the fur colors and need a scroll.
+- The collar is mostly below the edge of the screen on the title screen and in the shop.
+- Tall hats (Party Hat, Knit Bonnet) make the cat on the title screen taller than the sixth of the screen it is sized for. The Scholar Hat's brim passes through the ears, and the Towel Hat's rolls cover them.
+- The balance of coin targets and time limits has not been tested with players, and has not been retuned for the lower jump and softer swat of 0.1.1-alpha or for the changed objects in the Traditional Wooden House.
+- The cat has no mouth or whiskers, and the collars are plain shapes.
+- The debug overlay (backtick key, or a three-finger tap) is still in the build. Its buttons add coins and unlock rooms.
+- Phones must be held in landscape.
+- Builds for game portals (Poki, CrazyGames) are not part of this release and have not been tested.
+- The automated browser tests time out on phone emulation when four run at once on a development machine. They pass two at a time, which is how CI runs them.
+
 ## 0.1.2-alpha (2026-11-13)
 
 The cat now waits on the title screen and tries things on in the shop, every hat has its own shape, and furniture and objects have more detail. The Traditional Wooden House has one object fewer and one new one, so its coin totals differ from 0.1.1-alpha.

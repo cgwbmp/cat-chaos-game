@@ -36,7 +36,7 @@ export interface Rules {
   advance(dt: number): void;
   objectBroken(event: GameEvents['object/broken']): void;
   setPaused(paused: boolean): void;
-  /** Takes time off the mission timer (the dorm manager catching the cat). */
+  /** Takes time off the mission timer (the dorm robot vacuum bumping into the cat). */
   penalize(seconds: number): void;
   grantReward(reward: RewardKind): void;
   quit(): void;

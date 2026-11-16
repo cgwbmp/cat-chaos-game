@@ -1,6 +1,6 @@
 // Pop Star Dorm: 8 x 6.5 m. Two beds on the left, a vanity desk at the back, the album shelf
-// with the award trophy on the right wall, and a low table in the middle that the manager
-// walks around (see module.ts).
+// with the award trophy on the right wall, and a low table in the middle that the robot vacuum
+// drives around (see module.ts).
 import { bed, cabinet, roomZone, rug, shell, shelves, table, wallArt } from '../_kit/furniture';
 import { C } from '../_kit/palette';
 import { place, row, type RoomLayout, type Triple } from '../_kit/parts';
@@ -11,7 +11,7 @@ const LOW_TABLE = 0.36;
 const TV_STAND = 0.5;
 const SHELF_X = 3.75;
 
-/** Corners of the manager's patrol, around the low table. */
+/** Corners of the robot vacuum's patrol, around the low table. */
 export const PATROL: Triple[] = [
   [-1.5, 0, -1.7],
   [2.3, 0, -1.7],
@@ -26,7 +26,7 @@ export const layout: RoomLayout = {
     ...place(bed(1.2, 2, C.sky), [-1.7, 0, 2.1]),
     ...place(table(2.6, 0.6, VANITY, C.white, C.rose), [1, 0, 2.85]),
     ...place(wallArt(1.6, 0.9, C.sky), [1, 1.4, 3.25]),
-    ...place(shelves(0.4, 2.4, [0.6, 1.2, 1.8], C.white, true), [SHELF_X, 0, 0.6]),
+    ...place(shelves(0.4, 2.4, [0.6, 1.25, 1.9], C.white, true), [SHELF_X, 0, 0.6]),
     ...place(rug(2.4, 1.6, C.rose), [0.4, 0, -0.5]),
     ...place(table(1.2, 0.7, LOW_TABLE, C.white, C.rose), [0.4, 0, -0.5]),
     // The stand faces the room, like the screen on it.
@@ -54,10 +54,10 @@ export const layout: RoomLayout = {
     { def: 'vase', at: [1.2, VANITY, 2.68] },
     // Album shelf on the right wall: stacks low, the award and a row of albums on top.
     ...row('album_stack', 3, [SHELF_X, 0.6, -0.2], [0, 0, 0.8]),
-    ...row('album_stack', 3, [SHELF_X, 1.2, -0.2], [0, 0, 0.8]),
-    { def: 'award', at: [SHELF_X, 1.8, 0.45] },
-    ...row('album', 6, [SHELF_X, 1.8, 0.8], [0, 0, 0.14], Math.PI / 2),
-    ...row('frame', 3, [SHELF_X, 1.8, -0.4], [0, 0, 0.26], Math.PI / 2),
+    ...row('album_stack', 3, [SHELF_X, 1.25, -0.2], [0, 0, 0.8]),
+    { def: 'award', at: [SHELF_X, 1.9, 0.45] },
+    ...row('album', 6, [SHELF_X, 1.9, 0.8], [0, 0, 0.14], Math.PI / 2),
+    ...row('frame', 3, [SHELF_X, 1.9, -0.4], [0, 0, 0.26], Math.PI / 2),
     // Low table and the floor around it.
     { def: 'console', at: [0.15, LOW_TABLE, -0.5] },
     ...row('lightstick', 4, [0.5, LOW_TABLE, -0.7], [0.14, 0, 0.1]),
@@ -78,7 +78,7 @@ export const layout: RoomLayout = {
     { def: 'frame', at: [-2.6, 0, -2.5], rotY: Math.PI },
     { def: 'floor_lamp', at: [-0.7, 0, 2.95] },
     { def: 'floor_lamp', at: [3.4, 0, 2.9] },
-    { def: 'vase', at: [SHELF_X, 1.8, 1.68] },
+    { def: 'vase', at: [SHELF_X, 1.9, 1.68] },
   ],
 
   markers: [

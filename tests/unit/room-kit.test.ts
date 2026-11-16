@@ -1,6 +1,6 @@
 // Room kit, from data alone: the prop library and the furniture with fronts.
 import { describe, expect, it } from 'vitest';
-import { cabinet, fridge } from '../../src/rooms/_kit/furniture';
+import { cabinet, fridge, shelves } from '../../src/rooms/_kit/furniture';
 import { C } from '../../src/rooms/_kit/palette';
 import type { Color, Part } from '../../src/rooms/_kit/parts';
 import { PROPS } from '../../src/rooms/_kit/props';
@@ -54,5 +54,16 @@ describe('cabinet', () => {
       -depth / 2 - 0.025,
     );
     expect(reach(fridge(0.6, 0.9, depth, C.mint, C.white))).toBeGreaterThan(-depth / 2 - 0.03);
+  });
+});
+
+describe('shelves', () => {
+  it('is solid below the lowest board, so the cat cannot walk in under it', () => {
+    for (const sideWall of [false, true]) {
+      const parts = shelves(0.4, 2, [0.6, 1.25], C.white, sideWall);
+      // The base covers the whole footprint, from the floor up to the lowest board.
+      const base = parts.find(({ at, size }) => at[1] === 0 && size[0] === 0.4 && size[2] === 2);
+      expect(base?.size[1]).toBeCloseTo(0.55);
+    }
   });
 });

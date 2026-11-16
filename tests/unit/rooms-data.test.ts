@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import type { ObjectDef, ObjectTier, RoomDef } from '../../src/core/types';
 import { validateObjectDefs } from '../../src/core/validate';
 import { summarizeRoom } from '../../src/rooms/_kit/checks';
-import type { RoomLayout } from '../../src/rooms/_kit/parts';
+import type { Part, RoomLayout } from '../../src/rooms/_kit/parts';
 import { layout as bathhouse } from '../../src/rooms/bathhouse/layout';
 import bathhouseObjects from '../../src/rooms/bathhouse/objects.json';
 import { layout as store } from '../../src/rooms/convenience-store/layout';
@@ -102,6 +102,36 @@ const BRIEFS: Brief[] = [
 
 const ALL_TIERS: ObjectTier[] = ['light', 'medium', 'heavy', 'trick', 'treasure'];
 
+/** Clear height between stacked shelf boards: the cat is 0.43 m tall and needs room to jump in. */
+const SHELF_HEADROOM = 0.6;
+
+/** Boards up off the floor that the cat can stand on, such as shelf boards: thin level boxes. */
+function boards(layout: RoomLayout): Part[] {
+  return layout.statics.filter(
+    (part) =>
+      part.shape === 'box' &&
+      part.size[1] <= 0.05 &&
+      part.size[0] >= 0.25 &&
+      part.size[2] >= 0.25 &&
+      part.at[1] > 0.1 &&
+      part.rot[0] === 0 &&
+      part.rot[2] === 0,
+  );
+}
+
+/** Half extents along x and z of a part turned about y (a quarter turn swaps them). */
+function halfExtents(part: Part): [number, number] {
+  const quarter = Math.abs(Math.sin(part.rot[1])) > 0.5;
+  const [width, , depth] = part.size;
+  return quarter ? [depth / 2, width / 2] : [width / 2, depth / 2];
+}
+
+function overlap(a: Part, b: Part): boolean {
+  const [ax, az] = halfExtents(a);
+  const [bx, bz] = halfExtents(b);
+  return Math.abs(a.at[0] - b.at[0]) < ax + bx && Math.abs(a.at[2] - b.at[2]) < az + bz;
+}
+
 const ROOM_DEFS = Object.values(
   import.meta.glob<RoomDef>('../../src/rooms/*/index.ts', { eager: true, import: 'default' }),
 );
@@ -177,6 +207,19 @@ describe.each(BRIEFS)('room $id', ({ id, layout, objects, breakables, total, tar
   it('has a spawn point, a door and camera bounds', () => {
     const markers = layout.markers.map(({ marker }) => marker);
     expect(markers).toEqual(expect.arrayContaining(['cat_spawn', 'owner_door', 'camera_bounds']));
+  });
+
+  it(`leaves ${SHELF_HEADROOM} m between stacked shelf boards, so the cat fits`, () => {
+    const flat = boards(layout);
+    for (const lower of flat) {
+      for (const upper of flat) {
+        const gap = upper.at[1] - (lower.at[1] + lower.size[1]);
+        if (gap <= 0 || !overlap(lower, upper)) continue;
+        expect(gap, `board at ${upper.at.join(', ')}`).toBeGreaterThanOrEqual(
+          SHELF_HEADROOM - 1e-6,
+        );
+      }
+    }
   });
 
   it('keeps every breakable inside the room', () => {

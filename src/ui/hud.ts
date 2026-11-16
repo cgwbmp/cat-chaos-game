@@ -92,7 +92,7 @@ export function createHud(services: Services, onPause: () => void): Hud {
       combo.classList.toggle('active', chain > 0);
     }),
     bus.on('walker/caught', ({ penaltySec }) => {
-      alert.textContent = penaltySec > 0 ? `Caught! -${penaltySec} s` : 'Caught!';
+      alert.textContent = penaltySec > 0 ? `Bumped! -${penaltySec} s` : 'Bumped!';
       alert.classList.remove('show');
       void alert.offsetWidth;
       alert.classList.add('show');

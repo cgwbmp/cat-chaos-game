@@ -1,7 +1,8 @@
 // Third-person follow camera: trails the cat with a gentle lag, pulls in front of walls, zooms
 // out when the cat is high and stays inside the room's `camera_bounds` marker. Rooms are open
-// toward -z, so the camera looks toward +z by default. Desktop players can orbit with the mouse;
-// there is no manual camera on touch.
+// toward -z, so the camera looks toward +z by default. Desktop players orbit with the mouse:
+// while a level plays the cursor is locked to the game and moving the mouse turns the camera
+// (dragging still works where the browser refuses the lock). There is no manual camera on touch.
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera';
 import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import type { TransformNode } from '@babylonjs/core/Meshes/transformNode';
@@ -31,6 +32,11 @@ export interface FollowCamera {
   shake(intensity: number, durationMs: number): void;
   /** Re-reads the cat and the bounds marker after a room loads, and snaps to the cat. */
   reset(): void;
+  /**
+   * Mouse look while a level plays: locks the cursor (now, and on a click on the game). Losing
+   * the lock some other way, such as Esc or switching windows, calls `onLost`.
+   */
+  setMouseLook(enabled: boolean): void;
   dispose(): void;
 }
 
@@ -48,7 +54,7 @@ export function orbitOffset(
   return { x: -Math.sin(yaw) * flat, y: Math.sin(pitch) * distance, z: -Math.cos(yaw) * flat };
 }
 
-export function createFollowCamera(services: Services): FollowCamera {
+export function createFollowCamera(services: Services, onLost: () => void): FollowCamera {
   const { scene, canvas } = services.scene;
   const camera = new FreeCamera('follow-camera', new Vector3(0, 3, -5), scene);
   camera.minZ = 0.1;
@@ -86,15 +92,31 @@ export function createFollowCamera(services: Services): FollowCamera {
     snap = true;
   }
 
-  // Optional mouse orbit on desktop.
+  // Mouse orbit on desktop: locked mouse look during play, or a drag.
+  let mouseLook = false;
   let orbiting = false;
+  const locked = () => document.pointerLockElement === canvas;
+  /** Asks for the lock during play; false when it does not ask. */
+  function lock(): boolean {
+    if (!mouseLook || locked() || !canvas.requestPointerLock) return false;
+    // Refused when there was no recent click or key press, or right after Esc left the lock;
+    // the next click on the game tries again.
+    Promise.resolve(canvas.requestPointerLock()).catch(() => undefined);
+    return true;
+  }
+  function onPointerLockChange(): void {
+    // A lock asked for just before play stopped can arrive after it; let the cursor go.
+    if (locked() && !mouseLook) document.exitPointerLock();
+    else if (!locked() && mouseLook) onLost();
+  }
   function onPointerDown(event: PointerEvent): void {
-    if (event.pointerType !== 'mouse') return;
+    if (event.pointerType !== 'mouse' || locked()) return;
     orbiting = true;
-    canvas.setPointerCapture(event.pointerId);
+    // The browser refuses pointer capture while a lock request is pending.
+    if (!lock()) canvas.setPointerCapture(event.pointerId);
   }
   function onPointerMove(event: PointerEvent): void {
-    if (!orbiting) return;
+    if (!orbiting && !locked()) return;
     yaw += event.movementX * ORBIT_SPEED;
     pitch = Math.min(MAX_PITCH, Math.max(MIN_PITCH, pitch + event.movementY * ORBIT_SPEED));
   }
@@ -105,9 +127,16 @@ export function createFollowCamera(services: Services): FollowCamera {
   canvas.addEventListener('pointermove', onPointerMove);
   canvas.addEventListener('pointerup', onPointerUp);
   canvas.addEventListener('pointercancel', onPointerUp);
+  document.addEventListener('pointerlockchange', onPointerLockChange);
 
   return {
     reset,
+
+    setMouseLook(enabled) {
+      mouseLook = enabled;
+      if (enabled) lock();
+      else if (locked()) document.exitPointerLock();
+    },
 
     shake(intensity, durationMs) {
       shakeIntensity = Math.max(shakeIntensity, intensity);
@@ -173,6 +202,9 @@ export function createFollowCamera(services: Services): FollowCamera {
       canvas.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerup', onPointerUp);
       canvas.removeEventListener('pointercancel', onPointerUp);
+      document.removeEventListener('pointerlockchange', onPointerLockChange);
+      mouseLook = false;
+      if (locked()) document.exitPointerLock();
       camera.dispose();
     },
   };

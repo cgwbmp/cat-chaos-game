@@ -27,7 +27,8 @@ export const startRendering: SystemFactory = (services) => {
 
   const lights = createRoomLights(scene, () => quality.tier);
 
-  const camera = createFollowCamera(services);
+  // Losing the mouse look lock mid-level (Esc, another window) pauses, as the pause key would.
+  const camera = createFollowCamera(services, () => bus.emit('game/paused', { paused: true }));
 
   let shadows: ShadowGenerator | undefined;
   let blobs: BlobShadows | undefined;
@@ -125,7 +126,12 @@ export const startRendering: SystemFactory = (services) => {
         });
       }
     }),
+    // Off from the load through the intro countdown: the lock is for play only.
+    bus.on('level/requested', () => camera.setMouseLook(false)),
+    bus.on('level/started', () => camera.setMouseLook(true)),
+    bus.on('level/ended', () => camera.setMouseLook(false)),
     bus.on('level/quit', () => {
+      camera.setMouseLook(false);
       camera.reset();
       lights.enter();
       refreshShadows();
@@ -139,6 +145,7 @@ export const startRendering: SystemFactory = (services) => {
     bus.on('settings/changed', ({ settings }) => quality.setTier(settings.quality)),
     bus.on('game/paused', (event) => {
       paused = event.paused;
+      camera.setMouseLook(!paused);
     }),
     bus.on('juice/shake', ({ intensity, durationMs }) => camera.shake(intensity, durationMs)),
     bus.on('juice/hitPause', ({ durationMs }) => {

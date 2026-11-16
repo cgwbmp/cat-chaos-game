@@ -309,7 +309,7 @@ Seven room agents run at the same time, each confined to `src/rooms/<room-id>/` 
 | 3 | `cozy-cafe` Cozy Café | 100 s / 3,000 | \~7,000 | 40–55 | Fancy espresso machine | Cake display case; stacked cup towers; tablecloths on every table |
 | 4 | `gaming-cafe` Gaming Café | 100 s / 4,000 | \~9,000 | 45–60 | Champion trophy | Monitors spark; pulling a cable bundle drags a whole desk row |
 | 5 | `grandmas-house` Grandma's House | 110 s / 5,500 | \~12,000 | 35–50 | Antique clay storage jar set | Very heavy jars need pounce from a height; rice cooker steams |
-| 6 | `pop-star-dorm` Pop Star Dorm | 110 s / 7,000 | \~15,000 | 50–65 | Award trophy | Album stacks; lightsticks roll; a manager walks through on a patrol |
+| 6 | `pop-star-dorm` Pop Star Dorm | 110 s / 7,000 | \~15,000 | 50–65 | Award trophy | Album stacks; lightsticks roll; a robot vacuum drives a patrol and bumps the cat |
 | 7 | `wooden-house` Traditional Wooden House | 120 s / 9,000 | \~19,000 | 40–55 | Celadon vase | Paper sliding doors you can tear through; fragile pottery on low tables |
 | 8 | `bathhouse` Spa & Bathhouse (finale) | 150 s / 12,000 | \~26,000 | 60–80 | Golden towel-hat trophy | Slippery wet floors change cat movement; large multi-room layout |
 

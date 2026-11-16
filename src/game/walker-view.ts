@@ -1,10 +1,11 @@
-// Walker behavior, scene side: the walker's body. It is an animated physics body, so it shoves
-// objects (and the cat) out of its way as it walks.
+// Walker behavior, scene side: the walker's body, a robot vacuum. It is an animated physics body,
+// so it shoves objects (and the cat) out of its way as it drives.
+import { VertexBuffer } from '@babylonjs/core/Buffers/buffer';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { Color3 } from '@babylonjs/core/Maths/math.color';
 import { Quaternion, Vector3 } from '@babylonjs/core/Maths/math.vector';
-import { CreateCapsule } from '@babylonjs/core/Meshes/Builders/capsuleBuilder';
-import { CreateSphere } from '@babylonjs/core/Meshes/Builders/sphereBuilder';
+import { CreateBox } from '@babylonjs/core/Meshes/Builders/boxBuilder';
+import { CreateCylinder } from '@babylonjs/core/Meshes/Builders/cylinderBuilder';
 import { Mesh } from '@babylonjs/core/Meshes/mesh';
 import {
   PhysicsMotionType,
@@ -12,33 +13,60 @@ import {
 } from '@babylonjs/core/Physics/v2/IPhysicsEnginePlugin';
 import { PhysicsAggregate } from '@babylonjs/core/Physics/v2/physicsAggregate';
 import type { Scene } from '@babylonjs/core/scene';
-import type { WalkerPose } from './walker';
+import { BODY_HEIGHT, BODY_RADIUS, type WalkerPose } from './walker';
 
-const HEIGHT = 1.5;
+type Rgb = readonly [number, number, number];
+
+const SHELL: Rgb = [0.96, 0.95, 0.93];
+const TRIM: Rgb = [0.3, 0.3, 0.36];
+const LIGHT: Rgb = [0.5, 0.85, 1];
 
 export interface WalkerView {
   moveTo(pose: WalkerPose): void;
   dispose(): void;
 }
 
+/** One flat-shaded part carrying its color on the vertices, its base at `y`. */
+function part(mesh: Mesh, color: Rgb, x: number, y: number, z: number, height: number): Mesh {
+  mesh.convertToFlatShadedMesh();
+  mesh.position.set(x, y + height / 2, z);
+  const colors = new Float32Array(mesh.getTotalVertices() * 4);
+  for (let index = 0; index < colors.length; index += 4) colors.set([...color, 1], index);
+  mesh.setVerticesData(VertexBuffer.ColorKind, colors);
+  return mesh;
+}
+
+function disc(scene: Scene, diameter: number, height: number, color: Rgb, y: number, z = 0): Mesh {
+  const mesh = CreateCylinder('part', { diameter, height, tessellation: 14 }, scene);
+  return part(mesh, color, 0, y, z, height);
+}
+
 export function createWalkerView(scene: Scene, id: string, pose: WalkerPose): WalkerView {
-  const body = CreateCapsule(
-    `walker-${id}`,
-    { radius: 0.22, height: HEIGHT - 0.3, tessellation: 8 },
-    scene,
+  const diameter = BODY_RADIUS * 2;
+  const lid = BODY_HEIGHT - 0.03;
+  const mesh = Mesh.MergeMeshes(
+    [
+      disc(scene, diameter, lid, SHELL, 0),
+      // Bumper band around the bottom, and the dark lid on top.
+      disc(scene, diameter + 0.01, 0.04, TRIM, 0.015),
+      disc(scene, diameter - 0.06, 0.01, TRIM, lid - 0.005),
+      // The sensor turret sits towards the front, and a light shows where the front is.
+      disc(scene, 0.09, 0.03, SHELL, lid, 0.03),
+      part(
+        CreateBox('part', { width: 0.08, height: 0.012, depth: 0.025 }, scene),
+        LIGHT,
+        0,
+        lid,
+        0.12,
+        0.012,
+      ),
+    ],
+    true,
+    true,
   );
-  body.position.y = (HEIGHT - 0.3) / 2;
-  const head = CreateSphere(`walker-${id}-head`, { diameter: 0.34, segments: 4 }, scene);
-  head.position.y = HEIGHT - 0.17;
-  // A nose, so the facing reads from above.
-  const nose = CreateSphere(`walker-${id}-nose`, { diameter: 0.1, segments: 2 }, scene);
-  nose.position.set(0, HEIGHT - 0.2, 0.18);
-  const mesh = Mesh.MergeMeshes([body, head, nose], true);
   if (!mesh) throw new Error('Could not build the walker');
   mesh.name = `walker-${id}`;
-  mesh.convertToFlatShadedMesh();
   const material = new StandardMaterial(`walker-${id}`, scene);
-  material.diffuseColor = new Color3(0.36, 0.38, 0.5);
   material.specularColor = Color3.Black();
   mesh.material = material;
   mesh.position.set(pose.position.x, pose.position.y, pose.position.z);
@@ -46,12 +74,12 @@ export function createWalkerView(scene: Scene, id: string, pose: WalkerPose): Wa
 
   const aggregate = new PhysicsAggregate(
     mesh,
-    PhysicsShapeType.CAPSULE,
+    PhysicsShapeType.CYLINDER,
     {
       mass: 0,
-      radius: 0.24,
-      pointA: new Vector3(0, 0.26, 0),
-      pointB: new Vector3(0, HEIGHT - 0.26, 0),
+      radius: BODY_RADIUS,
+      pointA: new Vector3(0, 0, 0),
+      pointB: new Vector3(0, BODY_HEIGHT, 0),
     },
     scene,
   );

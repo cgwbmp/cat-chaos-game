@@ -216,7 +216,8 @@ export function fridge(
 /**
  * Open shelf unit standing on the floor; `boards` are the heights of the shelf surfaces.
  * `width` runs along x and `depth` along z. For a unit on a side wall pass its length as
- * `depth` and set `sideWall`, which puts the end panels at the z ends.
+ * `depth` and set `sideWall`, which puts the end panels at the z ends. Below the lowest board
+ * the unit is a solid base, so the cat cannot walk in under the boards and get stuck.
  */
 export function shelves(
   width: number,
@@ -226,6 +227,7 @@ export function shelves(
   sideWall = false,
 ): Part[] {
   const top = Math.max(...boards);
+  const lowest = Math.min(...boards);
   const ends = sideWall
     ? [
         box(width, top, 0.05, color, [0, 0, -depth / 2 + 0.025]),
@@ -237,6 +239,7 @@ export function shelves(
       ];
   return [
     ...ends,
+    box(width, lowest - 0.05, depth, color),
     ...boards.map((height) => box(width, 0.05, depth, color, [0, height - 0.05, 0])),
   ];
 }

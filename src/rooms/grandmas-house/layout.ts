@@ -31,7 +31,7 @@ export const layout: RoomLayout = {
     ...place(rug(2.6, 1.8, C.clay, C.cream), [0.4, 0, -0.2]),
     ...place(table(1.5, 0.9, LOW_TABLE, C.wood, C.woodDark), [0.4, 0, -0.2]),
     ...place(cabinet(1.8, SIDEBOARD, 0.5, C.wood, C.woodDark, 4), [-3.2, 0, -0.6], -Math.PI / 2),
-    ...place(shelves(0.4, 1.8, [0.7, 1.3], C.woodDark, true), [3.3, 0, 0.2]),
+    ...place(shelves(0.4, 1.8, [0.7, 1.35], C.woodDark, true), [3.3, 0, 0.2]),
   ],
 
   objects: [
@@ -68,9 +68,9 @@ export const layout: RoomLayout = {
     { def: 'clock', at: [-3.2, SIDEBOARD, 0.2] },
     // Pottery shelf on the right wall.
     ...row('pottery_bowl', 2, [3.3, 0.7, -0.35], [0, 0, 1]),
-    ...row('pottery_bowl', 2, [3.3, 1.3, -0.35], [0, 0, 1]),
+    ...row('pottery_bowl', 2, [3.3, 1.35, -0.35], [0, 0, 1]),
     { def: 'lantern', at: [3.3, 0.7, 0.15] },
-    { def: 'lantern', at: [3.3, 1.3, 0.15] },
+    { def: 'lantern', at: [3.3, 1.35, 0.15] },
     // Floor.
     { def: 'basket', at: [-2.6, 0, -2.2] },
     { def: 'basket', at: [-2.15, 0, -2.45] },

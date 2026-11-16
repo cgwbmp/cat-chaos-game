@@ -86,43 +86,35 @@ describe('patrol', () => {
 describe('catches', () => {
   const walker: WalkerPose = { position: { x: 0, y: 0, z: 0 }, heading: { x: 0, z: 1 } };
 
-  it('catches a cat close in front', () => {
-    expect(catches(walker, { x: 0, y: 0, z: 1 })).toBe(true);
-    expect(catches(walker, { x: 0.4, y: 0, z: 0.8 })).toBe(true);
-  });
-
-  it('does not catch beyond its reach', () => {
-    expect(catches(walker, { x: 0, y: 0, z: 1.2 })).toBe(false);
-  });
-
-  it('does not see a cat behind or far to the side', () => {
-    expect(catches(walker, { x: 0, y: 0, z: -0.9 })).toBe(false);
-    expect(catches(walker, { x: 0.9, y: 0, z: 0.1 })).toBe(false);
-  });
-
-  it('catches at the edge of its 60° cone, not outside it', () => {
-    const at = (degrees: number) => {
-      const angle = (degrees * Math.PI) / 180;
-      return { x: Math.sin(angle) * 0.9, y: 0, z: Math.cos(angle) * 0.9 };
-    };
-    expect(catches(walker, at(58))).toBe(true);
-    expect(catches(walker, at(62))).toBe(false);
-  });
-
-  it('catches a cat that touches it from any side', () => {
-    expect(catches(walker, { x: 0, y: 0, z: -0.4 })).toBe(true);
-    expect(catches(walker, { x: -0.44, y: 0, z: 0 })).toBe(true);
+  it('catches a cat that bumps into it from any side', () => {
+    expect(catches(walker, { x: 0, y: 0, z: 0.35 })).toBe(true);
+    expect(catches(walker, { x: 0, y: 0, z: -0.35 })).toBe(true);
+    expect(catches(walker, { x: -0.25, y: 0, z: 0.25 })).toBe(true);
     expect(catches(walker, { x: 0, y: 0, z: 0 })).toBe(true);
   });
 
-  it('cannot reach a cat on a high shelf', () => {
-    expect(catches(walker, { x: 0, y: 1.3, z: 0.5 })).toBe(false);
-    expect(catches(walker, { x: 0, y: 1.1, z: 0.5 })).toBe(true);
+  it('does not catch a cat that only comes close', () => {
+    expect(catches(walker, { x: 0, y: 0, z: 0.4 })).toBe(false);
+    expect(catches(walker, { x: 0.3, y: 0, z: 0.3 })).toBe(false);
   });
 
-  it('follows the walker heading', () => {
-    const turned: WalkerPose = { position: { x: 2, y: 0, z: 2 }, heading: { x: -1, z: 0 } };
-    expect(catches(turned, { x: 1.1, y: 0, z: 2 })).toBe(true);
-    expect(catches(turned, { x: 2.9, y: 0, z: 2 })).toBe(false);
+  it('has no sight cone: a cat right in front but out of touch is safe', () => {
+    expect(catches(walker, { x: 0, y: 0, z: 0.8 })).toBe(false);
+  });
+
+  it('catches a cat standing on top', () => {
+    expect(catches(walker, { x: 0, y: 0.11, z: 0 })).toBe(true);
+    expect(catches(walker, { x: 0.1, y: 0.14, z: 0.1 })).toBe(true);
+  });
+
+  it('does not catch a cat jumping over', () => {
+    expect(catches(walker, { x: 0, y: 0.2, z: 0 })).toBe(false);
+    expect(catches(walker, { x: 0, y: 0.5, z: 0.3 })).toBe(false);
+  });
+
+  it('follows the walker position', () => {
+    const moved: WalkerPose = { position: { x: 2, y: 0, z: 2 }, heading: { x: -1, z: 0 } };
+    expect(catches(moved, { x: 1.7, y: 0, z: 2 })).toBe(true);
+    expect(catches(moved, { x: 0, y: 0, z: 0 })).toBe(false);
   });
 });

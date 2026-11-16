@@ -17,6 +17,8 @@ import { createCatAnimator } from './animation';
 import { createCatModel } from './model';
 import {
   AIR_ACCELERATION,
+  BUMP_HOP,
+  BUMP_SPEED,
   CAPSULE_HEIGHT,
   CAPSULE_RADIUS,
   CONTACT_TOLERANCE,
@@ -130,6 +132,8 @@ export function createCat(services: Services): System {
   let pouncing = false;
   let zoomiesUntil = 0;
   let zoomiesReadyAt = 0;
+  /** Where the walker that just bumped into the cat stands, until the next step throws the cat. */
+  let bumpedFrom: Vector3 | undefined;
 
   function emit(action: CatAction): void {
     const { x, y, z } = controller.getPosition();
@@ -320,9 +324,21 @@ export function createCat(services: Services): System {
 
     const canJump = time - lastGroundedAt <= COYOTE_SEC;
     let velocity: Vector3 | undefined;
+    // Bumped by a walker: thrown away from it, which also gets the cat clear of its body.
+    if (bumpedFrom) {
+      const away = here.subtract(bumpedFrom);
+      away.y = 0;
+      if (away.lengthSquared() < 1e-6) away.copyFrom(facing).negateInPlace();
+      velocity = away.normalize().scaleInPlace(BUMP_SPEED);
+      velocity.y = BUMP_HOP;
+      bumpedFrom = undefined;
+      pouncing = false;
+      jumping = false;
+      liftOff();
+    }
     // A pounce runs to its landing: pressing again in the air does not cut it short. Like a jump,
     // a press just before the landing starts the next one.
-    if (!pouncing && (airSwat || time - pouncePressedAt <= JUMP_BUFFER_SEC)) {
+    if (!velocity && !pouncing && (airSwat || time - pouncePressedAt <= JUMP_BUFFER_SEC)) {
       pouncePressedAt = -Infinity;
       if (canJump) {
         // From the ground: leap forward and up, the slam happens on landing.
@@ -422,8 +438,12 @@ export function createCat(services: Services): System {
       model.root.setEnabled(true);
       active = true;
     }),
+    bus.on('walker/caught', ({ id }) => {
+      bumpedFrom = scene.getMeshByName(`walker-${id}`)?.position.clone();
+    }),
     bus.on('level/quit', () => {
       active = false;
+      bumpedFrom = undefined;
       model.root.setEnabled(false);
     }),
     bus.on('level/ended', ({ result }) => {

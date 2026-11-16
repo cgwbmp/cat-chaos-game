@@ -3,6 +3,7 @@ import type { SystemFactory } from '../core/services';
 import type { GameMode } from '../core/types';
 import { createRules } from './rules';
 import {
+  BUMP_COOLDOWN_SEC,
   CATCH_COOLDOWN_SEC,
   CATCH_PENALTY_SEC,
   catches,
@@ -33,7 +34,10 @@ export const startGame: SystemFactory = (services) => {
   });
 
   // Walkers: NPCs a room module asks for with `walker/patrol`.
-  const walkers = new Map<string, { patrol: Patrol; view: WalkerView; cooldown: number }>();
+  const walkers = new Map<
+    string,
+    { patrol: Patrol; view: WalkerView; cooldown: number; bumpCooldown: number }
+  >();
   function clearWalkers(): void {
     for (const { view } of walkers.values()) view.dispose();
     walkers.clear();
@@ -46,12 +50,19 @@ export const startGame: SystemFactory = (services) => {
       const pose = walker.patrol.advance(dt);
       walker.view.moveTo(pose);
       walker.cooldown -= dt;
-      if (!cat?.isEnabled() || walker.cooldown > 0 || !catches(pose, cat.position)) continue;
-      walker.cooldown = CATCH_COOLDOWN_SEC;
-      const penaltySec = mode === 'mission' ? CATCH_PENALTY_SEC : 0;
-      rules.penalize(penaltySec);
+      walker.bumpCooldown -= dt;
+      if (!cat?.isEnabled() || walker.bumpCooldown > 0 || !catches(pose, cat.position)) continue;
+      walker.bumpCooldown = BUMP_COOLDOWN_SEC;
+      // Every touch bumps the cat away; only the first one in a while costs time.
+      const fresh = walker.cooldown <= 0;
+      const penaltySec = fresh && mode === 'mission' ? CATCH_PENALTY_SEC : 0;
       const { x, y, z } = cat.position;
+      if (fresh) {
+        walker.cooldown = CATCH_COOLDOWN_SEC;
+        rules.penalize(penaltySec);
+      }
       bus.emit('walker/caught', { id, position: { x, y, z }, penaltySec });
+      if (!fresh) continue;
       bus.emit('audio/play', { cue: 'lose', position: { x, y, z } });
       bus.emit('juice/shake', { intensity: 0.4, durationMs: 250 });
     }
@@ -90,7 +101,7 @@ export const startGame: SystemFactory = (services) => {
       walkers.get(id)?.view.dispose();
       const patrol = createPatrol(waypoints, speed, pauseSec);
       const view = createWalkerView(scene, id, patrol.pose);
-      walkers.set(id, { patrol, view, cooldown: 0 });
+      walkers.set(id, { patrol, view, cooldown: 0, bumpCooldown: 0 });
     }),
     bus.on('input/action', ({ action, pressed }) => {
       if (action === 'pause' && pressed && rules.state === 'playing') {

@@ -53,7 +53,7 @@ export const layout: RoomLayout = {
       ...place(chair(C.mint), [x, 0, z - 0.75], Math.PI),
     ]),
     ...place(cabinet(3.4, COUNTER, 0.7, C.cream, C.woodDark, 6, 'panels'), [1.2, 0, 2.55]),
-    ...place(shelves(0.4, 2.4, [0.6, 1.1, 1.6], C.woodDark, true), [-3.3, 0, 1.6]),
+    ...place(shelves(0.4, 2.4, [0.6, 1.25, 1.9], C.woodDark, true), [-3.3, 0, 1.6]),
     ...place(cabinet(1.8, SIDEBOARD, 0.5, C.woodDark, C.wood, 4), [3.2, 0, -0.4], Math.PI / 2),
     ...place(rug(1.6, 1, C.rose), [1.2, 0, -2.2]),
     ...place(wallArt(1, 0.7, C.peach), [-1.6, 1.4, 3]),
@@ -72,8 +72,8 @@ export const layout: RoomLayout = {
     { def: 'plate_stack', at: [0.68, COUNTER, 2.72] },
     { def: 'plate_stack', at: [1.85, COUNTER, 2.45] },
     // Wall shelf on the left: jars on top, mugs in the middle, syrup below.
-    ...row('jar', 4, [-3.3, 1.6, 0.75], [0, 0, 0.55]),
-    ...row('mug', 4, [-3.3, 1.1, 0.75], [0, 0, 0.55]),
+    ...row('jar', 4, [-3.3, 1.9, 0.75], [0, 0, 0.55]),
+    ...row('mug', 4, [-3.3, 1.25, 0.75], [0, 0, 0.55]),
     ...row('bottle', 3, [-3.3, 0.6, 0.9], [0, 0, 0.7]),
     // Sideboard on the right.
     ...row('plant_small', 3, [3.2, SIDEBOARD, -1.05], [0, 0, 0.65]),

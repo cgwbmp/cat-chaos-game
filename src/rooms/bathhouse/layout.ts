@@ -38,7 +38,7 @@ export const layout: RoomLayout = {
     ...place(shelves(1.6, 0.4, [0.9, 1.6], C.woodLight), [SHELF_X, 0, 0.15]),
     ...place(cabinet(2, DISPLAY, 0.5, C.woodLight, C.woodLight, 4), [2, 0, 0.1]),
     ...place(block(2.6, BENCH, 0.5, C.woodLight), [2.6, 0, -3.5]),
-    ...place(shelves(0.5, 3, [0.6, 1.2, 1.8], C.woodLight, true), [LOCKER_X, 0, -1.9]),
+    ...place(shelves(0.5, 3, [0.6, 1.25, 1.9], C.woodLight, true), [LOCKER_X, 0, -1.9]),
     ...place(rug(2.4, 1.4, C.coral), [-0.6, 0, -2]),
   ],
 
@@ -64,7 +64,7 @@ export const layout: RoomLayout = {
     ...row('crate', 4, [-1.5, 0, -3.5], [0.5, 0, 0]),
     // Lockers on the right wall: towels on two levels.
     ...row('towel_stack', 4, [LOCKER_X, 0.6, -3], [0, 0, 0.72]),
-    ...row('towel_stack', 4, [LOCKER_X, 1.2, -3], [0, 0, 0.72]),
+    ...row('towel_stack', 4, [LOCKER_X, 1.25, -3], [0, 0, 0.72]),
     { def: 'plant_big', at: [-5.6, 0, -3.6] },
     { def: 'plant_big', at: [-5.6, 0, -0.1] },
     { def: 'plant_big', at: [0.4, 0, 0.05] },
